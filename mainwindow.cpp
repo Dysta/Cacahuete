@@ -89,7 +89,7 @@ void MainWindow::open() {
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
         return;
     }
-
+    // On affiche l'image original sans aucune convertion
     this->originalPic->setPixmap(QPixmap::fromImage(*picture));
 
     /*
@@ -105,7 +105,7 @@ void MainWindow::open() {
 }
 
 void MainWindow::about() {
-    QMessageBox::information(this, "A propos", "Application realise dans le cadre du projet tech de l'universite de Bordeaux !");
+    QMessageBox::information(this, "A propos", "Application realise dans le cadre du projet tech de l'universite de Bordeaux ! Permet d'ouvrir et afficher une image de type \" QImage\" et de la convertir en type \" CvMatrice\"");
 }
 
 void MainWindow::close() {
