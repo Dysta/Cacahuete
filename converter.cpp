@@ -16,5 +16,5 @@ namespace qImage {
         cv::Mat mat = cv::Mat(img->height(), img->width(), CV_8UC4, const_cast<uchar*>(img->bits()), img->bytesPerLine());
         return ( copy ) ? mat.clone() : mat ;
     }
-} // end namespace QImage
+} // end namespace qImage
 } // end namespace Converter

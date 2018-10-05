@@ -96,8 +96,8 @@ void MainWindow::open() {
      * On convertit les images à la suite pour continuer de les affichers
      * dans notre QApplication
     */
-    cv::Mat mat = Convert::qImage::toCvMat(picture, false);
-    QImage pic = Convert::CvMat::toQImage(&mat, false);
+    cv::Mat mat = Convert::qImage::toCvMat(picture, true);
+    QImage pic = Convert::CvMat::toQImage(&mat, true);
 
     cv::imshow("Matrice", mat);
     this->QImageLabel->setPixmap(QPixmap::fromImage(pic));
