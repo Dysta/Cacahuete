@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 #include <QImage>
 
@@ -12,6 +13,10 @@ namespace Convert {
 namespace CvMat {
 
     QImage toQImage(cv::Mat *mat, bool copy);
+
+    cv::Mat toLaplacian(cv::Mat mat);
+
+    cv::Mat toSobel(cv::Mat mat);
 
 } // end namespace CvMat
 

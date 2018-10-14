@@ -98,10 +98,15 @@ void MainWindow::open() {
     */
     cv::Mat mat = Convert::qImage::toCvMat(picture, true);
     QImage pic = Convert::CvMat::toQImage(&mat, true);
-
+    cv::Mat laplacian = Convert::CvMat::toLaplacian(mat);
+    cv::Mat sobel = Convert::CvMat::toSobel(mat);
     cv::imshow("Matrice", mat);
+    cv::imshow("Laplacian", laplacian);
+    cv::imshow("Sobel", sobel);
+    /*
     this->QImageLabel->setPixmap(QPixmap::fromImage(pic));
     this->CVMatriceLabel->setPixmap(QPixmap::fromImage(pic));
+    */
 }
 
 void MainWindow::about() {
