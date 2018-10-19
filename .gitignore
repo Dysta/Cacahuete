@@ -1,3 +1,4 @@
 *.o
 robot_app_5
 Makefile
+moc_*
