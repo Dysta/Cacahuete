@@ -73,7 +73,7 @@ void MainWindow::createTab() {
 void MainWindow::open() {
     QString file = QFileDialog::getOpenFileName(this,
                                                 "Sélectionnez une image",
-                                                "",
+                                                "Images/",
                                                 "Image (*.png *.jpg)",
                                                 NULL,
                                                 QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
