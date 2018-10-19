@@ -1,5 +1,6 @@
 *.o
 robot_app_5
+ptech
 Makefile
 moc_*
 ./tmp
