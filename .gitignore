@@ -3,3 +3,4 @@ robot_app_5
 Makefile
 moc_*
 ./tmp
+ui_*
