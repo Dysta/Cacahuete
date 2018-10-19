@@ -9,10 +9,11 @@ namespace CvMat {
         return ( copy ) ? img.copy() : img ;
     }
 
-    cv::Mat toLaplacian(cv::Mat mat) {
+    cv::Mat toLaplacian(cv::Mat mat, bool reduceNoise) {
         cv::Mat laplacian, grey, absLaplacian;
         // reduce noise by blurring and convert in greyscale
-        cv::GaussianBlur(mat, mat, cv::Size(3,3), 0, 0);
+        if ( reduceNoise )
+            cv::GaussianBlur(mat, mat, cv::Size(3,3), 0, 0);
         cv::cvtColor(mat, grey, cv::COLOR_BGR2GRAY);
 
         cv::Laplacian(grey, laplacian, CV_16S);
@@ -20,13 +21,14 @@ namespace CvMat {
         return absLaplacian;
     }
 
-    cv::Mat toSobel(cv::Mat mat) {
+    cv::Mat toSobel(cv::Mat mat, bool reduceNoise) {
         cv::Mat sobel, grey;
         /// Generate grad_x and grad_y
         cv::Mat gradX, absX;
         cv::Mat gradY, absY;
         // reduce noise by blurring and convert in greyscale
-        cv::GaussianBlur(mat, mat, cv::Size(3,3), 0, 0);
+        if ( reduceNoise )
+            cv::GaussianBlur(mat, mat, cv::Size(3,3), 0, 0);
         cv::cvtColor(mat, grey, cv::COLOR_BGR2GRAY);
 
         // Sobel gradient X

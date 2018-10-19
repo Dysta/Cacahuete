@@ -14,9 +14,9 @@ namespace CvMat {
 
     QImage toQImage(cv::Mat *mat, bool copy);
 
-    cv::Mat toLaplacian(cv::Mat mat);
+    cv::Mat toLaplacian(cv::Mat mat, bool reduceNoise);
 
-    cv::Mat toSobel(cv::Mat mat);
+    cv::Mat toSobel(cv::Mat mat, bool reduceNoise);
 
 } // end namespace CvMat
 
