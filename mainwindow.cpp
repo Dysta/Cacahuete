@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent, const QString title) :
     ui->setupUi(this);
 
     this->setWindowTitle(title);
-    this->setMinimumSize(300, 300);
+    this->setMinimumSize(1200, 600);
 
     this->createAction();
     this->createMenu();
@@ -67,7 +67,7 @@ void MainWindow::createTab() {
 
     this->tabWidget->addTab(this->originalPic, "Image original");
     this->tabWidget->addTab(this->QImageLabel, "SBM");
-    this->tabWidget->addTab(this->CVMatriceLabel, "Carte de disparité");
+    this->tabWidget->addTab(this->CVMatriceLabel, "Disparity Map");
 }
 
 void MainWindow::open() {
