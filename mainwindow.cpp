@@ -66,8 +66,8 @@ void MainWindow::createTab() {
     this->CVMatriceLabel = new QLabel(this->tabWidget);
 
     this->tabWidget->addTab(this->originalPic, "Image original");
-    this->tabWidget->addTab(this->QImageLabel, "QImage");
-    this->tabWidget->addTab(this->CVMatriceLabel, "Matrice OpenCV");
+    this->tabWidget->addTab(this->QImageLabel, "SBM");
+    this->tabWidget->addTab(this->CVMatriceLabel, "Carte de disparité");
 }
 
 void MainWindow::open() {
@@ -97,16 +97,17 @@ void MainWindow::open() {
      * dans notre QApplication
     */
     cv::Mat mat = Utils::Convert::qImage::toCvMat(picture, true);
-    cv::imshow("Matrice", mat);
+    //cv::imshow("Matrice", mat);
     cv::Mat sbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SBM);
-    cv::imshow("SBM", sbm);
+    //cv::imshow("SBM", sbm);
     cv::Mat sgbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SGBM);
-    cv::imshow("SGBM", sgbm);
+    //cv::imshow("SGBM", sgbm);
 
     QImage qsbm = Utils::Convert::CvMat::toQImage(&sbm, false);
+    QImage qsgbm = Utils::Convert::CvMat::toQImage(&sgbm, false);
 
     this->QImageLabel->setPixmap(QPixmap::fromImage(qsbm));
-    this->CVMatriceLabel->setPixmap(QPixmap::fromImage(*picture));
+    this->CVMatriceLabel->setPixmap(QPixmap::fromImage(qsgbm));
 
 }
 
