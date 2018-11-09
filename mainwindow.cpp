@@ -66,8 +66,8 @@ void MainWindow::createTab() {
     this->CVMatriceLabel = new QLabel(this->tabWidget);
 
     this->tabWidget->addTab(this->originalPic, "Image original");
-    this->tabWidget->addTab(this->QImageLabel, "QImage");
-    this->tabWidget->addTab(this->CVMatriceLabel, "Matrice OpenCV");
+    this->tabWidget->addTab(this->QImageLabel, "SBM");
+    this->tabWidget->addTab(this->CVMatriceLabel, "Carte de disparité");
 }
 
 void MainWindow::open() {
