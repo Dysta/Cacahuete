@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "converter.h"
+#include "utils.h"
 
 MainWindow::MainWindow(QWidget *parent, const QString title) :
     QMainWindow(parent),
@@ -96,17 +96,12 @@ void MainWindow::open() {
      * On convertit les images à la suite pour continuer de les affichers
      * dans notre QApplication
     */
-    cv::Mat mat = Convert::qImage::toCvMat(picture, true);
-    QImage pic = Convert::CvMat::toQImage(&mat, true);
-    cv::Mat laplacian = Convert::CvMat::toLaplacian(mat, false);
-    cv::Mat sobel = Convert::CvMat::toSobel(mat, false);
-    cv::Mat laplacian2 = Convert::CvMat::toLaplacian(mat, true);
-    cv::Mat sobel2 = Convert::CvMat::toSobel(mat, true);
-    //cv::imshow("Matrice", mat);
-    cv::imshow("Laplacian", laplacian);
-    cv::imshow("Sobel", sobel);
-    cv::imshow("Laplacian2", laplacian2);
-    cv::imshow("Sobel2", sobel2);
+    cv::Mat mat = Utils::Convert::qImage::toCvMat(picture, true);
+    cv::imshow("Matrice", mat);
+    cv::Mat sbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SBM);
+    cv::imshow("SBM", sbm);
+    cv::Mat sgbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SGBM);
+    cv::imshow("SGBM", sgbm);
     /*
     this->QImageLabel->setPixmap(QPixmap::fromImage(pic));
     this->CVMatriceLabel->setPixmap(QPixmap::fromImage(pic));

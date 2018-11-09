@@ -1,4 +1,6 @@
-#include "converter.h"
+#include "utils.h"
+
+namespace Utils {
 
 namespace Convert {
 
@@ -44,6 +46,30 @@ namespace CvMat {
         return sobel;
     }
 
+    cv::Mat toDisparity(cv::Mat mat, Convert::Mode mode) {
+        cv::Mat gLeft, gRight, disp, disp8;
+
+        //régler le problème largeur impaire et expliquer pourquoi en commentaire
+        cv::Mat left = mat.colRange(0, mat.cols/2);
+        cv::Mat right = mat.colRange(mat.cols/2, mat.cols);
+
+        cv::cvtColor(left, gLeft, CV_BGR2GRAY);
+        cv::cvtColor(right, gRight, CV_BGR2GRAY);
+
+        if(mode == Convert::Mode::SBM ){
+            cv::StereoBM sbm(CV_STEREO_BM_BASIC, 112, 9);
+            sbm(gLeft, gRight, disp);
+        } else if(mode == Convert::Mode::SGBM){
+            cv::StereoSGBM sgbm(-64, 192, 5, 600, 2400, 10, 4, 1, 150, 2, false);
+            sgbm(gLeft, gRight, disp);
+        }
+
+
+        cv::normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
+
+        return disp8;
+    }
+
 } // end namespace CvMat
 
 namespace qImage {
@@ -52,4 +78,8 @@ namespace qImage {
         return ( copy ) ? mat.clone() : mat ;
     }
 } // end namespace qImage
+
 } // end namespace Converter
+
+} // end namespace utils
+

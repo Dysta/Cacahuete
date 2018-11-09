@@ -29,13 +29,13 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 # Including the opencv2 lib
 INCLUDEPATH     += /usr/include/opencv2
-LIBS            += -L/usr/include/opencv2 -lopencv_core -lopencv_highgui -lopencv_imgproc
+LIBS            += -L/usr/include/opencv2 -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_calib3d -lopencv_contrib
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    converter.cpp
+    utils.cpp
 
 HEADERS  += mainwindow.h \
-    converter.h
+    utils.h
 
 FORMS    += mainwindow.ui
