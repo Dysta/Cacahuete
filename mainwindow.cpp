@@ -102,10 +102,12 @@ void MainWindow::open() {
     cv::imshow("SBM", sbm);
     cv::Mat sgbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SGBM);
     cv::imshow("SGBM", sgbm);
-    /*
-    this->QImageLabel->setPixmap(QPixmap::fromImage(pic));
-    this->CVMatriceLabel->setPixmap(QPixmap::fromImage(pic));
-    */
+
+    QImage qsbm = Utils::Convert::CvMat::toQImage(&sbm, false);
+
+    this->QImageLabel->setPixmap(QPixmap::fromImage(qsbm));
+    this->CVMatriceLabel->setPixmap(QPixmap::fromImage(*picture));
+
 }
 
 void MainWindow::about() {
