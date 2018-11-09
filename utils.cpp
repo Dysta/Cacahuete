@@ -46,67 +46,24 @@ namespace CvMat {
         return sobel;
     }
 
-    cv::Mat toSBM(cv::Mat mat) {
+    cv::Mat toDisparity(cv::Mat mat, Convert::Mode mode) {
         cv::Mat gLeft, gRight, disp, disp8;
 
-
+        //régler le problème largeur impaire et expliquer pourquoi en commentaire
         cv::Mat left = mat.colRange(0, mat.cols/2);
         cv::Mat right = mat.colRange(mat.cols/2, mat.cols);
 
         cv::cvtColor(left, gLeft, CV_BGR2GRAY);
         cv::cvtColor(right, gRight, CV_BGR2GRAY);
 
-        cv::StereoBM sbm(CV_STEREO_BM_BASIC, 112, 9);/*
+        if(mode == Convert::Mode::SBM ){
+            cv::StereoBM sbm(CV_STEREO_BM_BASIC, 112, 9);
+            sbm(gLeft, gRight, disp);
+        } else if(mode == Convert::Mode::SGBM){
+            cv::StereoSGBM sgbm(-64, 192, 5, 600, 2400, 10, 4, 1, 150, 2, false);
+            sgbm(gLeft, gRight, disp);
+        }
 
-        sbm.state->SADWindowSize = 9;
-        sbm.state->numberOfDisparities = 112;
-        sbm.state->preFilterSize = 5;
-        sbm.state->preFilterCap = 61;
-        sbm.state->minDisparity = -39;
-        sbm.state->textureThreshold = 507;
-        sbm.state->uniquenessRatio = 0;
-        sbm.state->speckleWindowSize = 0;
-        sbm.state->speckleRange = 8;
-        sbm.state->disp12MaxDiff = 1;*/
-
-        sbm(gLeft, gRight, disp);
-
-        cv::normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
-
-        return disp8;
-    }
-
-    cv::Mat toSGBM(cv::Mat mat) {
-        cv::Mat gLeft, gRight, disp, disp8;
-
-
-        cv::Mat left = mat.colRange(0, mat.cols/2);
-        cv::Mat right = mat.colRange(mat.cols/2, mat.cols);
-
-        cv::cvtColor(left, gLeft, CV_BGR2GRAY);
-        cv::cvtColor(right, gRight, CV_BGR2GRAY);
-
-        /* StereoSGBM(int minDisparity, int numDisparities, int SADWindowSize,
-            int P1=0, int P2=0, int disp12MaxDiff=0, int preFilterCap=0,
-            int uniquenessRatio=0, int speckleWindowSize=0, int speckleRange=0, bool fullDP=false
-            )
-            StereoSGBM sgbm;
-            sgbm.SADWindowSize = 5;
-            sgbm.numberOfDisparities = 192;
-            sgbm.preFilterCap = 4;
-            sgbm.minDisparity = -64;
-            sgbm.uniquenessRatio = 1;
-            sgbm.speckleWindowSize = 150;
-            sgbm.speckleRange = 2;
-            sgbm.disp12MaxDiff = 10;
-            sgbm.fullDP = false;
-            sgbm.P1 = 600;
-            sgbm.P2 = 2400;
-        */
-        // https://jayrambhia.com/blog/disparity-mpas
-        cv::StereoSGBM sgbm(-64, 192, 5, 600, 2400, 10, 4, 1, 150, 2, false);
-
-        sgbm(gLeft, gRight, disp);
 
         cv::normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
 

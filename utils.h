@@ -14,6 +14,8 @@ namespace Utils {
 
 namespace Convert {
 
+enum Mode { SBM, SGBM };
+
 namespace CvMat {
 
     QImage toQImage(cv::Mat *mat, bool copy);
@@ -22,9 +24,7 @@ namespace CvMat {
 
     cv::Mat toSobel(cv::Mat mat, bool reduceNoise);
 
-    cv::Mat toSBM(cv::Mat mat);
-
-    cv::Mat toSGBM(cv::Mat mat);
+    cv::Mat toDisparity(cv::Mat mat, Convert::Mode mode);
 
 } // end namespace CvMat
 

@@ -98,9 +98,9 @@ void MainWindow::open() {
     */
     cv::Mat mat = Utils::Convert::qImage::toCvMat(picture, true);
     cv::imshow("Matrice", mat);
-    cv::Mat sbm = Utils::Convert::CvMat::toSBM(mat);
+    cv::Mat sbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SBM);
     cv::imshow("SBM", sbm);
-    cv::Mat sgbm = Utils::Convert::CvMat::toSGBM(mat);
+    cv::Mat sgbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SGBM);
     cv::imshow("SGBM", sgbm);
     /*
     this->QImageLabel->setPixmap(QPixmap::fromImage(pic));
