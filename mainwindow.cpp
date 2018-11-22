@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent, const QString title) :
     ui->setupUi(this);
 
     this->setWindowTitle(title);
-    this->setMinimumSize(1200, 600);
+    this->setMinimumSize(500, 300);
 
     this->createAction();
     this->createMenu();
@@ -27,6 +27,7 @@ MainWindow::~MainWindow() {
     delete label;
     delete picture;
     delete originalPic;
+    delete sliderLabel;
     delete QImageLabel;
     delete CVMatriceLabel;
     delete tabWidget;
