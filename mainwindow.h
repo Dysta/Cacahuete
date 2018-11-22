@@ -46,6 +46,7 @@ private:
 
     QLabel* label;
     QImage* picture;
+    QLabel* sliderLabel;
 
     QLabel* originalPic;
     QLabel* QImageLabel;

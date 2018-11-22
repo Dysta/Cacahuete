@@ -62,6 +62,7 @@
         cv::Mat toDisparity(cv::Mat mat, Convert::Mode mode) {
             cv::Mat gLeft, gRight, disp, disp8;
 
+
             //Division de l'image source en deux images gauche et droite
             cv::Mat left = mat.colRange(0, mat.cols/2); //Création de l'image gauche
             int cropping = 0;
@@ -72,12 +73,13 @@
             cv::cvtColor(left, gLeft, CV_BGR2GRAY);
             cv::cvtColor(right, gRight, CV_BGR2GRAY);
 
+
             if(mode == Convert::Mode::SBM ){
-                cv::StereoBM sbm(CV_STEREO_BM_BASIC, 112, 9);
-                sbm(gLeft, gRight, disp);
+                cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create(0,21);
+                sbm->compute(gLeft, gRight, disp);
             } else if(mode == Convert::Mode::SGBM){
-                cv::StereoSGBM sgbm(-64, 192, 5, 600, 2400, 10, 4, 1, 150, 2, false);
-                sgbm(gLeft, gRight, disp);
+                cv::Ptr<cv::StereoSGBM> sgbm = cv::StereoSGBM::create(-64,192,5,600,2400,10,4,1,150,2,cv::StereoSGBM::MODE_SGBM);
+                sgbm->compute(gLeft, gRight, disp);
             }
 
 

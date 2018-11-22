@@ -27,6 +27,7 @@ MainWindow::~MainWindow() {
     delete label;
     delete picture;
     delete originalPic;
+    delete sliderLabel;
     delete QImageLabel;
     delete CVMatriceLabel;
     delete tabWidget;
