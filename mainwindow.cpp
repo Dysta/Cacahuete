@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "utils.h"
 
+// Penser à utiliser cv::calibrateCamera pour la calibration
+
 MainWindow::MainWindow(QWidget *parent, const QString title) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -14,12 +16,10 @@ MainWindow::MainWindow(QWidget *parent, const QString title) :
     this->createAction();
     this->createMenu();
     this->createTab();
-    /*
-    this->label = new QLabel(this);
-    this->setCentralWidget(this->label);
-    */
+    this->createSliders();
+    int winWidth = tabWidget->width();
+    this->tabWidget->setMinimumWidth(winWidth/2);
     this->setCentralWidget(this->tabWidget);
-
     this->picture = new QImage();
 }
 
@@ -27,10 +27,11 @@ MainWindow::~MainWindow() {
     delete label;
     delete picture;
     delete originalPic;
-    delete sliderLabel;
     delete QImageLabel;
     delete CVMatriceLabel;
+    delete reconstructedChess;
     delete tabWidget;
+    delete sliderWidget;
     delete ui;
 }
 
@@ -65,10 +66,25 @@ void MainWindow::createTab() {
     this->originalPic = new QLabel(this->tabWidget);
     this->QImageLabel = new QLabel(this->tabWidget);
     this->CVMatriceLabel = new QLabel(this->tabWidget);
+    this->reconstructedChess = new QLabel(this->tabWidget);
 
     this->tabWidget->addTab(this->originalPic, "Image original");
     this->tabWidget->addTab(this->QImageLabel, "SBM");
     this->tabWidget->addTab(this->CVMatriceLabel, "Carte de disparité");
+    this->tabWidget->addTab(this->reconstructedChess, "Echiquier");
+}
+
+void MainWindow::createSliders(){
+    this->sliderWidget = new QWidget(this);
+    this->sliderWidget->setGeometry(400, 30, 300, 300);
+    //this->sliderWidget->setFixedSize(300,300);
+
+    this->sliders = new QLabel(this->sliderWidget);
+
+    this->sliders0 = new QSlider(Qt::Horizontal, this->sliderWidget);
+    this->sliders0->setMinimumWidth(100);
+    this->sliders0->setValue(50);
+
 }
 
 void MainWindow::open() {
@@ -103,13 +119,15 @@ void MainWindow::open() {
     //cv::imshow("SBM", sbm);
     cv::Mat sgbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SGBM);
     //cv::imshow("SGBM", sgbm);
+    Utils::Convert::CvMat::reconstructChess(mat, 11, 8); // Penser à créer des Sliders pour modifier les parametres Lines et Columns
 
     QImage qsbm = Utils::Convert::CvMat::toQImage(&sbm, false);
     QImage qsgbm = Utils::Convert::CvMat::toQImage(&sgbm, false);
+    QImage qmat = Utils::Convert::CvMat::toQImage(&mat, false);
 
     this->QImageLabel->setPixmap(QPixmap::fromImage(qsbm));
     this->CVMatriceLabel->setPixmap(QPixmap::fromImage(qsgbm));
-
+    this->reconstructedChess->setPixmap(QPixmap::fromImage(qmat));
 }
 
 void MainWindow::about() {

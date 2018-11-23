@@ -7,11 +7,13 @@
 #include <QMessageBox>
 #include <QImage>
 #include <QImageReader>
+#include <QSlider>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
+#include <vector>
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +36,7 @@ private:
     void createMenu(void);
     void createAction(void);
     void createTab(void);
+    void createSliders(void);
 
     QMenu* fileMenu;
     QMenu* aboutMenu;
@@ -46,11 +49,16 @@ private:
 
     QLabel* label;
     QImage* picture;
-    QLabel* sliderLabel;
+
+    QWidget* sliderWidget;
+    QLabel* sliders;
+
+    QSlider* sliders0;
 
     QLabel* originalPic;
     QLabel* QImageLabel;
     QLabel* CVMatriceLabel;
+    QLabel* reconstructedChess;
 
     Ui::MainWindow *ui;
 };
