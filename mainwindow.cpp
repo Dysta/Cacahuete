@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent, const QString title) :
     ui->setupUi(this);
 
     this->setWindowTitle(title);
-    this->setMinimumSize(500, 300);
+    this->setMinimumSize(1200, 600);
 
     this->createAction();
     this->createMenu();
@@ -84,7 +84,6 @@ void MainWindow::createSliders(){
     this->sliders0 = new QSlider(Qt::Horizontal, this->sliderWidget);
     this->sliders0->setMinimumWidth(100);
     this->sliders0->setValue(50);
-
 }
 
 void MainWindow::open() {
