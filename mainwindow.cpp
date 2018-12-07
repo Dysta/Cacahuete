@@ -65,10 +65,12 @@ void MainWindow::createTab() {
     this->originalPic = new QLabel(this->tabWidget);
     this->QImageLabel = new QLabel(this->tabWidget);
     this->CVMatriceLabel = new QLabel(this->tabWidget);
+    this->reconstructedChess = new QLabel(this->tabWidget);
 
     this->tabWidget->addTab(this->originalPic, "Image original");
     this->tabWidget->addTab(this->QImageLabel, "SBM");
     this->tabWidget->addTab(this->CVMatriceLabel, "Disparity Map");
+    this->tabWidget->addTab(this->reconstructedChess, "Reconstructed chess");
 }
 
 void MainWindow::open() {
@@ -98,17 +100,20 @@ void MainWindow::open() {
      * dans notre QApplication
     */
     cv::Mat mat = Utils::Convert::qImage::toCvMat(picture, true);
-    //cv::imshow("Matrice", mat);
-    cv::Mat sbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SBM);
-    //cv::imshow("SBM", sbm);
-    cv::Mat sgbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SGBM);
-    //cv::imshow("SGBM", sgbm);
+      //cv::imshow("Matrice", mat);
+      cv::Mat sbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SBM);
+      //cv::imshow("SBM", sbm);
+      cv::Mat sgbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SGBM);
+      //cv::imshow("SGBM", sgbm);
+      Utils::Convert::CvMat::reconstructChess(mat, 11, 8); // Penser à créer des Sliders pour modifier les parametres Lines et Columns
 
-    QImage qsbm = Utils::Convert::CvMat::toQImage(&sbm, false);
-    QImage qsgbm = Utils::Convert::CvMat::toQImage(&sgbm, false);
+      QImage qsbm = Utils::Convert::CvMat::toQImage(&sbm, false);
+      QImage qsgbm = Utils::Convert::CvMat::toQImage(&sgbm, false);
+      QImage qmat = Utils::Convert::CvMat::toQImage(&mat, false);
 
-    this->QImageLabel->setPixmap(QPixmap::fromImage(qsbm));
-    this->CVMatriceLabel->setPixmap(QPixmap::fromImage(qsgbm));
+      this->QImageLabel->setPixmap(QPixmap::fromImage(qsbm));
+      this->CVMatriceLabel->setPixmap(QPixmap::fromImage(qsgbm));
+      this->reconstructedChess->setPixmap(QPixmap::fromImage(qmat));
 
 }
 
