@@ -51,6 +51,7 @@ private:
     QLabel* originalPic;
     QLabel* QImageLabel;
     QLabel* CVMatriceLabel;
+    QLabel* reconstructedChess;
 
     Ui::MainWindow *ui;
 };
