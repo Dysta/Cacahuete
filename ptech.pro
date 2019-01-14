@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,16 +26,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-
 # Including the opencv2 lib
-INCLUDEPATH     += /opt/local/stow/opencv-3.4.3/include/opencv2
-LIBS            += -L/opt/local/stow/opencv-3.4.3/include/opencv2 -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_calib3d
+INCLUDEPATH     += /usr/local/include/opencv2
+LIBS            += -L/usr/local/include/opencv2 -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_calib3d
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    utils.cpp
+        utils.cpp \
+    mainbox.cpp \
+    laplacianbox.cpp
 
 HEADERS  += mainwindow.h \
-    utils.h
+        utils.h \
+    mainbox.h \
+    laplacianbox.h
 
 FORMS    += mainwindow.ui

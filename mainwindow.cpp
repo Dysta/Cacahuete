@@ -1,36 +1,31 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "utils.h"
 
-MainWindow::MainWindow(QWidget *parent, const QString title) :
-    QMainWindow(parent),
+MainWindow::MainWindow(QWidget *parent, const QString title)
+    : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     this->setWindowTitle(title);
-    this->setMinimumSize(500, 300);
+    this->setMinimumSize(1200, 600);
+
+    this->mainWidget = new QWidget(this);
+    this->mainLayout = new QGridLayout(this->mainWidget);
+
+    this->menuStack = new QStackedWidget();
 
     this->createAction();
     this->createMenu();
-    this->createTab();
-    /*
-    this->label = new QLabel(this);
-    this->setCentralWidget(this->label);
-    */
-    this->setCentralWidget(this->tabWidget);
+    this->createImageGroup("Image");
+    this->createSliderGroup();
+
+    this->mainWidget->setLayout(this->mainLayout);
+    this->setCentralWidget(this->mainWidget);
 
     this->picture = new QImage();
 }
 
 MainWindow::~MainWindow() {
-    delete label;
-    delete picture;
-    delete originalPic;
-    delete sliderLabel;
-    delete QImageLabel;
-    delete CVMatriceLabel;
-    delete tabWidget;
     delete ui;
 }
 
@@ -59,16 +54,31 @@ void MainWindow::createMenu() {
     this->aboutMenu->addAction(aboutAct);
 }
 
-void MainWindow::createTab() {
-    this->tabWidget = new QTabWidget(this);
+void MainWindow::createImageGroup(const QString &title) {
+    this->imageGroup = new QGroupBox(title);
+    this->imageLabel = new QLabel();
 
-    this->originalPic = new QLabel(this->tabWidget);
-    this->QImageLabel = new QLabel(this->tabWidget);
-    this->CVMatriceLabel = new QLabel(this->tabWidget);
+    QBoxLayout* box = new QBoxLayout(QBoxLayout::TopToBottom);
+    box->addWidget(this->imageLabel);
+    this->imageGroup->setLayout(box);
+    this->mainLayout->addWidget(this->imageGroup, 0, 0);
 
-    this->tabWidget->addTab(this->originalPic, "Image original");
-    this->tabWidget->addTab(this->QImageLabel, "SBM");
-    this->tabWidget->addTab(this->CVMatriceLabel, "Disparity Map");
+    //this->imageGroup->setVisible(false);
+}
+
+void MainWindow::createSliderGroup() {
+    this->mainBox = new MainBox("Menu principal");
+    this->laplacianBox = new LaplacianBox("Laplacian effect");
+
+    this->menuStack->insertWidget(MAINBOX, this->mainBox);
+    this->menuStack->insertWidget(LAPLACIANBOX, this->laplacianBox);
+
+    this->mainLayout->addWidget(this->menuStack, 0, 1);
+
+    connect(this->mainBox->getLaplacianButton(), SIGNAL(clicked()),
+            this, SLOT(onLaplacianClick()));
+    connect(this->laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
+            this, SLOT(onMenuClick()));
 }
 
 void MainWindow::open() {
@@ -77,26 +87,27 @@ void MainWindow::open() {
                                                 "Images/",
                                                 "Image (*.png *.jpg)",
                                                 NULL,
-                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                /* QFileDialog::DontUseNativeDialog |*/ QFileDialog::ReadOnly
                                                 );
 
-    if ( file.isEmpty() ) return;
+    if (file.isEmpty()) return;
 
-    if ( !this->picture->load(file) ) {
+    if (!this->picture->load(file)) {
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
         return;
     }
-    if ( this->picture->isNull() ) {
+    if (this->picture->isNull()) {
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
         return;
     }
+
     // On affiche l'image original sans aucune convertion
-    this->originalPic->setPixmap(QPixmap::fromImage(*picture));
+    this->imageLabel->setPixmap(QPixmap::fromImage(*picture));
 
     /*
      * On convertit les images à la suite pour continuer de les affichers
      * dans notre QApplication
-    */
+
     cv::Mat mat = Utils::Convert::qImage::toCvMat(picture, true);
     //cv::imshow("Matrice", mat);
     cv::Mat sbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SBM);
@@ -109,7 +120,7 @@ void MainWindow::open() {
 
     this->QImageLabel->setPixmap(QPixmap::fromImage(qsbm));
     this->CVMatriceLabel->setPixmap(QPixmap::fromImage(qsgbm));
-
+*/
 }
 
 void MainWindow::about() {
@@ -121,5 +132,13 @@ void MainWindow::close() {
     if ( answer == QMessageBox::Yes ) {
        QApplication::quit();
     }
+}
+
+void MainWindow::onLaplacianClick() {
+    this->menuStack->setCurrentIndex(LAPLACIANBOX);
+}
+
+void MainWindow::onMenuClick() {
+    this->menuStack->setCurrentIndex(MAINBOX);
 }
 
