@@ -8,19 +8,23 @@ LaplacianBox::LaplacianBox(const QString &title, QWidget* parent)
     this->backToMain = new QPushButton("Retour au menu principal");
 
     this->laplacianGrid = new QGridLayout();
-    this->laplacianGrid->addWidget(this->_sizeHLabel, 0, 0);
-    this->laplacianGrid->addWidget(this->_sizeHSlider, 0, 1);
 
-    this->laplacianGrid->addWidget(this->_sizeLLabel, 1, 0);
-    this->laplacianGrid->addWidget(this->_sizeLSlider, 1, 1);
+    this->laplacianGrid->addWidget(this->_switchBlurLabel, 0, 0);
+    this->laplacianGrid->addWidget(this->_switchBlurSlider, 0, 1);
 
-    this->laplacianGrid->addWidget(this->_sigmaXLabel, 2, 0);
-    this->laplacianGrid->addWidget(this->_sigmaXSlider, 2, 1);
+    this->laplacianGrid->addWidget(this->_sizeHLabel, 1, 0);
+    this->laplacianGrid->addWidget(this->_sizeHSlider, 1, 1);
 
-    this->laplacianGrid->addWidget(this->_sigmaYLabel, 3, 0);
-    this->laplacianGrid->addWidget(this->_sigmaYSlider, 3, 1);
+    this->laplacianGrid->addWidget(this->_sizeLLabel, 2, 0);
+    this->laplacianGrid->addWidget(this->_sizeLSlider, 2, 1);
 
-    this->laplacianGrid->addWidget(this->backToMain, 4, 0);
+    this->laplacianGrid->addWidget(this->_sigmaXLabel, 3, 0);
+    this->laplacianGrid->addWidget(this->_sigmaXSlider, 3, 1);
+
+    this->laplacianGrid->addWidget(this->_sigmaYLabel, 4, 0);
+    this->laplacianGrid->addWidget(this->_sigmaYSlider, 4, 1);
+
+    this->laplacianGrid->addWidget(this->backToMain, 5, 0);
 
     setLayout(this->laplacianGrid);
 }
@@ -31,6 +35,11 @@ LaplacianBox::~LaplacianBox() {
 
 
 void LaplacianBox::createSizeSlider() {
+    this->_switchBlurLabel = new QLabel("Enable/Disable Blur");
+    this->_switchBlurSlider = new QSlider(Qt::Horizontal);
+    this->_switchBlurSlider->setRange(0,1);
+    this->_switchBlurSlider->setValue(1);
+
     this->_sizeHLabel = new QLabel("Horizontal blur :");
     this->_sizeHSlider = new QSlider(Qt::Horizontal);
     this->_sizeHSlider->setTickPosition(QSlider::TicksAbove);
@@ -60,6 +69,7 @@ void LaplacianBox::createSizeSlider() {
     connect(this->_sizeLSlider, SIGNAL(valueChanged(int)), this, SLOT(onSizeLChange(int)));
     connect(this->_sigmaXSlider, SIGNAL(valueChanged(int)), this, SLOT(onSigmaXChange(int)));
     connect(this->_sigmaYSlider, SIGNAL(valueChanged(int)), this, SLOT(onSigmaYChange(int)));
+    connect(this->_switchBlurSlider, SIGNAL(valueChanged(int)), this, SLOT(onBlurSwitch(int)));
 }
 
 void LaplacianBox::onSizeHChange(int value) {
@@ -84,4 +94,18 @@ void LaplacianBox::onSigmaXChange(int value) {
 void LaplacianBox::onSigmaYChange(int value) {
     std::cout << "Sigma Y value : " << value << std::endl;
     this->_sigmaY = value;
+}
+
+void LaplacianBox::onBlurSwitch(int value) {
+    std::cout << "Blur value : " << value << std::endl;
+    this->_activeBlur = (bool) value;
+
+    this->_sizeHLabel->setVisible(this->_activeBlur);
+    this->_sizeHSlider->setVisible(this->_activeBlur);
+    this->_sizeLLabel->setVisible(this->_activeBlur);
+    this->_sizeLSlider->setVisible(this->_activeBlur);
+    this->_sigmaXLabel->setVisible(this->_activeBlur);
+    this->_sigmaXSlider->setVisible(this->_activeBlur);
+    this->_sigmaYLabel->setVisible(this->_activeBlur);
+    this->_sigmaYSlider->setVisible(this->_activeBlur);
 }
