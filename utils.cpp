@@ -24,7 +24,7 @@ namespace CvMat {
         return ( copy ) ? img.copy() : img ;
     }
 
-    cv::Mat toLaplacian(cv::Mat mat, bool reduceNoise) {
+    cv::Mat toLaplacian(cv::Mat mat, bool reduceNoise, double sigmaX, double sigmaY) {
         cv::Mat laplacian, grey, absLaplacian;
         // reduce noise by blurring and convert in greyscale
         if (reduceNoise)

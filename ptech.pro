@@ -27,18 +27,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Including the opencv2 lib
-INCLUDEPATH     += /usr/local/include/opencv2
-LIBS            += -L/usr/local/include/opencv2 -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_calib3d
+INCLUDEPATH     += /opt/local/stow/opencv-3.4.3/include/opencv2
+LIBS            += -L/opt/local/stow/opencv-3.4.3/include/opencv2 -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_calib3d
 
 SOURCES += main.cpp\
         mainwindow.cpp \
         utils.cpp \
     mainbox.cpp \
-    laplacianbox.cpp
+    laplacianbox.cpp \
+    laplacianprocess.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
     mainbox.h \
-    laplacianbox.h
+    laplacianbox.h \
+    laplacianprocess.h
 
 FORMS    += mainwindow.ui
