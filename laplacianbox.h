@@ -28,6 +28,7 @@ private slots:
     void onSizeLChange(int);
     void onSigmaXChange(int);
     void onSigmaYChange(int);
+    void onBlurSwitch(int);
 
 private:
     void createSizeSlider(void);
@@ -35,6 +36,11 @@ private:
     // first widget witch is display
     QGridLayout* laplacianGrid;
     QPushButton* backToMain;
+
+
+    QSlider* _switchBlurSlider;
+    QLabel* _switchBlurLabel;
+    bool _activeBlur;
 
     QSlider* _sizeHSlider; // cols
     QSlider* _sizeLSlider; // rows

@@ -60,7 +60,8 @@ private:
     void createMenu(void);
     void createAction(void);
     void createImageGroup(const QString &title);
-    void createSliderGroup();
+    void createSliderGroup(void);
+    void copyImage(void);
 
     QWidget* mainWidget;
     QGridLayout* mainLayout;
@@ -79,7 +80,8 @@ private:
 
     QLabel* imageLabel;
 
-    QImage* picture;
+    QImage picture;
+    QImage originalPicture;
 
     Ui::MainWindow *ui;
 };

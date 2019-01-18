@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent, const QString title)
     this->mainWidget->setLayout(this->mainLayout);
     this->setCentralWidget(this->mainWidget);
 
-    this->picture = new QImage();
+    //this->picture = new QImage();
 }
 
 MainWindow::~MainWindow() {
@@ -92,35 +92,20 @@ void MainWindow::open() {
 
     if (file.isEmpty()) return;
 
-    if (!this->picture->load(file)) {
+    if (!this->originalPicture.load(file)) {
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
         return;
     }
-    if (this->picture->isNull()) {
+    if (this->originalPicture.isNull()) {
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
         return;
     }
 
+    this->copyImage();
+
     // On affiche l'image original sans aucune convertion
-    this->imageLabel->setPixmap(QPixmap::fromImage(*picture));
+    this->imageLabel->setPixmap(QPixmap::fromImage(this->picture));
 
-    /*
-     * On convertit les images à la suite pour continuer de les affichers
-     * dans notre QApplication
-
-    cv::Mat mat = Utils::Convert::qImage::toCvMat(picture, true);
-    //cv::imshow("Matrice", mat);
-    cv::Mat sbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SBM);
-    //cv::imshow("SBM", sbm);
-    cv::Mat sgbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SGBM);
-    //cv::imshow("SGBM", sgbm);
-
-    QImage qsbm = Utils::Convert::CvMat::toQImage(&sbm, false);
-    QImage qsgbm = Utils::Convert::CvMat::toQImage(&sgbm, false);
-
-    this->QImageLabel->setPixmap(QPixmap::fromImage(qsbm));
-    this->CVMatriceLabel->setPixmap(QPixmap::fromImage(qsgbm));
-*/
 }
 
 void MainWindow::about() {
@@ -135,10 +120,19 @@ void MainWindow::close() {
 }
 
 void MainWindow::onLaplacianClick() {
+    if (!this->imageLabel->pixmap()) {
+        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
+        return;
+    }
     this->menuStack->setCurrentIndex(LAPLACIANBOX);
 }
 
 void MainWindow::onMenuClick() {
+    this->copyImage();
     this->menuStack->setCurrentIndex(MAINBOX);
+}
+
+void MainWindow::copyImage() {
+    this->picture = this->originalPicture.copy(this->originalPicture.rect());
 }
 
