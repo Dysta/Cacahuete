@@ -1,9 +1,10 @@
 #include "laplacianbox.h"
+#include "mainwindow.h"
 
 LaplacianBox::LaplacianBox(const QString &title, QWidget* parent)
     : QGroupBox(title, parent)
 {
-    this->_process = new LaplacianProcess();
+    this->_process = new LaplacianProcess((MainWindow *) parent);
 
     this->createSlider();
 

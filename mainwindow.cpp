@@ -21,8 +21,6 @@ MainWindow::MainWindow(QWidget *parent, const QString title)
 
     this->mainWidget->setLayout(this->mainLayout);
     this->setCentralWidget(this->mainWidget);
-
-    //this->picture = new QImage();
 }
 
 MainWindow::~MainWindow() {

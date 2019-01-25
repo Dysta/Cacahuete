@@ -3,11 +3,22 @@
 
 #include <iostream>
 
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
+
+#include <QImage>
+
+#include "utils.h"
+
+class MainWindow;
 
 class LaplacianProcess
 {
 public:
-    LaplacianProcess();
+    LaplacianProcess(MainWindow* parent);
     void setActiveBlur(bool state);
     void setSizeH(int value);
     void setSizeL(int value);
@@ -16,6 +27,9 @@ public:
 
 private:
     void updatePicture(void);
+    void process(void);
+
+    MainWindow* _parent;
 
     bool _activeBlur;
     int _sizeH;

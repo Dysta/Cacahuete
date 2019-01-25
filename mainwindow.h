@@ -48,6 +48,8 @@ public:
     void updateImage(void);
     QWidget* getMainWidget() { return mainWidget; }
     QGridLayout* getMainLayout() { return mainLayout; }
+    QImage* getPicture() { return &picture; }
+    void setPicture(QImage pic) { picture = pic; }
 
 
 private slots:
