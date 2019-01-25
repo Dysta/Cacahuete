@@ -3,7 +3,9 @@
 LaplacianBox::LaplacianBox(const QString &title, QWidget* parent)
     : QGroupBox(title, parent)
 {
-    this->createSizeSlider();
+    this->_process = new LaplacianProcess();
+
+    this->createSlider();
 
     this->backToMain = new QPushButton("Retour au menu principal");
 
@@ -34,7 +36,7 @@ LaplacianBox::~LaplacianBox() {
 }
 
 
-void LaplacianBox::createSizeSlider() {
+void LaplacianBox::createSlider() {
     this->_switchBlurLabel = new QLabel("Enable/Disable Blur");
     this->_switchBlurSlider = new QSlider(Qt::Horizontal);
     this->_switchBlurSlider->setRange(0,1);
@@ -75,37 +77,37 @@ void LaplacianBox::createSizeSlider() {
 void LaplacianBox::onSizeHChange(int value) {
     if (value & 1) {
         std::cout << "Size h value : " << value << std::endl;
-        this->_sizeH = value;
+        this->_process->setSizeH(value);
     }
 }
 
 void LaplacianBox::onSizeLChange(int value) {
     if (value & 1) {
         std::cout << "Size l value : " << value << std::endl;
-        this->_sizeL = value;
+        this->_process->setSizeL(value);
     }
 }
 
 void LaplacianBox::onSigmaXChange(int value) {
     std::cout << "Sigma X value : " << value << std::endl;
-    this->_sigmaX = value;
+    this->_process->setSigmaX(value);
 }
 
 void LaplacianBox::onSigmaYChange(int value) {
     std::cout << "Sigma Y value : " << value << std::endl;
-    this->_sigmaY = value;
+    this->_process->setSigmaY(value);
 }
 
 void LaplacianBox::onBlurSwitch(int value) {
     std::cout << "Blur value : " << value << std::endl;
-    this->_activeBlur = (bool) value;
+    this->_process->setActiveBlur((bool) value);
 
-    this->_sizeHLabel->setVisible(this->_activeBlur);
-    this->_sizeHSlider->setVisible(this->_activeBlur);
-    this->_sizeLLabel->setVisible(this->_activeBlur);
-    this->_sizeLSlider->setVisible(this->_activeBlur);
-    this->_sigmaXLabel->setVisible(this->_activeBlur);
-    this->_sigmaXSlider->setVisible(this->_activeBlur);
-    this->_sigmaYLabel->setVisible(this->_activeBlur);
-    this->_sigmaYSlider->setVisible(this->_activeBlur);
+    this->_sizeHLabel->setVisible((bool) value);
+    this->_sizeHSlider->setVisible((bool) value);
+    this->_sizeLLabel->setVisible((bool) value);
+    this->_sizeLSlider->setVisible((bool) value);
+    this->_sigmaXLabel->setVisible((bool) value);
+    this->_sigmaXSlider->setVisible((bool) value);
+    this->_sigmaYLabel->setVisible((bool) value);
+    this->_sigmaYSlider->setVisible((bool) value);
 }

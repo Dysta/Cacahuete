@@ -10,6 +10,8 @@
 #include <QSlider>
 #include <QLabel>
 
+#include "laplacianprocess.h"
+
 class LaplacianBox : public QGroupBox
 {
     Q_OBJECT
@@ -18,10 +20,6 @@ public:
     LaplacianBox(const QString &title, QWidget* parent = nullptr);
     virtual ~LaplacianBox();
     QPushButton* getBacktoMainButton() { return backToMain; }
-    int getSizeH() { return _sizeH; }
-    int getSizeL() { return _sizeL; }
-
-
 
 private slots:
     void onSizeHChange(int);
@@ -31,30 +29,26 @@ private slots:
     void onBlurSwitch(int);
 
 private:
-    void createSizeSlider(void);
+    void createSlider(void);
 
     // first widget witch is display
     QGridLayout* laplacianGrid;
     QPushButton* backToMain;
 
+    LaplacianProcess* _process;
 
     QSlider* _switchBlurSlider;
     QLabel* _switchBlurLabel;
-    bool _activeBlur;
 
     QSlider* _sizeHSlider; // cols
     QSlider* _sizeLSlider; // rows
     QLabel* _sizeHLabel;
     QLabel* _sizeLLabel;
-    int _sizeH;
-    int _sizeL;
 
     QSlider* _sigmaXSlider;
     QSlider* _sigmaYSlider;
     QLabel* _sigmaXLabel;
     QLabel* _sigmaYLabel;
-    int _sigmaX;
-    int _sigmaY;
 };
 
 #endif // LAPLACIANBOX_H

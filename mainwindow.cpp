@@ -68,7 +68,7 @@ void MainWindow::createImageGroup(const QString &title) {
 
 void MainWindow::createSliderGroup() {
     this->mainBox = new MainBox("Menu principal");
-    this->laplacianBox = new LaplacianBox("Laplacian effect");
+    this->laplacianBox = new LaplacianBox("Laplacian effect", this);
 
     this->menuStack->insertWidget(MAINBOX, this->mainBox);
     this->menuStack->insertWidget(LAPLACIANBOX, this->laplacianBox);
@@ -134,5 +134,9 @@ void MainWindow::onMenuClick() {
 
 void MainWindow::copyImage() {
     this->picture = this->originalPicture.copy(this->originalPicture.rect());
+}
+
+void MainWindow::updateImage() {
+    this->imageLabel->setPixmap(QPixmap::fromImage(this->picture));
 }
 

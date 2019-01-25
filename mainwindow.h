@@ -45,6 +45,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent, const QString title);
     ~MainWindow();
+    void updateImage(void);
     QWidget* getMainWidget() { return mainWidget; }
     QGridLayout* getMainLayout() { return mainLayout; }
 
