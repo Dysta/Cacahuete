@@ -1,5 +1,6 @@
 #include "laplacianprocess.h"
 #include "mainwindow.h"
+#include <stdio.h>
 
 LaplacianProcess::LaplacianProcess(MainWindow* parent)
     : _activeBlur(0), _sizeH(0), _sizeL(0), _sigmaX(0), _sigmaY(0)
@@ -12,14 +13,12 @@ void LaplacianProcess::process() {
     mat = Utils::Convert::qImage::toCvMat(this->_parent->getPicture(), false);
     // reduce noise by blurring and convert in greyscale
     if (this->_activeBlur)
-        cv::GaussianBlur(mat, mat, cv::Size(3,3), 0, 0);
+        cv::GaussianBlur(mat, mat, cv::Size(this->_sizeH, this->_sizeL), this->_sigmaX, this->_sigmaY);
     cv::cvtColor(mat, grey, cv::COLOR_BGR2GRAY);
-
     cv::Laplacian(grey, laplacian, CV_16S);
     cv::convertScaleAbs(laplacian, absLaplacian);
-    QImage pic = Utils::Convert::CvMat::toQImage(&mat, false);
+    QImage pic = Utils::Convert::CvMat::toQImage(&absLaplacian, false);
     this->_parent->setPicture(pic);
-    this->updatePicture();
 }
 
 void LaplacianProcess::updatePicture() {

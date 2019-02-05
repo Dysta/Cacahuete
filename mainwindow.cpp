@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include <stdio.h>
 
 MainWindow::MainWindow(QWidget *parent, const QString title)
     : QMainWindow(parent),
@@ -127,6 +128,7 @@ void MainWindow::onLaplacianClick() {
 
 void MainWindow::onMenuClick() {
     this->copyImage();
+    this->updateImage();
     this->menuStack->setCurrentIndex(MAINBOX);
 }
 
