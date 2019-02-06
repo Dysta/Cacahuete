@@ -13,6 +13,7 @@ class MainBox : public QGroupBox
 public:
     MainBox(const QString &title, QWidget* parent = nullptr);
     QPushButton* getLaplacianButton() { return laplacianButton; }
+    QPushButton* getSobelButton() { return sobelButton; }
 
 private:
     // first widget witch is display

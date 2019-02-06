@@ -3,6 +3,7 @@
 
 #include "mainbox.h"
 #include "laplacianbox.h"
+#include "sobelbox.h"
 #include "utils.h"
 #include "ui_mainwindow.h"
 
@@ -57,6 +58,7 @@ private slots:
     void about(void);
     void close(void);
     void onLaplacianClick(void);
+    void onSobelClick(void);
     void onMenuClick(void);
 
 private:
@@ -73,6 +75,7 @@ private:
     QGroupBox* imageGroup;
     MainBox* mainBox;
     LaplacianBox* laplacianBox;
+    SobelBox* sobelBox;
 
     QMenu* fileMenu;
     QMenu* aboutMenu;

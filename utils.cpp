@@ -24,18 +24,6 @@ namespace CvMat {
         return ( copy ) ? img.copy() : img ;
     }
 
-    cv::Mat toLaplacian(cv::Mat mat, bool reduceNoise, double sigmaX, double sigmaY) {
-        cv::Mat laplacian, grey, absLaplacian;
-        // reduce noise by blurring and convert in greyscale
-        if (reduceNoise)
-            cv::GaussianBlur(mat, mat, cv::Size(3,3), 0, 0);
-        cv::cvtColor(mat, grey, cv::COLOR_BGR2GRAY);
-
-        cv::Laplacian(grey, laplacian, CV_16S);
-        cv::convertScaleAbs(laplacian, absLaplacian);
-        return absLaplacian;
-    }
-
     cv::Mat toSobel(cv::Mat mat, bool reduceNoise) {
         cv::Mat sobel, grey;
         /// Generate grad_x and grad_y

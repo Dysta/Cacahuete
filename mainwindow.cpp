@@ -68,9 +68,11 @@ void MainWindow::createImageGroup(const QString &title) {
 void MainWindow::createSliderGroup() {
     this->mainBox = new MainBox("Menu principal");
     this->laplacianBox = new LaplacianBox("Laplacian effect", this);
+    this->sobelBox = new SobelBox("Sobel effect", this);
 
     this->menuStack->insertWidget(MAINBOX, this->mainBox);
     this->menuStack->insertWidget(LAPLACIANBOX, this->laplacianBox);
+    this->menuStack->insertWidget(SOBELBOX, this->sobelBox);
 
     this->mainLayout->addWidget(this->menuStack, 0, 1);
 
@@ -78,6 +80,11 @@ void MainWindow::createSliderGroup() {
             this, SLOT(onLaplacianClick()));
     connect(this->laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
             this, SLOT(onMenuClick()));
+    connect(this->mainBox->getSobelButton(), SIGNAL(clicked(bool)),
+            this, SLOT(onSobelClick()));
+    connect(this->sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
+            this, SLOT(onMenuClick()));
+
 }
 
 void MainWindow::open() {
@@ -124,6 +131,14 @@ void MainWindow::onLaplacianClick() {
         return;
     }
     this->menuStack->setCurrentIndex(LAPLACIANBOX);
+}
+
+void MainWindow::onSobelClick() {
+    if (!this->imageLabel->pixmap()) {
+        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
+        return;
+    }
+    this->menuStack->setCurrentIndex(SOBELBOX);
 }
 
 void MainWindow::onMenuClick() {

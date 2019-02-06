@@ -36,13 +36,15 @@ SOURCES += main.cpp\
     mainbox.cpp \
     laplacianbox.cpp \
     laplacianprocess.cpp \
-    sobelbox.cpp
+    sobelbox.cpp \
+    sobelprocess.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
     mainbox.h \
     laplacianbox.h \
     laplacianprocess.h \
-    sobelbox.h
+    sobelbox.h \
+    sobelprocess.h
 
 FORMS    += mainwindow.ui

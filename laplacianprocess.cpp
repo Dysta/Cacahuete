@@ -1,6 +1,5 @@
 #include "laplacianprocess.h"
 #include "mainwindow.h"
-#include <stdio.h>
 
 LaplacianProcess::LaplacianProcess(MainWindow* parent)
     : _activeBlur(0), _sizeH(0), _sizeL(0), _sigmaX(0), _sigmaY(0)

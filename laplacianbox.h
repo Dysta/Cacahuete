@@ -19,7 +19,7 @@ class LaplacianBox : public QGroupBox
 public:
     LaplacianBox(const QString &title, QWidget* parent = nullptr);
     virtual ~LaplacianBox();
-    QPushButton* getBacktoMainButton() { return backToMain; }
+    QPushButton* getBacktoMainButton() { return _backToMain; }
 
 private slots:
     void onSizeHChange(int);
@@ -32,8 +32,9 @@ private:
     void createSlider(void);
 
     // first widget witch is display
-    QGridLayout* laplacianGrid;
-    QPushButton* backToMain;
+    QGridLayout* _laplacianGrid;
+    QPushButton* _backToMain;
+    QPushButton* _resetPic;
 
     LaplacianProcess* _process;
 

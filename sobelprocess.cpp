@@ -1,0 +1,86 @@
+#include "sobelprocess.h"
+#include "mainwindow.h"
+
+SobelProcess::SobelProcess(MainWindow* parent)
+    : _activeBlur(0), _sizeH(1), _sizeL(1),
+      _sigmaX(0), _sigmaY(0), _dx(1), _dy(1),
+      _alpha(0.5), _beta(0.5), _gamma(0)
+{
+    this->_parent = parent;
+}
+
+void SobelProcess::process() {
+    cv::Mat mat, sobel, grey;
+    mat = Utils::Convert::qImage::toCvMat(this->_parent->getPicture(), false);
+    /// Generate grad_x and grad_y
+    cv::Mat gradX, absX;
+    cv::Mat gradY, absY;
+    // reduce noise by blurring and convert in greyscale
+    if (this->_activeBlur)
+        cv::GaussianBlur(mat, mat, cv::Size(this->_sizeH, this->_sizeL), this->_sigmaX, this->_sigmaY);
+    cv::cvtColor(mat, grey, cv::COLOR_BGR2GRAY);
+
+    // Sobel gradient X
+    cv::Sobel(grey, gradX, CV_16S, this->_dx, 0);
+    cv::convertScaleAbs(gradX, absX);
+
+    // Sobel gradient Y
+    cv::Sobel(grey, gradY, CV_16S, 0, this->_dy);
+    cv::convertScaleAbs(gradY, absY);
+
+    // Total gradient
+    cv::addWeighted(absX, this->_alpha, absY, this->_beta, this->_gamma, sobel);
+    QImage pic = Utils::Convert::CvMat::toQImage(&sobel, false);
+    this->_parent->setPicture(pic);
+}
+
+void SobelProcess::updatePicture() {
+    std::cout << "Update picture" << std::endl;
+    this->process();
+    this->_parent->updateImage();
+}
+
+void SobelProcess::setActiveBlur(bool state) {
+    this->_activeBlur = state;
+    this->updatePicture();
+}
+
+void SobelProcess::setSizeH(int value) {
+    this->_sizeH = value;
+    this->updatePicture();
+}
+
+void SobelProcess::setSizeL(int value) {
+    this->_sizeL = value;
+    this->updatePicture();
+}
+
+void SobelProcess::setSigmaX(int value) {
+    this->_sigmaX = value;
+    this->updatePicture();
+}
+
+void SobelProcess::setSigmaY(int value) {
+    this->_sigmaY = value;
+    this->updatePicture();
+}
+
+void SobelProcess::setDx(int value) {
+    this->_dx = value;
+    this->updatePicture();
+}
+
+void SobelProcess::setDy(int value) {
+    this->_dy = value;
+    this->updatePicture();
+}
+
+void SobelProcess::setAlpha(int value) {
+    this->_alpha = value;
+    this->updatePicture();
+}
+
+void SobelProcess::setBeta(int value) {
+    this->_beta = value;
+    this->updatePicture();
+}
