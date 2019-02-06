@@ -48,10 +48,11 @@ public:
     MainWindow(QWidget *parent, const QString title);
     ~MainWindow();
     void updateImage(void);
-    QWidget* getMainWidget() { return mainWidget; }
-    QGridLayout* getMainLayout() { return mainLayout; }
-    QImage* getPicture() { return &picture; }
-    void setPicture(QImage pic) { picture = pic; }
+    QWidget* getMainWidget() { return _mainWidget; }
+    QGridLayout* getMainLayout() { return _mainLayout; }
+    QImage* getPicture() { return &_picture; }
+    QImage* getOriginalPicture() { return &_originalPicture; }
+    void setPicture(QImage pic) { _picture = pic; }
 
 
 private slots:
@@ -70,27 +71,28 @@ private:
     void createSliderGroup(void);
     void copyImage(void);
 
-    QWidget* mainWidget;
-    QGridLayout* mainLayout;
-    QStackedWidget* menuStack;
+    QWidget* _mainWidget;
+    QGridLayout* _mainLayout;
+    QStackedWidget* _menuStack;
 
-    QGroupBox* imageGroup;
-    MainBox* mainBox;
-    LaplacianBox* laplacianBox;
-    SobelBox* sobelBox;
-    DisparityBox* disparityBox;
 
-    QMenu* fileMenu;
-    QMenu* aboutMenu;
+    QGroupBox* _imageGroup;
+    MainBox* _mainBox;
+    LaplacianBox* _laplacianBox;
+    SobelBox* _sobelBox;
+    DisparityBox* _disparityBox;
 
-    QAction* openFileAct;
-    QAction* exitAppAct;
-    QAction* aboutAct;
+    QMenu* _fileMenu;
+    QMenu* _aboutMenu;
 
-    QLabel* imageLabel;
+    QAction* _openFileAct;
+    QAction* _exitAppAct;
+    QAction* _aboutAct;
 
-    QImage picture;
-    QImage originalPicture;
+    QLabel* _imageLabel;
+
+    QImage _picture;
+    QImage _originalPicture;
 
     Ui::MainWindow *ui;
 };
