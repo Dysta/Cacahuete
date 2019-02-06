@@ -50,6 +50,7 @@ public:
     QWidget* getMainWidget() { return mainWidget; }
     QGridLayout* getMainLayout() { return mainLayout; }
     QImage* getPicture() { return &picture; }
+    QImage* getOriginalPicture() { return &originalPicture; }
     void setPicture(QImage pic) { picture = pic; }
 
 

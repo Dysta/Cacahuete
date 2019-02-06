@@ -2,7 +2,7 @@
 #include "mainwindow.h"
 
 SobelProcess::SobelProcess(MainWindow* parent)
-    : _activeBlur(0), _sizeH(1), _sizeL(1),
+    : _activeBlur(1), _sizeH(1), _sizeL(1),
       _sigmaX(0), _sigmaY(0), _dx(1), _dy(1),
       _alpha(0.5), _beta(0.5), _gamma(0)
 {
@@ -11,7 +11,7 @@ SobelProcess::SobelProcess(MainWindow* parent)
 
 void SobelProcess::process() {
     cv::Mat mat, sobel, grey;
-    mat = Utils::Convert::qImage::toCvMat(this->_parent->getPicture(), false);
+    mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalPicture(), true);
     /// Generate grad_x and grad_y
     cv::Mat gradX, absX;
     cv::Mat gradY, absY;
