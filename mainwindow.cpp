@@ -10,18 +10,18 @@ MainWindow::MainWindow(QWidget *parent, const QString title)
     this->setWindowTitle(title);
     this->setMinimumSize(1200, 600);
 
-    this->mainWidget = new QWidget(this);
-    this->mainLayout = new QGridLayout(this->mainWidget);
+    this->_mainWidget = new QWidget(this);
+    this->_mainLayout = new QGridLayout(this->_mainWidget);
 
-    this->menuStack = new QStackedWidget();
+    this->_menuStack = new QStackedWidget();
 
     this->createAction();
     this->createMenu();
     this->createImageGroup("Image");
     this->createSliderGroup();
 
-    this->mainWidget->setLayout(this->mainLayout);
-    this->setCentralWidget(this->mainWidget);
+    this->_mainWidget->setLayout(this->_mainLayout);
+    this->setCentralWidget(this->_mainWidget);
 }
 
 MainWindow::~MainWindow() {
@@ -29,60 +29,60 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::createAction() {
-    this->openFileAct = new QAction("Ouvrir", this);
-    this->openFileAct->setShortcut(QKeySequence::Open);
-    connect(this->openFileAct, SIGNAL(triggered()), this, SLOT(open()));
+    this->_openFileAct = new QAction("Ouvrir", this);
+    this->_openFileAct->setShortcut(QKeySequence::Open);
+    connect(this->_openFileAct, SIGNAL(triggered()), this, SLOT(open()));
 
-    this->exitAppAct = new QAction("Fermer", this);
-    this->exitAppAct->setShortcut(QKeySequence::Close);
-    connect(this->exitAppAct, SIGNAL(triggered()), this, SLOT(close()));
+    this->_exitAppAct = new QAction("Fermer", this);
+    this->_exitAppAct->setShortcut(QKeySequence::Close);
+    connect(this->_exitAppAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    this->aboutAct = new QAction("Infos", this);
-    connect(this->aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+    this->_aboutAct = new QAction("Infos", this);
+    connect(this->_aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 }
 
 void MainWindow::createMenu() {
     // Creating file menu
-    this->fileMenu = menuBar()->addMenu("Fichier");
-    this->fileMenu->addAction(openFileAct);
-    this->fileMenu->addSeparator();
-    this->fileMenu->addAction(exitAppAct);
+    this->_fileMenu = menuBar()->addMenu("Fichier");
+    this->_fileMenu->addAction(_openFileAct);
+    this->_fileMenu->addSeparator();
+    this->_fileMenu->addAction(_exitAppAct);
 
     // Creating about menu
-    this->aboutMenu = menuBar()->addMenu("A propos");
-    this->aboutMenu->addAction(aboutAct);
+    this->_aboutMenu = menuBar()->addMenu("A propos");
+    this->_aboutMenu->addAction(_aboutAct);
 }
 
 void MainWindow::createImageGroup(const QString &title) {
-    this->imageGroup = new QGroupBox(title);
-    this->imageLabel = new QLabel();
+    this->_imageGroup = new QGroupBox(title);
+    this->_imageLabel = new QLabel();
 
     QBoxLayout* box = new QBoxLayout(QBoxLayout::TopToBottom);
-    box->addWidget(this->imageLabel);
-    this->imageGroup->setLayout(box);
-    this->mainLayout->addWidget(this->imageGroup, 0, 0);
+    box->addWidget(this->_imageLabel);
+    this->_imageGroup->setLayout(box);
+    this->_mainLayout->addWidget(this->_imageGroup, 0, 0);
 
     //this->imageGroup->setVisible(false);
 }
 
 void MainWindow::createSliderGroup() {
-    this->mainBox = new MainBox("Menu principal");
-    this->laplacianBox = new LaplacianBox("Laplacian effect", this);
-    this->sobelBox = new SobelBox("Sobel effect", this);
+    this->_mainBox = new MainBox("Menu principal");
+    this->_laplacianBox = new LaplacianBox("Laplacian effect", this);
+    this->_sobelBox = new SobelBox("Sobel effect", this);
 
-    this->menuStack->insertWidget(MAINBOX, this->mainBox);
-    this->menuStack->insertWidget(LAPLACIANBOX, this->laplacianBox);
-    this->menuStack->insertWidget(SOBELBOX, this->sobelBox);
+    this->_menuStack->insertWidget(MAINBOX, this->_mainBox);
+    this->_menuStack->insertWidget(LAPLACIANBOX, this->_laplacianBox);
+    this->_menuStack->insertWidget(SOBELBOX, this->_sobelBox);
 
-    this->mainLayout->addWidget(this->menuStack, 0, 1);
+    this->_mainLayout->addWidget(this->_menuStack, 0, 1);
 
-    connect(this->mainBox->getLaplacianButton(), SIGNAL(clicked()),
+    connect(this->_mainBox->getLaplacianButton(), SIGNAL(clicked()),
             this, SLOT(onLaplacianClick()));
-    connect(this->laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
+    connect(this->_laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
             this, SLOT(onMenuClick()));
-    connect(this->mainBox->getSobelButton(), SIGNAL(clicked(bool)),
+    connect(this->_mainBox->getSobelButton(), SIGNAL(clicked(bool)),
             this, SLOT(onSobelClick()));
-    connect(this->sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
+    connect(this->_sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
             this, SLOT(onMenuClick()));
 
 }
@@ -98,11 +98,11 @@ void MainWindow::open() {
 
     if (file.isEmpty()) return;
 
-    if (!this->originalPicture.load(file)) {
+    if (!this->_originalPicture.load(file)) {
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
         return;
     }
-    if (this->originalPicture.isNull()) {
+    if (this->_originalPicture.isNull()) {
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
         return;
     }
@@ -110,7 +110,7 @@ void MainWindow::open() {
     this->copyImage();
 
     // On affiche l'image original sans aucune convertion
-    this->imageLabel->setPixmap(QPixmap::fromImage(this->picture));
+    this->_imageLabel->setPixmap(QPixmap::fromImage(this->_picture));
 
 }
 
@@ -126,32 +126,32 @@ void MainWindow::close() {
 }
 
 void MainWindow::onLaplacianClick() {
-    if (!this->imageLabel->pixmap()) {
+    if (!this->_imageLabel->pixmap()) {
         QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
         return;
     }
-    this->menuStack->setCurrentIndex(LAPLACIANBOX);
+    this->_menuStack->setCurrentIndex(LAPLACIANBOX);
 }
 
 void MainWindow::onSobelClick() {
-    if (!this->imageLabel->pixmap()) {
+    if (!this->_imageLabel->pixmap()) {
         QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
         return;
     }
-    this->menuStack->setCurrentIndex(SOBELBOX);
+    this->_menuStack->setCurrentIndex(SOBELBOX);
 }
 
 void MainWindow::onMenuClick() {
     this->copyImage();
     this->updateImage();
-    this->menuStack->setCurrentIndex(MAINBOX);
+    this->_menuStack->setCurrentIndex(MAINBOX);
 }
 
 void MainWindow::copyImage() {
-    this->picture = this->originalPicture.copy(this->originalPicture.rect());
+    this->_picture = this->_originalPicture.copy(this->_originalPicture.rect());
 }
 
 void MainWindow::updateImage() {
-    this->imageLabel->setPixmap(QPixmap::fromImage(this->picture));
+    this->_imageLabel->setPixmap(QPixmap::fromImage(this->_picture));
 }
 
