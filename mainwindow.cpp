@@ -69,20 +69,27 @@ void MainWindow::createSliderGroup() {
     this->mainBox = new MainBox("Menu principal");
     this->laplacianBox = new LaplacianBox("Laplacian effect", this);
     this->sobelBox = new SobelBox("Sobel effect", this);
+    this->disparityBox = new DisparityBox("Disparity effect", this);
 
     this->menuStack->insertWidget(MAINBOX, this->mainBox);
     this->menuStack->insertWidget(LAPLACIANBOX, this->laplacianBox);
     this->menuStack->insertWidget(SOBELBOX, this->sobelBox);
+    this->menuStack->insertWidget(DISPARITYBOX, this->disparityBox);
 
     this->mainLayout->addWidget(this->menuStack, 0, 1);
 
     connect(this->mainBox->getLaplacianButton(), SIGNAL(clicked()),
             this, SLOT(onLaplacianClick()));
-    connect(this->laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
-            this, SLOT(onMenuClick()));
     connect(this->mainBox->getSobelButton(), SIGNAL(clicked(bool)),
             this, SLOT(onSobelClick()));
+    connect(this->mainBox->getDisparityButton(), SIGNAL(clicked(bool)),
+            this, SLOT(onDisparityClick()));
+
+    connect(this->laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
+            this, SLOT(onMenuClick()));
     connect(this->sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
+            this, SLOT(onMenuClick()));
+    connect(this->disparityBox->getBackToMainButton(), SIGNAL(clicked(bool)),
             this, SLOT(onMenuClick()));
 
 }
@@ -139,6 +146,15 @@ void MainWindow::onSobelClick() {
         return;
     }
     this->menuStack->setCurrentIndex(SOBELBOX);
+}
+
+void MainWindow::onDisparityClick() {
+    if (!this->imageLabel->pixmap()) {
+        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
+        return;
+    }
+    QMessageBox::warning(this, "Attention", "Vous devez avoir chargé une image stereoscopique");
+    this->menuStack->setCurrentIndex(DISPARITYBOX);
 }
 
 void MainWindow::onMenuClick() {

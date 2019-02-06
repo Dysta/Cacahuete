@@ -34,7 +34,6 @@ private:
     // first widget witch is display
     QGridLayout* _laplacianGrid;
     QPushButton* _backToMain;
-    QPushButton* _resetPic;
 
     LaplacianProcess* _process;
 

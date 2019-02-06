@@ -37,7 +37,9 @@ SOURCES += main.cpp\
     laplacianbox.cpp \
     laplacianprocess.cpp \
     sobelbox.cpp \
-    sobelprocess.cpp
+    sobelprocess.cpp \
+    disparitybox.cpp \
+    disparityprocess.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
@@ -45,6 +47,8 @@ HEADERS  += mainwindow.h \
     laplacianbox.h \
     laplacianprocess.h \
     sobelbox.h \
-    sobelprocess.h
+    sobelprocess.h \
+    disparitybox.h \
+    disparityprocess.h
 
 FORMS    += mainwindow.ui

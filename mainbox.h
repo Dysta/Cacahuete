@@ -14,6 +14,7 @@ public:
     MainBox(const QString &title, QWidget* parent = nullptr);
     QPushButton* getLaplacianButton() { return laplacianButton; }
     QPushButton* getSobelButton() { return sobelButton; }
+    QPushButton* getDisparityButton() { return disparityButton; }
 
 private:
     // first widget witch is display

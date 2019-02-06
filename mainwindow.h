@@ -2,10 +2,11 @@
 #define MAINWINDOW_H
 
 #include "mainbox.h"
+#include "ui_mainwindow.h"
+#include "utils.h"
 #include "laplacianbox.h"
 #include "sobelbox.h"
-#include "utils.h"
-#include "ui_mainwindow.h"
+#include "disparitybox.h"
 
 #include <QMainWindow>
 #include <QWidget>
@@ -59,6 +60,7 @@ private slots:
     void close(void);
     void onLaplacianClick(void);
     void onSobelClick(void);
+    void onDisparityClick(void);
     void onMenuClick(void);
 
 private:
@@ -76,6 +78,7 @@ private:
     MainBox* mainBox;
     LaplacianBox* laplacianBox;
     SobelBox* sobelBox;
+    DisparityBox* disparityBox;
 
     QMenu* fileMenu;
     QMenu* aboutMenu;
