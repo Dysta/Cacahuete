@@ -69,20 +69,21 @@ void DisparityBox::createSlider() {
     this->_mode->addItem("Mode SBM");
     this->_mode->addItem("Mode SGBM");
 
-    this->_SBMblockSizeLabel = new QLabel("Block size");    this->_SBMblockSizeSlider = new QSlider(Qt::Horizontal);
-    this->_SBMblockSizeSlider->setTickPosition(QSlider::TicksAbove);
-    this->_SBMblockSizeSlider->setTickInterval(5);
-    this->_SBMblockSizeSlider->setSingleStep(1);
-    this->_SBMblockSizeSlider->setRange(0, 10);
-    this->_SBMblockSizeSlider->setValue(0);
-
     this->_SBMnumDisparityLabel = new QLabel("Disparity Number");
     this->_SBMnumDisparitySlider = new QSlider(Qt::Horizontal);
     this->_SBMnumDisparitySlider->setTickPosition(QSlider::TicksAbove);
-    this->_SBMnumDisparitySlider->setTickInterval(5);
-    this->_SBMnumDisparitySlider->setSingleStep(1);
-    this->_SBMnumDisparitySlider->setRange(0, 10);
+    this->_SBMnumDisparitySlider->setTickInterval(10);
+    this->_SBMnumDisparitySlider->setSingleStep(16);
+    this->_SBMnumDisparitySlider->setRange(0, 250);
     this->_SBMnumDisparitySlider->setValue(0);
+
+    this->_SBMblockSizeLabel = new QLabel("Block size");
+    this->_SBMblockSizeSlider = new QSlider(Qt::Horizontal);
+    this->_SBMblockSizeSlider->setTickPosition(QSlider::TicksAbove);
+    this->_SBMblockSizeSlider->setTickInterval(10);
+    this->_SBMblockSizeSlider->setSingleStep(2);
+    this->_SBMblockSizeSlider->setRange(-100, 100);
+    this->_SBMblockSizeSlider->setValue(1);
 
     this->_minDisparityLabel = new QLabel("Minimum disparity Number");
     this->_minDisparityLabel->setVisible(false);
