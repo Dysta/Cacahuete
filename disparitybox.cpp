@@ -169,7 +169,6 @@ void DisparityBox::createSlider() {
     this->_SGBMmodeCombo->addItem("MODE_SGBM");
     this->_SGBMmodeCombo->addItem("MODE_SGBM_3WAY");
     this->_SGBMmodeCombo->addItem("MODE_HH");
-    this->_SGBMmodeCombo->addItem("MODE_HH4");
 
     connect(this->_mode, SIGNAL(activated(int)),
             this, SLOT(onModeChange(int)));
@@ -192,7 +191,7 @@ void DisparityBox::createSlider() {
     connect(this->_preFilterSlider, SIGNAL(valueChanged(int)),
             this, SLOT(onPreFilterChange(int)));
     connect(this->_uniquenessRatioSlider, SIGNAL(valueChanged(int)),
-            this, SLOT(onUniquenessRationChange(int)));
+            this, SLOT(onUniquenessRatioChange(int)));
     connect(this->_speckleWindowsSizeSlider, SIGNAL(valueChanged(int)),
             this, SLOT(onSpeckleWindowsSizeChange(int)));
     connect(this->_speckleRangeSlider, SIGNAL(valueChanged(int)),

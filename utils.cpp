@@ -24,35 +24,6 @@ namespace CvMat {
         return ( copy ) ? img.copy() : img ;
     }
 
-    cv::Mat toDisparity(cv::Mat mat, Convert::Mode mode) {
-        cv::Mat gLeft, gRight, disp, disp8;
-
-
-        //Division de l'image source en deux images gauche et droite
-        cv::Mat left = mat.colRange(0, mat.cols/2); //Création de l'image gauche
-        int cropping = 0;
-        //Si la largeur de l'image (en pixels) est impaire on retire un pixel de largeur sur l'image droite
-        if(mat.cols%2 != 0) cropping = 1;
-        cv::Mat right = mat.colRange(mat.cols/2+cropping, mat.cols); //Création de l'image droite
-
-        cv::cvtColor(left, gLeft, CV_BGR2GRAY);
-        cv::cvtColor(right, gRight, CV_BGR2GRAY);
-
-
-        if(mode == Convert::Mode::SBM ){
-            cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create(0,21);
-            sbm->compute(gLeft, gRight, disp);
-        } else if(mode == Convert::Mode::SGBM){
-            cv::Ptr<cv::StereoSGBM> sgbm = cv::StereoSGBM::create(-64,192,5,600,2400,10,4,1,150,2,cv::StereoSGBM::MODE_SGBM);
-            sgbm->compute(gLeft, gRight, disp);
-        }
-
-
-        cv::normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
-
-        return disp8;
-    }
-
 } // end namespace CvMat
 
 namespace qImage {
