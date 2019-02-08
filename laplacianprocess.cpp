@@ -16,7 +16,7 @@ void LaplacianProcess::process() {
     cv::cvtColor(mat, grey, cv::COLOR_BGR2GRAY);
     cv::Laplacian(grey, laplacian, CV_16S);
     cv::convertScaleAbs(laplacian, absLaplacian);
-    QImage pic = Utils::Convert::CvMat::toQImage(&absLaplacian, false);
+    QImage pic = Utils::Convert::CvMat::toQImage(&absLaplacian, true);
     this->_parent->setPicture(pic);
 }
 

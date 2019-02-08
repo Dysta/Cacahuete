@@ -30,7 +30,7 @@ void SobelProcess::process() {
 
     // Total gradient
     cv::addWeighted(absX, this->_alpha, absY, this->_beta, this->_gamma, sobel);
-    QImage pic = Utils::Convert::CvMat::toQImage(&sobel, false);
+    QImage pic = Utils::Convert::CvMat::toQImage(&sobel, true);
     this->_parent->setPicture(pic);
 }
 
