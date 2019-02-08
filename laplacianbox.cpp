@@ -48,30 +48,33 @@ void LaplacianBox::createSlider() {
     this->_sizeHSlider->setTickPosition(QSlider::TicksAbove);
     this->_sizeHSlider->setTickInterval(5);
     this->_sizeHSlider->setSingleStep(2);
-    this->_sizeHSlider->setRange(1, 10);
-    this->_sizeHSlider->setValue(1);
+    this->_sizeHSlider->setRange(1, 20);
+    this->_sizeHSlider->setValue(3);
 
     this->_sizeLLabel = new QLabel("Vertical blur :");
     this->_sizeLSlider = new QSlider(Qt::Horizontal);
     this->_sizeLSlider->setTickPosition(QSlider::TicksAbove);
     this->_sizeLSlider->setTickInterval(5);
     this->_sizeLSlider->setSingleStep(2);
-    this->_sizeLSlider->setRange(1, 10);
-    this->_sizeLSlider->setValue(1);
+    this->_sizeLSlider->setRange(1, 20);
+    this->_sizeLSlider->setValue(3);
 
     this->_sigmaXLabel = new QLabel("Sigma X");
     this->_sigmaXSlider = new QSlider(Qt::Horizontal);
     this->_sigmaXSlider->setTickPosition(QSlider::TicksAbove);
-    this->_sigmaXSlider->setTickInterval(5);
+    this->_sigmaXSlider->setTickInterval(10);
     this->_sigmaXSlider->setSingleStep(1);
-    this->_sigmaXSlider->setRange(0, 10);
+    this->_sigmaXSlider->setRange(0, 100);
+    this->_sigmaXSlider->setValue(0);
 
-    this->_sigmaYLabel = new QLabel("Sigma X");
+
+    this->_sigmaYLabel = new QLabel("Sigma Y");
     this->_sigmaYSlider = new QSlider(Qt::Horizontal);
     this->_sigmaYSlider->setTickPosition(QSlider::TicksAbove);
-    this->_sigmaYSlider->setTickInterval(5);
+    this->_sigmaYSlider->setTickInterval(10);
     this->_sigmaYSlider->setSingleStep(1);
-    this->_sigmaYSlider->setRange(0, 10);
+    this->_sigmaYSlider->setRange(0, 100);
+    this->_sigmaXSlider->setValue(0);
 
     connect(this->_sizeHSlider, SIGNAL(valueChanged(int)), this, SLOT(onSizeHChange(int)));
     connect(this->_sizeLSlider, SIGNAL(valueChanged(int)), this, SLOT(onSizeLChange(int)));

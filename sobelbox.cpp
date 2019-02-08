@@ -60,67 +60,74 @@ void SobelBox::createSlider() {
     this->_sizeHLabel = new QLabel("Horizontal blur :");
     this->_sizeHSlider = new QSlider(Qt::Horizontal);
     this->_sizeHSlider->setTickPosition(QSlider::TicksAbove);
-    this->_sizeHSlider->setTickInterval(5);
+    this->_sizeHSlider->setTickInterval(10);
     this->_sizeHSlider->setSingleStep(2);
-    this->_sizeHSlider->setRange(1, 10);
-    this->_sizeHSlider->setValue(1);
+    this->_sizeHSlider->setRange(1, 20);
+    this->_sizeHSlider->setValue(3);
 
     this->_sizeLLabel = new QLabel("Vertical blur :");
     this->_sizeLSlider = new QSlider(Qt::Horizontal);
     this->_sizeLSlider->setTickPosition(QSlider::TicksAbove);
-    this->_sizeLSlider->setTickInterval(5);
+    this->_sizeLSlider->setTickInterval(10);
     this->_sizeLSlider->setSingleStep(2);
-    this->_sizeLSlider->setRange(1, 10);
-    this->_sizeLSlider->setValue(1);
+    this->_sizeLSlider->setRange(1, 20);
+    this->_sizeLSlider->setValue(3);
 
     this->_sigmaXLabel = new QLabel("Sigma X");
     this->_sigmaXSlider = new QSlider(Qt::Horizontal);
     this->_sigmaXSlider->setTickPosition(QSlider::TicksAbove);
     this->_sigmaXSlider->setTickInterval(5);
     this->_sigmaXSlider->setSingleStep(1);
-    this->_sigmaXSlider->setRange(0, 10);
+    this->_sigmaXSlider->setRange(0, 100);
+    this->_sigmaXSlider->setValue(0);
 
-    this->_sigmaYLabel = new QLabel("Sigma X");
+    this->_sigmaYLabel = new QLabel("Sigma Y");
     this->_sigmaYSlider = new QSlider(Qt::Horizontal);
     this->_sigmaYSlider->setTickPosition(QSlider::TicksAbove);
     this->_sigmaYSlider->setTickInterval(5);
     this->_sigmaYSlider->setSingleStep(1);
-    this->_sigmaYSlider->setRange(0, 10);
+    this->_sigmaYSlider->setRange(0, 100);
+    this->_sigmaYSlider->setValue(0);
 
     this->_dxLabel = new QLabel("dx");
     this->_dxSlider = new QSlider(Qt::Horizontal);
     this->_dxSlider->setTickPosition(QSlider::TicksAbove);
     this->_dxSlider->setTickInterval(5);
     this->_dxSlider->setSingleStep(1);
-    this->_dxSlider->setRange(0, 10);
+    this->_dxSlider->setRange(0, 30);
+    this->_dxSlider->setValue(1);
 
     this->_dyLabel = new QLabel("dy");
     this->_dySlider = new QSlider(Qt::Horizontal);
     this->_dySlider->setTickPosition(QSlider::TicksAbove);
     this->_dySlider->setTickInterval(5);
     this->_dySlider->setSingleStep(1);
-    this->_dySlider->setRange(0, 10);
+    this->_dySlider->setRange(0, 30);
+    this->_dySlider->setValue(1);
 
     this->_alphaLabel = new QLabel("Alpha");
     this->_alphaSlider = new QSlider(Qt::Horizontal);
     this->_alphaSlider->setTickPosition(QSlider::TicksAbove);
     this->_alphaSlider->setTickInterval(5);
     this->_alphaSlider->setSingleStep(1);
-    this->_alphaSlider->setRange(0, 10);
+    this->_alphaSlider->setRange(0, 30);
+    this->_alphaSlider->setValue(1);
 
     this->_betaLabel = new QLabel("Beta");
     this->_betaSlider = new QSlider(Qt::Horizontal);
     this->_betaSlider->setTickPosition(QSlider::TicksAbove);
     this->_betaSlider->setTickInterval(5);
     this->_betaSlider->setSingleStep(1);
-    this->_betaSlider->setRange(0, 10);
+    this->_betaSlider->setRange(0, 30);
+    this->_betaSlider->setValue(1);
 
     this->_gammaLabel = new QLabel("Gamma");
     this->_gammaSlider = new QSlider(Qt::Horizontal);
     this->_gammaSlider->setTickPosition(QSlider::TicksAbove);
     this->_gammaSlider->setTickInterval(5);
     this->_gammaSlider->setSingleStep(1);
-    this->_gammaSlider->setRange(0, 10);
+    this->_gammaSlider->setRange(0, 30);
+    this->_gammaSlider->setValue(0);
 
     connect(this->_enableBlurSlider, SIGNAL(valueChanged(int)),
             this, SLOT(onBlurSwitch(int)));

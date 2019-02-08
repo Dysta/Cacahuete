@@ -2,9 +2,9 @@
 #include "mainwindow.h"
 
 SobelProcess::SobelProcess(MainWindow* parent)
-    : _activeBlur(1), _sizeH(1), _sizeL(1),
+    : _activeBlur(1), _sizeH(3), _sizeL(3),
       _sigmaX(0), _sigmaY(0), _dx(1), _dy(1),
-      _alpha(0.5), _beta(0.5), _gamma(0)
+      _alpha(1), _beta(1), _gamma(0)
 {
     this->_parent = parent;
 }
