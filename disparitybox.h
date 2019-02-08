@@ -49,17 +49,6 @@ private slots:
 
 
 private:
-    enum MODE {
-        SBM,
-        SGBM
-    };
-    enum SGBM_MODE {
-        MODE_SGBM = cv::StereoSGBM::MODE_SGBM,
-        MODE_SGBM_3WAY = cv::StereoSGBM::MODE_SGBM_3WAY,
-        MODE_HH = cv::StereoSGBM::MODE_HH,
-        MODE_HH4 = cv::StereoSGBM::MODE_HH4
-    };
-
     void createSlider(void);
 
     QGridLayout* _disparityGrid;
