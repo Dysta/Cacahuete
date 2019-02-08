@@ -31,8 +31,8 @@ void DisparityProcess::process() {
         // default param : -64,192,5,600,2400,10,4,1,150,2,cv::StereoSGBM::MODE_SGBM
         cv::Ptr<cv::StereoSGBM> sgbm = cv::StereoSGBM::create(
                     this->_minDisparity ,
-                    this->_SBMnumDisparity,
-                    this->_SBMblockSize,
+                    this->_SGBMnumDisparity,
+                    this->_SGBMblockSize,
                     this->_p1,
                     this->_p2,
                     this->_disp12MaxDiff,
@@ -52,7 +52,7 @@ void DisparityProcess::process() {
 }
 
 void DisparityProcess::updatePicture() {
-    std::cout << "Update de l'umage" << std::endl;
+    std::cout << "Update de l'image" << std::endl;
     this->process();
     this->_parent->updateImage();
 }
@@ -144,12 +144,8 @@ void DisparityProcess::setSpeckleRange(int value) {
     this->updatePicture();
 }
 
+// 0 or 1 or 2
 void DisparityProcess::setSGBMmode(int value) {
-    if (value == 0)
-        _SGBMmode = cv::StereoSGBM::MODE_SGBM;
-    if (value == 1)
-        _SGBMmode = cv::StereoSGBM::MODE_SGBM_3WAY;
-    if (_SGBMmode == 2)
-        _SGBMmode = cv::StereoSGBM::MODE_HH;
+    _SGBMmode = value;
     this->updatePicture();
 }
