@@ -145,17 +145,13 @@ void SobelBox::createSlider() {
 }
 
 void SobelBox::onSizeHChange(int value) {
-    if (value & 1) {
-        std::cout << "Size h value : " << value << std::endl;
-        this->_process->setSizeH(value);
-    }
+    std::cout << "Size h value : " << value << std::endl;
+    this->_process->setSizeH(value);
 }
 
 void SobelBox::onSizeLChange(int value) {
-    if (value & 1) {
-        std::cout << "Size l value : " << value << std::endl;
-        this->_process->setSizeL(value);
-    }
+    std::cout << "Size l value : " << value << std::endl;
+    this->_process->setSizeL(value);
 }
 
 void SobelBox::onSigmaXChange(int value) {

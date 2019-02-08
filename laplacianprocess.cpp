@@ -31,14 +31,20 @@ void LaplacianProcess::setActiveBlur(bool state) {
     this->updatePicture();
 }
 
+// value must be odd
 void LaplacianProcess::setSizeH(int value) {
-    this->_sizeH = value;
-    this->updatePicture();
+    if (value & 1) {
+        this->_sizeH = value;
+        this->updatePicture();
+    }
 }
 
+// value must be odd
 void LaplacianProcess::setSizeL(int value) {
-    this->_sizeL = value;
-    this->updatePicture();
+    if (value & 1) {
+        this->_sizeL = value;
+        this->updatePicture();
+    }
 }
 
 void LaplacianProcess::setSigmaX(int value) {

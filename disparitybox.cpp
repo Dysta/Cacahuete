@@ -235,52 +235,65 @@ void DisparityBox::onModeChange(int index) {
 
 void DisparityBox::onSBMnumDisparityChange(int value) {
     std::cout << "SBM Num Disp : " << value << std::endl;
+    this->_process->setSBMnumDisp(value);
 }
 
 void DisparityBox::onSBMblockSizeChange(int value) {
     std::cout << "SBM Block Size : " << value << std::endl;
+    this->_process->setSBMblockSize(value);
 }
 
 void DisparityBox::onMinDisparityChange(int value) {
     std::cout << "Min Disp : " << value << std::endl;
+    this->_process->setMinDisp(value);
 }
 
 void DisparityBox::onSGBMnumDisparityChange(int value) {
     std::cout << "SGBM Num Disp : " << value << std::endl;
+    this->_process->setSGBMnumDisp(value);
 }
 
 void DisparityBox::onSGBMblockSizeChange(int value) {
     std::cout << "SGBM Block Size : " << value << std::endl;
+    this->_process->setSGBMblockSize(value);
 }
 
 void DisparityBox::onP1Change(int value) {
     std::cout << "P1 : " << value << std::endl;
+    this->_process->setP1(value);
 }
 
 void DisparityBox::onP2Change(int value) {
     std::cout << "P2 : " << value << std::endl;
+    this->_process->setP2(value);
 }
 
 void DisparityBox::onDisp12MaxDiffChange(int value) {
     std::cout << "Disp12 Max Diff : " << value << std::endl;
+    this->_process->setDisp12MaxDiffChange(value);
 }
 
 void DisparityBox::onPreFilterChange(int value) {
     std::cout << "Prefilter : " << value << std::endl;
+    this->_process->setPrefilter(value);
 }
 
 void DisparityBox::onUniquenessRatioChange(int value) {
     std::cout << "Uniqueness Ration : " << value << std::endl;
+    this->_process->setUniquenessRatio(value);
 }
 
 void DisparityBox::onSpeckleWindowsSizeChange(int value) {
     std::cout << "Speckle Window Size : " << value << std::endl;
+    this->_process->setSpeckleWindowsSize(value);
 }
 
 void DisparityBox::onSpeckleRangeChange(int value) {
     std::cout << "Speckle Range : " << value << std::endl;
+    this->_process->setSpeckleRange(value);
 }
 
 void DisparityBox::onSGBMmodeChange(int value) {
     std::cout << "SGBM Mode : " << value << std::endl;
+    this->_process->setSGBMmode(value);
 }

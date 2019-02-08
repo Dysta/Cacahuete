@@ -17,19 +17,20 @@ class DisparityProcess
 {
 public:
     DisparityProcess(MainWindow* parent);
-    void setMode(int value) { _mode = value; }
-    void setSBMnumDisp(int value) { _SBMnumDisparity = value; }
-    void setSBMblockSize(int value) { _SBMblockSize = value; }
-    void setMinDisp(int value) { _minDisparity = value; }
-    void setSGBMnumDisp(int value) { _SGBMnumDisparity = value; }
-    void setSGBMblockSize(int value) { _SGBMblockSize = value; }
-    void setP1(int value) { _p1 = value; }
-    void setP2(int value) { _p2 = value; }
-    void setPrefilter(int value) { _preFilter = value; }
-    void setUniquenessRatio(int value) { _UniquenessRatio = value; }
-    void setSpeckleWindowsSize(int value) { _speckleWindowsSize = value; }
-    void setSpeckleRange(int value) { _speckleRange = value; }
-    void setSGBMmode(int value) { _SGBMmode = value; }
+    void setMode(int value);
+    void setSBMnumDisp(int value);
+    void setSBMblockSize(int value);
+    void setMinDisp(int value);
+    void setSGBMnumDisp(int value);
+    void setSGBMblockSize(int value);
+    void setP1(int value);
+    void setP2(int value);
+    void setDisp12MaxDiffChange(int value);
+    void setPrefilter(int value);
+    void setUniquenessRatio(int value);
+    void setSpeckleWindowsSize(int value);
+    void setSpeckleRange(int value);
+    void setSGBMmode(int value);
 
 private:
     void updatePicture(void);
@@ -47,6 +48,7 @@ private:
     int _SGBMblockSize;
     int _p1;
     int _p2;
+    int _disp12MaxDiff;
     int _preFilter;
     int _UniquenessRatio;
     int _speckleWindowsSize;

@@ -45,14 +45,19 @@ void SobelProcess::setActiveBlur(bool state) {
     this->updatePicture();
 }
 
+// value must be odd
 void SobelProcess::setSizeH(int value) {
-    this->_sizeH = value;
-    this->updatePicture();
+    if (value & 1) {
+        this->_sizeH = value;
+        this->updatePicture();
+    }
 }
 
 void SobelProcess::setSizeL(int value) {
-    this->_sizeL = value;
-    this->updatePicture();
+    if (value & 1) {
+        this->_sizeL = value;
+        this->updatePicture();
+    }
 }
 
 void SobelProcess::setSigmaX(int value) {
