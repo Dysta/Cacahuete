@@ -85,90 +85,112 @@ void DisparityBox::createSlider() {
     this->_SBMnumDisparitySlider->setValue(0);
 
     this->_minDisparityLabel = new QLabel("Minimum disparity Number");
+    this->_minDisparityLabel->setVisible(false);
     this->_minDisparitySlider = new QSlider(Qt::Horizontal);
     this->_minDisparitySlider->setTickPosition(QSlider::TicksAbove);
     this->_minDisparitySlider->setTickInterval(5);
     this->_minDisparitySlider->setSingleStep(1);
     this->_minDisparitySlider->setRange(0, 10);
     this->_minDisparitySlider->setValue(0);
+    this->_minDisparitySlider->setVisible(false);
 
     this->_SGBMnumDisparityLabel = new QLabel("Disparity Number");
+    this->_SGBMnumDisparityLabel->setVisible(false);
     this->_SGBMnumDisparitySlider = new QSlider(Qt::Horizontal);
     this->_SGBMnumDisparitySlider->setTickPosition(QSlider::TicksAbove);
     this->_SGBMnumDisparitySlider->setTickInterval(5);
     this->_SGBMnumDisparitySlider->setSingleStep(1);
     this->_SGBMnumDisparitySlider->setRange(0, 10);
     this->_SGBMnumDisparitySlider->setValue(0);
+    this->_SGBMnumDisparitySlider->setVisible(false);
 
     this->_SGBMblockSizeLabel = new QLabel("Block size");
+    this->_SGBMblockSizeLabel->setVisible(false);
     this->_SGBMblockSizeSlider = new QSlider(Qt::Horizontal);
     this->_SGBMblockSizeSlider->setTickPosition(QSlider::TicksAbove);
     this->_SGBMblockSizeSlider->setTickInterval(5);
     this->_SGBMblockSizeSlider->setSingleStep(1);
     this->_SGBMblockSizeSlider->setRange(0, 10);
     this->_SGBMblockSizeSlider->setValue(0);
+    this->_SGBMblockSizeSlider->setVisible(false);
 
     this->_p1Label = new QLabel("P1");
+    this->_p1Label->setVisible(false);
     this->_p1Slider = new QSlider(Qt::Horizontal);
     this->_p1Slider->setTickPosition(QSlider::TicksAbove);
     this->_p1Slider->setTickInterval(5);
     this->_p1Slider->setSingleStep(1);
     this->_p1Slider->setRange(0, 10);
     this->_p1Slider->setValue(0);
+    this->_p1Slider->setVisible(false);
 
     this->_p2Label = new QLabel("P2");
+    this->_p2Label->setVisible(false);
     this->_p2Slider = new QSlider(Qt::Horizontal);
     this->_p2Slider->setTickPosition(QSlider::TicksAbove);
     this->_p2Slider->setTickInterval(5);
     this->_p2Slider->setSingleStep(1);
     this->_p2Slider->setRange(0, 10);
     this->_p2Slider->setValue(0);
+    this->_p2Slider->setVisible(false);
 
     this->_disp12MaxDiffLabel = new QLabel("Disparity 12 max Diff");
+    this->_disp12MaxDiffLabel->setVisible(false);
     this->_disp12MaxDiffSlider = new QSlider(Qt::Horizontal);
     this->_disp12MaxDiffSlider->setTickPosition(QSlider::TicksAbove);
     this->_disp12MaxDiffSlider->setTickInterval(5);
     this->_disp12MaxDiffSlider->setSingleStep(1);
     this->_disp12MaxDiffSlider->setRange(0, 10);
     this->_disp12MaxDiffSlider->setValue(0);
+    this->_disp12MaxDiffSlider->setVisible(false);
 
     this->_preFilterLabel = new QLabel("Pre Filter");
+    this->_preFilterLabel->setVisible(false);
     this->_preFilterSlider = new QSlider(Qt::Horizontal);
     this->_preFilterSlider->setTickPosition(QSlider::TicksAbove);
     this->_preFilterSlider->setTickInterval(5);
     this->_preFilterSlider->setSingleStep(1);
     this->_preFilterSlider->setRange(0, 10);
     this->_preFilterSlider->setValue(0);
+    this->_preFilterSlider->setVisible(false);
 
     this->_uniquenessRatioLabel = new QLabel("Uniqueness Ration");
+    this->_uniquenessRatioLabel->setVisible(false);
     this->_uniquenessRatioSlider = new QSlider(Qt::Horizontal);
     this->_uniquenessRatioSlider->setTickPosition(QSlider::TicksAbove);
     this->_uniquenessRatioSlider->setTickInterval(5);
     this->_uniquenessRatioSlider->setSingleStep(1);
     this->_uniquenessRatioSlider->setRange(0, 10);
     this->_uniquenessRatioSlider->setValue(0);
+    this->_uniquenessRatioSlider->setVisible(false);
 
     this->_speckleWindowsSizeLabel = new QLabel("Speckle Window Size");
+    this->_speckleWindowsSizeLabel->setVisible(false);
     this->_speckleWindowsSizeSlider = new QSlider(Qt::Horizontal);
     this->_speckleWindowsSizeSlider->setTickPosition(QSlider::TicksAbove);
     this->_speckleWindowsSizeSlider->setTickInterval(5);
     this->_speckleWindowsSizeSlider->setSingleStep(1);
     this->_speckleWindowsSizeSlider->setRange(0, 10);
     this->_speckleWindowsSizeSlider->setValue(0);
+    this->_speckleWindowsSizeSlider->setVisible(false);
 
     this->_speckleRangeLabel = new QLabel("Speckle Range");
+    this->_speckleRangeLabel->setVisible(false);
     this->_speckleRangeSlider = new QSlider(Qt::Horizontal);
     this->_speckleRangeSlider->setTickPosition(QSlider::TicksAbove);
     this->_speckleRangeSlider->setTickInterval(5);
     this->_speckleRangeSlider->setSingleStep(1);
     this->_speckleRangeSlider->setRange(0, 10);
     this->_speckleRangeSlider->setValue(0);
+    this->_speckleRangeSlider->setVisible(false);
 
     this->_SGBMmodeLabel = new QLabel("SGBM Mode");
+    this->_SGBMmodeLabel->setVisible(false);
     this->_SGBMmodeCombo = new QComboBox();
     this->_SGBMmodeCombo->addItem("MODE_SGBM");
     this->_SGBMmodeCombo->addItem("MODE_SGBM_3WAY");
     this->_SGBMmodeCombo->addItem("MODE_HH");
+    this->_SGBMmodeCombo->setVisible(false);
 
     connect(this->_mode, SIGNAL(activated(int)),
             this, SLOT(onModeChange(int)));
