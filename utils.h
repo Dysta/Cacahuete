@@ -26,8 +26,6 @@ namespace CvMat {
 
     cv::Mat toDisparity(cv::Mat mat, Convert::Mode mode);
 
-    void reconstructChess(cv::Mat mat, int columns, int lines);
-
 } // end namespace CvMat
 
 namespace qImage {

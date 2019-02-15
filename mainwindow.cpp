@@ -1,11 +1,8 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "utils.h"
+#include <stdio.h>
 
-// Penser à utiliser cv::calibrateCamera pour la calibration
-
-MainWindow::MainWindow(QWidget *parent, const QString title) :
-    QMainWindow(parent),
+MainWindow::MainWindow(QWidget *parent, const QString title)
+    : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -13,65 +10,105 @@ MainWindow::MainWindow(QWidget *parent, const QString title) :
     this->setWindowTitle(title);
     this->setMinimumSize(1200, 600);
 
+    this->_mainWidget = new QWidget(this);
+    this->_mainLayout = new QGridLayout(this->_mainWidget);
+
+    this->_menuStack = new QStackedWidget();
+
     this->createAction();
     this->createMenu();
-    this->createTab();
-    this->createSliders();
-    int winWidth = tabWidget->width();
-    this->tabWidget->setMinimumWidth(winWidth/2);
-    this->setCentralWidget(this->tabWidget);
-    this->picture = new QImage();
+    this->createImageGroup("Image");
+    this->createSliderGroup();
+
+    this->_mainWidget->setLayout(this->_mainLayout);
+    this->setCentralWidget(this->_mainWidget);
 }
 
 MainWindow::~MainWindow() {
-    delete label;
-    delete picture;
-    delete originalPic;
-    delete QImageLabel;
-    delete CVMatriceLabel;
-    delete reconstructedChess;
-    delete tabWidget;
-    delete sliderWidget;
     delete ui;
 }
 
 void MainWindow::createAction() {
-    this->openFileAct = new QAction("Ouvrir", this);
-    this->openFileAct->setShortcut(QKeySequence::Open);
-    connect(this->openFileAct, SIGNAL(triggered()), this, SLOT(open()));
+    this->_openFileAct = new QAction("Ouvrir", this);
+    this->_openFileAct->setShortcut(QKeySequence::Open);
+    connect(this->_openFileAct, SIGNAL(triggered()), this, SLOT(open()));
 
-    this->exitAppAct = new QAction("Fermer", this);
-    this->exitAppAct->setShortcut(QKeySequence::Close);
-    connect(this->exitAppAct, SIGNAL(triggered()), this, SLOT(close()));
+    this->_exitAppAct = new QAction("Fermer", this);
+    this->_exitAppAct->setShortcut(QKeySequence::Close);
+    connect(this->_exitAppAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    this->aboutAct = new QAction("Infos", this);
-    connect(this->aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+    this->_aboutAct = new QAction("Infos", this);
+    connect(this->_aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+
+    // Do the calibration with images
+   this->_calibPicAct = new QAction("Parametrer la calibration (Image)", this);
+   connect(this->_calibPicAct, SIGNAL(triggered()), this, SLOT(getCalibrationParam()));
+
+   // Do the calibration with a video (not implemented yet)
+   this->_calibVidAct = new QAction("Parametrer la calibration (Vidéo)", this);
+   connect(this->_calibVidAct, SIGNAL(triggered()), this, SLOT(getCalibrationParamVid()));
+
+   // Undistort images
+   this->_undistordAct = new QAction("Appliquer la calibration", this);
+   connect(this->_undistordAct, SIGNAL(triggered()), this, SLOT(applyUndistort()));
 }
 
 void MainWindow::createMenu() {
     // Creating file menu
-    this->fileMenu = menuBar()->addMenu("Fichier");
-    this->fileMenu->addAction(openFileAct);
-    this->fileMenu->addSeparator();
-    this->fileMenu->addAction(exitAppAct);
+    this->_fileMenu = menuBar()->addMenu("Fichier");
+    this->_fileMenu->addAction(_openFileAct);
+    this->_fileMenu->addSeparator();
+    this->_fileMenu->addAction(_calibPicAct);
+    this->_fileMenu->addAction(_calibVidAct);
+    this->_fileMenu->addAction(_undistordAct);
+    this->_fileMenu->addSeparator();
+    this->_fileMenu->addAction(_exitAppAct);
 
     // Creating about menu
-    this->aboutMenu = menuBar()->addMenu("A propos");
-    this->aboutMenu->addAction(aboutAct);
+    this->_aboutMenu = menuBar()->addMenu("A propos");
+    this->_aboutMenu->addAction(_aboutAct);
 }
 
-void MainWindow::createTab() {
-    this->tabWidget = new QTabWidget(this);
+void MainWindow::createImageGroup(const QString &title) {
+    this->_imageGroup = new QGroupBox(title);
+    this->_imageLabel = new QLabel();
+  
+    QBoxLayout* box = new QBoxLayout(QBoxLayout::TopToBottom);
+    box->addWidget(this->_imageLabel);
+    this->_imageGroup->setLayout(box);
+    this->_mainLayout->addWidget(this->_imageGroup, 0, 0);
 
-    this->originalPic = new QLabel(this->tabWidget);
-    this->QImageLabel = new QLabel(this->tabWidget);
-    this->CVMatriceLabel = new QLabel(this->tabWidget);
-    this->reconstructedChess = new QLabel(this->tabWidget);
+    //this->imageGroup->setVisible(false);
+}
 
-    this->tabWidget->addTab(this->originalPic, "Image original");
-    this->tabWidget->addTab(this->QImageLabel, "SBM");
-    this->tabWidget->addTab(this->CVMatriceLabel, "Carte de disparité");
-    this->tabWidget->addTab(this->reconstructedChess, "Echiquier");
+void MainWindow::createSliderGroup() {
+    this->_mainBox = new MainBox("Menu principal");
+    this->_laplacianBox = new LaplacianBox("Laplacian effect", this);
+    this->_sobelBox = new SobelBox("Sobel effect", this);
+    this->_disparityBox = new DisparityBox("Disparity effect", this);
+
+    this->_menuStack->insertWidget(MAINBOX, this->_mainBox);
+    this->_menuStack->insertWidget(LAPLACIANBOX, this->_laplacianBox);
+    this->_menuStack->insertWidget(SOBELBOX, this->_sobelBox);
+    this->_menuStack->insertWidget(DISPARITYBOX, this->_disparityBox);
+
+    this->_mainLayout->addWidget(this->_menuStack, 0, 1);
+
+    connect(this->_mainBox->getLaplacianButton(), SIGNAL(clicked()),
+            this, SLOT(onLaplacianClick()));
+    connect(this->_mainBox->getSobelButton(), SIGNAL(clicked(bool)),
+            this, SLOT(onSobelClick()));
+    connect(this->_mainBox->getDisparityButton(), SIGNAL(clicked(bool)),
+            this, SLOT(onDisparityClick()));
+
+    connect(this->_laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
+            this, SLOT(onMenuClick()));
+    connect(this->_sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
+             this, SLOT(onMenuClick()));
+    connect(this->_sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
+            this, SLOT(onMenuClick()));
+    connect(this->_disparityBox->getBackToMainButton(), SIGNAL(clicked(bool)),
+            this, SLOT(onMenuClick()));
 }
 
 void MainWindow::createSliders(){
@@ -92,41 +129,98 @@ void MainWindow::open() {
                                                 "Images/",
                                                 "Image (*.png *.jpg)",
                                                 NULL,
+                                                /* QFileDialog::DontUseNativeDialog |*/ QFileDialog::ReadOnly
+                                                );
+
+    if (file.isEmpty()) return;
+
+    if (!this->_originalPicture.load(file)) {
+        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
+        return;
+    }
+    if (this->_originalPicture.isNull()) {
+        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
+        return;
+    }
+
+    this->copyImage();
+
+    // On affiche l'image original sans aucune convertion
+    this->_imageLabel->setPixmap(QPixmap::fromImage(this->_picture));
+
+}
+
+void MainWindow::getCalibrationParam(){
+    QStringList fileList = QFileDialog::getOpenFileNames(this,
+                                                "Sélectionnez des images",
+                                                "Images/",
+                                                "Image (*.png *.jpg)",
+                                                NULL,
+                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                );
+
+    if ( fileList.isEmpty() ) return;
+
+    for(int i = 0; i < fileList.size(); i++){
+
+        if ( !this->_picture.load(fileList.at(i)) ) {
+            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
+            return;
+        }
+        if ( this->_picture.isNull() ) {
+            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
+            return;
+        }
+    }
+
+    calibration::calib(this, fileList, fileList.size(), 9, 6, false);
+    // Enable the undistort in the menu
+    _undistordAct->setDisabled(_intrinsic.empty() && _distcoeffs.empty());
+}
+
+void MainWindow::getCalibrationParamVid(){
+    QString file = QFileDialog::getOpenFileName(this,
+                                                "Sélectionnez une video",
+                                                "Video/",
+                                                "Video (*.mp4)",
+                                                NULL,
                                                 QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
                                                 );
 
     if ( file.isEmpty() ) return;
 
-    if ( !this->picture->load(file) ) {
-        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
-        return;
+    QStringList fileList;
+    fileList.append(file);
+
+    calibration::calib(this, fileList, fileList.size(), 9, 6, true);
+    // Enable the undistort in the menu
+    _undistordAct->setDisabled(_intrinsic.empty() && _distcoeffs.empty());
+
+}
+
+void MainWindow::applyUndistort(){
+    QStringList fileList = QFileDialog::getOpenFileNames(this,
+                                                "Sélectionnez des images",
+                                                "Images/",
+                                                "Image (*.png *.jpg)",
+                                                NULL,
+                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                );
+
+    if ( fileList.isEmpty() ) return;
+
+    for(int i = 0; i < fileList.size(); i++){
+
+        if ( !this->_picture.load(fileList.at(i)) ) {
+            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
+            return;
+        }
+        if ( this->_picture.isNull() ) {
+            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
+            return;
+        }
     }
-    if ( this->picture->isNull() ) {
-        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
-        return;
-    }
-    // On affiche l'image original sans aucune convertion
-    this->originalPic->setPixmap(QPixmap::fromImage(*picture));
-
-    /*
-     * On convertit les images à la suite pour continuer de les affichers
-     * dans notre QApplication
-    */
-    cv::Mat mat = Utils::Convert::qImage::toCvMat(picture, true);
-    //cv::imshow("Matrice", mat);
-    cv::Mat sbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SBM);
-    //cv::imshow("SBM", sbm);
-    cv::Mat sgbm = Utils::Convert::CvMat::toDisparity(mat, Utils::Convert::Mode::SGBM);
-    //cv::imshow("SGBM", sgbm);
-    Utils::Convert::CvMat::reconstructChess(mat, 11, 8); // Penser à créer des Sliders pour modifier les parametres Lines et Columns
-
-    QImage qsbm = Utils::Convert::CvMat::toQImage(&sbm, false);
-    QImage qsgbm = Utils::Convert::CvMat::toQImage(&sgbm, false);
-    QImage qmat = Utils::Convert::CvMat::toQImage(&mat, false);
-
-    this->QImageLabel->setPixmap(QPixmap::fromImage(qsbm));
-    this->CVMatriceLabel->setPixmap(QPixmap::fromImage(qsgbm));
-    this->reconstructedChess->setPixmap(QPixmap::fromImage(qmat));
+    calibration::undistort(fileList, this->_intrinsic, this->_distcoeffs);
 }
 
 void MainWindow::about() {
@@ -138,5 +232,44 @@ void MainWindow::close() {
     if ( answer == QMessageBox::Yes ) {
        QApplication::quit();
     }
+}
+
+void MainWindow::onLaplacianClick() {
+    if (!this->_imageLabel->pixmap()) {
+        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
+        return;
+    }
+    this->_menuStack->setCurrentIndex(LAPLACIANBOX);
+}
+
+void MainWindow::onSobelClick() {
+    if (!this->_imageLabel->pixmap()) {
+        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
+        return;
+    }
+    this->_menuStack->setCurrentIndex(SOBELBOX);
+}
+
+void MainWindow::onDisparityClick() {
+    if (!this->_imageLabel->pixmap()) {
+        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
+        return;
+    }
+    QMessageBox::warning(this, "Attention", "Vous devez avoir chargé une image stereoscopique");
+    this->_menuStack->setCurrentIndex(DISPARITYBOX);
+}
+
+void MainWindow::onMenuClick() {
+    this->copyImage();
+    this->updateImage();
+    this->_menuStack->setCurrentIndex(MAINBOX);
+}
+
+void MainWindow::copyImage() {
+    this->_picture = this->_originalPicture.copy(this->_originalPicture.rect());
+}
+
+void MainWindow::updateImage() {
+    this->_imageLabel->setPixmap(QPixmap::fromImage(this->_picture));
 }
 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,16 +26,35 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-
 # Including the opencv2 lib
-INCLUDEPATH     += /opt/local/stow/opencv-3.4.3/include/opencv2
-LIBS            += -L/opt/local/stow/opencv-3.4.3/include/opencv2 -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_calib3d
+INCLUDEPATH     += /usr/local/include/opencv2
+LIBS            += -L/usr/local/include/opencv2 -lopencv_core \
+                    -lopencv_highgui -lopencv_imgproc -lopencv_calib3d \
+                    -lopencv_videoio
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    utils.cpp
+        utils.cpp \
+        calibration.cpp \
+        depthmap.cpp \
+        box/disparitybox.cpp \
+        box/laplacianbox.cpp \
+        box/mainbox.cpp \
+        box/sobelbox.cpp \
+        process/disparityprocess.cpp \
+        process/laplacianprocess.cpp \
+        process/sobelprocess.cpp
 
 HEADERS  += mainwindow.h \
-    utils.h
+        utils.h \
+        calibration.h \
+        depthmap.h \
+        box/disparitybox.h \
+        box/laplacianbox.h \
+        box/mainbox.h \
+        box/sobelbox.h \
+        process/disparityprocess.h \
+        process/laplacianprocess.h \
+        process/sobelprocess.h
 
 FORMS    += mainwindow.ui
