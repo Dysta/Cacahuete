@@ -43,7 +43,14 @@ SOURCES += main.cpp\
         disparitybox.cpp \
         disparityprocess.cpp \
         calibration.cpp \
-        depthmap.cpp
+        depthmap.cpp \
+    box/disparitybox.cpp \
+    box/laplacianbox.cpp \
+    box/mainbox.cpp \
+    box/sobelbox.cpp \
+    process/disparityprocess.cpp \
+    process/laplacianprocess.cpp \
+    process/sobelprocess.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
@@ -55,6 +62,14 @@ HEADERS  += mainwindow.h \
         disparitybox.h \
         disparityprocess.h \
         calibration.h \
-        depthmap.h
+        depthmap.h \
+    box/disparitybox.h \
+    box/laplacianbox.h \
+    box/mainbox.h \
+    box/sobelbox.h \
+    process/disparityprocess.h \
+    process/laplacianprocess.h \
+    process/sobelprocess.h \
+    contrib.hpp
 
 FORMS    += mainwindow.ui
