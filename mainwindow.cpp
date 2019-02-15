@@ -72,7 +72,7 @@ void MainWindow::createMenu() {
 void MainWindow::createImageGroup(const QString &title) {
     this->_imageGroup = new QGroupBox(title);
     this->_imageLabel = new QLabel();
-
+  
     QBoxLayout* box = new QBoxLayout(QBoxLayout::TopToBottom);
     box->addWidget(this->_imageLabel);
     this->_imageGroup->setLayout(box);
@@ -109,7 +109,6 @@ void MainWindow::createSliderGroup() {
             this, SLOT(onMenuClick()));
     connect(this->_disparityBox->getBackToMainButton(), SIGNAL(clicked(bool)),
             this, SLOT(onMenuClick()));
-
 }
 
 void MainWindow::open() {

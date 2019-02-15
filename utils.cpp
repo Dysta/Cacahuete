@@ -23,6 +23,26 @@ namespace CvMat {
         QImage img = QImage(mat->data, mat->cols, mat->rows, mat->step, format);
         return ( copy ) ? img.copy() : img ;
     }
+  
+    void reconstructChess(cv::Mat mat, int columns, int lines){
+            cv::Size patternSize(columns, lines);
+            cv::Mat gray;
+            //cv::Mat chess = new cv::Mat;
+            cv::cvtColor(mat, gray, CV_BGR2GRAY);
+            std::vector<cv::Point2f> corners;
+
+            bool patternFound = cv::findChessboardCorners(gray, patternSize, corners);
+
+            if(patternFound){
+                cv::cornerSubPix(gray, corners, cv::Size(11, 11), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS + CV_TERMCRIT_ITER, 30, 0.1));
+            }
+
+            cv::drawChessboardCorners(mat, patternSize, cv::Mat(corners), patternFound);
+
+
+        }
+
+    } // end namespace CvMat
 
 } // end namespace CvMat
 
