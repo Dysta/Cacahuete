@@ -19,14 +19,6 @@ namespace CvMat {
 
     QImage toQImage(cv::Mat *mat, bool copy);
 
-    cv::Mat toLaplacian(cv::Mat mat, bool reduceNoise);
-
-    cv::Mat toSobel(cv::Mat mat, bool reduceNoise);
-
-    cv::Mat toDisparity(cv::Mat mat, Convert::Mode mode);
-
-    void reconstructChess(cv::Mat mat, int columns, int lines);
-
 } // end namespace CvMat
 
 namespace qImage {
