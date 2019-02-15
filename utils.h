@@ -6,6 +6,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
+#include <opencv2/core/traits.hpp>
 
 #include <QImage>
 
@@ -18,6 +19,12 @@ enum Mode { SBM, SGBM };
 namespace CvMat {
 
     QImage toQImage(cv::Mat *mat, bool copy);
+
+    cv::Mat toLaplacian(cv::Mat mat, bool reduceNoise);
+
+    cv::Mat toSobel(cv::Mat mat, bool reduceNoise);
+
+    cv::Mat toDisparity(cv::Mat matL, cv::Mat matR, Convert::Mode mode);
 
 } // end namespace CvMat
 

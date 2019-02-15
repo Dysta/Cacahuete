@@ -41,16 +41,21 @@ void MainWindow::createAction() {
     connect(this->_aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 
     // Do the calibration with images
-   this->_calibPicAct = new QAction("Parametrer la calibration (Image)", this);
-   connect(this->_calibPicAct, SIGNAL(triggered()), this, SLOT(getCalibrationParam()));
+    this->_calibPicAct = new QAction("Parametrer la calibration (Image)", this);
+    connect(this->_calibPicAct, SIGNAL(triggered()), this, SLOT(getCalibrationParam()));
 
-   // Do the calibration with a video (not implemented yet)
-   this->_calibVidAct = new QAction("Parametrer la calibration (Vidéo)", this);
-   connect(this->_calibVidAct, SIGNAL(triggered()), this, SLOT(getCalibrationParamVid()));
+    // Do the calibration with a video (not implemented yet)
+    this->_calibVidAct = new QAction("Parametrer la calibration (Vidéo)", this);
+    connect(this->_calibVidAct, SIGNAL(triggered()), this, SLOT(getCalibrationParamVid()));
 
-   // Undistort images
-   this->_undistordAct = new QAction("Appliquer la calibration", this);
-   connect(this->_undistordAct, SIGNAL(triggered()), this, SLOT(applyUndistort()));
+    // Undistort images
+    this->_undistordAct = new QAction("Appliquer la calibration", this);
+    connect(this->_undistordAct, SIGNAL(triggered()), this, SLOT(applyUndistort()));
+
+    // Depth map using stereo calib
+    this->_depthAct = new QAction("Obtenir une carte de profondeur", this);
+    connect(this->_depthAct, SIGNAL(triggered()), this, SLOT(getDepthMap()));
+
 }
 
 void MainWindow::createMenu() {
@@ -61,6 +66,7 @@ void MainWindow::createMenu() {
     this->_fileMenu->addAction(_calibPicAct);
     this->_fileMenu->addAction(_calibVidAct);
     this->_fileMenu->addAction(_undistordAct);
+    this->_fileMenu->addAction(_depthAct);
     this->_fileMenu->addSeparator();
     this->_fileMenu->addAction(_exitAppAct);
 
@@ -110,6 +116,7 @@ void MainWindow::createSliderGroup() {
     connect(this->_disparityBox->getBackToMainButton(), SIGNAL(clicked(bool)),
             this, SLOT(onMenuClick()));
 }
+
 
 void MainWindow::open() {
     QString file = QFileDialog::getOpenFileName(this,
@@ -209,6 +216,31 @@ void MainWindow::applyUndistort(){
         }
     }
     calibration::undistort(fileList, this->_intrinsic, this->_distcoeffs);
+}
+
+void MainWindow::getDepthMap(){
+    QStringList fileList = QFileDialog::getOpenFileNames(this,
+                                                "Sélectionnez des images",
+                                                "Images/",
+                                                "Image (*.png *.jpg)",
+                                                NULL,
+                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                );
+
+    if ( fileList.isEmpty() ) return;
+
+    for(int i = 0; i < fileList.size(); i++){
+
+        if ( !this->_picture.load(fileList.at(i)) ) {
+            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
+            return;
+        }
+        if ( this->_picture.isNull() ) {
+            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
+            return;
+        }
+    }
+    depthmap::Depthmap(fileList, fileList.size(), 9, 6, false);
 }
 
 void MainWindow::about() {

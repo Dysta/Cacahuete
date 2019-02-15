@@ -23,22 +23,28 @@ namespace CvMat {
         QImage img = QImage(mat->data, mat->cols, mat->rows, mat->step, format);
         return ( copy ) ? img.copy() : img ;
     }
-  
-    void reconstructChess(cv::Mat mat, int columns, int lines){
-        cv::Size patternSize(columns, lines);
-        cv::Mat gray;
-        //cv::Mat chess = new cv::Mat;
-        cv::cvtColor(mat, gray, CV_BGR2GRAY);
-        std::vector<cv::Point2f> corners;
 
-        bool patternFound = cv::findChessboardCorners(gray, patternSize, corners);
+    cv::Mat toDisparity(cv::Mat matL, cv::Mat matR, Convert::Mode mode) {
+        cv::Mat gLeft, gRight, disp, disp8;
 
-        if(patternFound){
-            cv::cornerSubPix(gray, corners, cv::Size(11, 11), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS + CV_TERMCRIT_ITER, 30, 0.1));
+        cv::cvtColor(matL, gLeft, CV_BGR2GRAY);
+        cv::cvtColor(matR, gRight, CV_BGR2GRAY);
+
+        if(mode == Convert::Mode::SBM ){
+            cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create(0,21);
+            sbm->compute(gLeft, gRight, disp);
+        } else if(mode == Convert::Mode::SGBM){
+            cv::Ptr<cv::StereoSGBM> sgbm = cv::StereoSGBM::create(-64,192,5,600,2400,10,4,1,150,2,cv::StereoSGBM::MODE_SGBM);
+            sgbm->compute(gLeft, gRight, disp);
         }
 
-        cv::drawChessboardCorners(mat, patternSize, cv::Mat(corners), patternFound);
+
+        cv::normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
+
+        return disp8;
     }
+
+
 
 } // end namespace CvMat
 
