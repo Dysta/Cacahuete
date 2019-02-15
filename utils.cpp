@@ -24,36 +24,27 @@ namespace CvMat {
         return ( copy ) ? img.copy() : img ;
     }
 
-            cv::Laplacian(grey, laplacian, CV_16S);
-            cv::convertScaleAbs(laplacian, absLaplacian);
-            return absLaplacian;
+    cv::Mat toDisparity(cv::Mat matL, cv::Mat matR, Convert::Mode mode) {
+        cv::Mat gLeft, gRight, disp, disp8;
+
+        cv::cvtColor(matL, gLeft, CV_BGR2GRAY);
+        cv::cvtColor(matR, gRight, CV_BGR2GRAY);
+
+        if(mode == Convert::Mode::SBM ){
+            cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create(0,21);
+            sbm->compute(gLeft, gRight, disp);
+        } else if(mode == Convert::Mode::SGBM){
+            cv::Ptr<cv::StereoSGBM> sgbm = cv::StereoSGBM::create(-64,192,5,600,2400,10,4,1,150,2,cv::StereoSGBM::MODE_SGBM);
+            sgbm->compute(gLeft, gRight, disp);
         }
 
-        cv::Mat toSobel(cv::Mat mat, bool reduceNoise) {
-            cv::Mat sobel, grey;
-            /// Generate grad_x and grad_y
-            cv::Mat gradX, absX;
-            cv::Mat gradY, absY;
-            // reduce noise by blurring and convert in greyscale
-            if ( reduceNoise )
-                cv::GaussianBlur(mat, mat, cv::Size(3,3), 0, 0);
-            cv::cvtColor(mat, grey, cv::COLOR_BGR2GRAY);
 
-            // Sobel gradient X
-            cv::Sobel(grey, gradX, CV_16S, 1, 0);
-            cv::convertScaleAbs(gradX, absX);
+        cv::normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
 
-            // Sobel gradient Y
-            cv::Sobel(grey, gradY, CV_16S, 0, 1);
-            cv::convertScaleAbs(gradY, absY);
+        return disp8;
+    }
 
-            // Total gradient
-            cv::addWeighted(absX, 0.5, absY, 0.5, 0, sobel);
-            return sobel;
-        }
 
-        cv::Mat toDisparity(cv::Mat mat, Convert::Mode mode) {
-            cv::Mat gLeft, gRight, disp, disp8;
 
 } // end namespace CvMat
 

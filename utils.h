@@ -24,7 +24,7 @@ namespace CvMat {
 
     cv::Mat toSobel(cv::Mat mat, bool reduceNoise);
 
-    cv::Mat toDisparity(cv::Mat mat, Convert::Mode mode);
+    cv::Mat toDisparity(cv::Mat matL, cv::Mat matR, Convert::Mode mode);
 
 } // end namespace CvMat
 

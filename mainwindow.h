@@ -8,6 +8,7 @@
 #include "box/sobelbox.h"
 #include "box/disparitybox.h"
 #include "calibration.h"
+#include "depthmap.h"
 
 #include <QMainWindow>
 #include <QWidget>
@@ -71,6 +72,7 @@ private slots:
     void getCalibrationParam(void);
     void getCalibrationParamVid(void);
     void applyUndistort(void);
+    void getDepthMap(void);
 
 private:
     void createMenu(void);
@@ -99,6 +101,7 @@ private:
     QAction* _calibPicAct;
     QAction* _calibVidAct;
     QAction* _undistordAct;
+    QAction* _depthAct;
 
     QLabel* _imageLabel;
 
