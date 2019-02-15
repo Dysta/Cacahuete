@@ -28,27 +28,33 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 # Including the opencv2 lib
 INCLUDEPATH     += /usr/local/include/opencv2
-LIBS            += -L/usr/local/include/opencv2 -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_calib3d
+LIBS            += -L/usr/local/include/opencv2 -lopencv_core \
+                    -lopencv_highgui -lopencv_imgproc -lopencv_calib3d \
+                    -lopencv_videoio
 
 SOURCES += main.cpp\
         mainwindow.cpp \
         utils.cpp \
-    mainbox.cpp \
-    laplacianbox.cpp \
-    laplacianprocess.cpp \
-    sobelbox.cpp \
-    sobelprocess.cpp \
-    disparitybox.cpp \
-    disparityprocess.cpp
+        mainbox.cpp \
+        laplacianbox.cpp \
+        laplacianprocess.cpp \
+        sobelbox.cpp \
+        sobelprocess.cpp \
+        disparitybox.cpp \
+        disparityprocess.cpp \
+        calibration.cpp \
+        depthmap.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
-    mainbox.h \
-    laplacianbox.h \
-    laplacianprocess.h \
-    sobelbox.h \
-    sobelprocess.h \
-    disparitybox.h \
-    disparityprocess.h
+        mainbox.h \
+        laplacianbox.h \
+        laplacianprocess.h \
+        sobelbox.h \
+        sobelprocess.h \
+        disparitybox.h \
+        disparityprocess.h \
+        calibration.h \
+        depthmap.h
 
 FORMS    += mainwindow.ui

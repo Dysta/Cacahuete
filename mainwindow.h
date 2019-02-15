@@ -7,6 +7,7 @@
 #include "laplacianbox.h"
 #include "sobelbox.h"
 #include "disparitybox.h"
+#include "calibration.h"
 
 #include <QMainWindow>
 #include <QWidget>
@@ -53,6 +54,8 @@ public:
     QImage* getPicture() { return &_picture; }
     QImage* getOriginalPicture() { return &_originalPicture; }
     void setPicture(QImage pic) { _picture = pic; }
+    void setIntrinsic(cv::Mat Intrinsic) { _intrinsic = Intrinsic; }
+    void setDistcoeffs(cv::Mat Distcoeff) { _distcoeffs = Distcoeff; }
 
 
 private slots:
@@ -63,6 +66,10 @@ private slots:
     void onSobelClick(void);
     void onDisparityClick(void);
     void onMenuClick(void);
+
+    void getCalibrationParam(void);
+    void getCalibrationParamVid(void);
+    void applyUndistort(void);
 
 private:
     void createMenu(void);
@@ -88,11 +95,17 @@ private:
     QAction* _openFileAct;
     QAction* _exitAppAct;
     QAction* _aboutAct;
+    QAction* _calibPicAct;
+    QAction* _calibVidAct;
+    QAction* _undistordAct;
 
     QLabel* _imageLabel;
 
     QImage _picture;
     QImage _originalPicture;
+
+    cv::Mat _intrinsic;
+    cv::Mat _distcoeffs;
 
     Ui::MainWindow *ui;
 };
