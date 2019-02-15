@@ -35,41 +35,27 @@ LIBS            += -L/usr/local/include/opencv2 -lopencv_core \
 SOURCES += main.cpp\
         mainwindow.cpp \
         utils.cpp \
-        mainbox.cpp \
-        laplacianbox.cpp \
-        laplacianprocess.cpp \
-        sobelbox.cpp \
-        sobelprocess.cpp \
-        disparitybox.cpp \
-        disparityprocess.cpp \
         calibration.cpp \
         depthmap.cpp \
-    box/disparitybox.cpp \
-    box/laplacianbox.cpp \
-    box/mainbox.cpp \
-    box/sobelbox.cpp \
-    process/disparityprocess.cpp \
-    process/laplacianprocess.cpp \
-    process/sobelprocess.cpp
+        box/disparitybox.cpp \
+        box/laplacianbox.cpp \
+        box/mainbox.cpp \
+        box/sobelbox.cpp \
+        process/disparityprocess.cpp \
+        process/laplacianprocess.cpp \
+        process/sobelprocess.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
-        mainbox.h \
-        laplacianbox.h \
-        laplacianprocess.h \
-        sobelbox.h \
-        sobelprocess.h \
-        disparitybox.h \
-        disparityprocess.h \
         calibration.h \
         depthmap.h \
-    box/disparitybox.h \
-    box/laplacianbox.h \
-    box/mainbox.h \
-    box/sobelbox.h \
-    process/disparityprocess.h \
-    process/laplacianprocess.h \
-    process/sobelprocess.h \
-    contrib.hpp
+        box/disparitybox.h \
+        box/laplacianbox.h \
+        box/mainbox.h \
+        box/sobelbox.h \
+        process/disparityprocess.h \
+        process/laplacianprocess.h \
+        process/sobelprocess.h \
+        contrib.hpp
 
 FORMS    += mainwindow.ui

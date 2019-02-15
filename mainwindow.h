@@ -1,12 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "mainbox.h"
+#include "box/mainbox.h"
 #include "ui_mainwindow.h"
 #include "utils.h"
-#include "laplacianbox.h"
-#include "sobelbox.h"
-#include "disparitybox.h"
+#include "box/laplacianbox.h"
+#include "box/sobelbox.h"
+#include "box/disparitybox.h"
 #include "calibration.h"
 
 #include <QMainWindow>
