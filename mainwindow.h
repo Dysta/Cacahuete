@@ -105,7 +105,7 @@ private:
     QImage _originalPicture;
     
     cv::Mat _intrinsic;
-    cv::Mat _distcoeffs;structedChess;
+    cv::Mat _distcoeffs;
 
     Ui::MainWindow *ui;
 };
