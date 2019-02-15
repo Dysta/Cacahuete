@@ -55,7 +55,6 @@ HEADERS  += mainwindow.h \
         box/sobelbox.h \
         process/disparityprocess.h \
         process/laplacianprocess.h \
-        process/sobelprocess.h \
-        contrib.hpp
+        process/sobelprocess.h
 
 FORMS    += mainwindow.ui
