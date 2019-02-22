@@ -92,11 +92,13 @@ void MainWindow::createSliderGroup() {
     this->_laplacianBox = new LaplacianBox("Laplacian effect", this);
     this->_sobelBox = new SobelBox("Sobel effect", this);
     this->_disparityBox = new DisparityBox("Disparity effect", this);
+    this->_calibBox = new CalibDepthBox("Calibration and depth map", this);
 
     this->_menuStack->insertWidget(MAINBOX, this->_mainBox);
     this->_menuStack->insertWidget(LAPLACIANBOX, this->_laplacianBox);
     this->_menuStack->insertWidget(SOBELBOX, this->_sobelBox);
     this->_menuStack->insertWidget(DISPARITYBOX, this->_disparityBox);
+    this->_menuStack->insertWidget(CALIBDEPTHBOX, this->_calibBox);
 
     this->_mainLayout->addWidget(this->_menuStack, 0, 1);
 
@@ -106,6 +108,7 @@ void MainWindow::createSliderGroup() {
             this, SLOT(onSobelClick()));
     connect(this->_mainBox->getDisparityButton(), SIGNAL(clicked(bool)),
             this, SLOT(onDisparityClick()));
+    connect(this->_mainBox->getCailbDepthButton(), SIGNAL(clicked(bool)), this, SLOT(onCalibClick()));
 
     connect(this->_laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
             this, SLOT(onMenuClick()));
@@ -114,6 +117,8 @@ void MainWindow::createSliderGroup() {
     connect(this->_sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
             this, SLOT(onMenuClick()));
     connect(this->_disparityBox->getBackToMainButton(), SIGNAL(clicked(bool)),
+            this, SLOT(onMenuClick()));
+    connect(this->_calibBox->getBackToMainButton(), SIGNAL(clicked(bool)),
             this, SLOT(onMenuClick()));
 }
 
@@ -277,6 +282,15 @@ void MainWindow::onDisparityClick() {
     }
     QMessageBox::warning(this, "Attention", "Vous devez avoir chargé une image stereoscopique");
     this->_menuStack->setCurrentIndex(DISPARITYBOX);
+}
+
+void MainWindow::onCalibClick() {
+    if (!this->_imageLabel->pixmap()) {
+        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
+        return;
+    }
+    QMessageBox::warning(this, "Attention", "Veillez à bien ouvrir une image pour la correction");
+    this->_menuStack->setCurrentIndex(CALIBDEPTHBOX);
 }
 
 void MainWindow::onMenuClick() {

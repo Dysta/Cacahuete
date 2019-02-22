@@ -9,6 +9,7 @@
 #include "box/disparitybox.h"
 #include "calibration.h"
 #include "depthmap.h"
+#include "box/calibdepthbox.h"
 
 #include <QMainWindow>
 #include <QWidget>
@@ -44,7 +45,8 @@ class MainWindow : public QMainWindow
         MAINBOX,
         LAPLACIANBOX,
         SOBELBOX,
-        DISPARITYBOX
+        DISPARITYBOX,
+        CALIBDEPTHBOX
     };
 
 public:
@@ -67,6 +69,7 @@ private slots:
     void onLaplacianClick(void);
     void onSobelClick(void);
     void onDisparityClick(void);
+    void onCalibClick(void);
     void onMenuClick(void);
 
     void getCalibrationParam(void);
@@ -91,6 +94,7 @@ private:
     LaplacianBox* _laplacianBox;
     SobelBox* _sobelBox;
     DisparityBox* _disparityBox;
+    CalibDepthBox* _calibBox;
 
     QMenu* _fileMenu;
     QMenu* _aboutMenu;

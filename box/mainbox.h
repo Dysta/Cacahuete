@@ -15,6 +15,7 @@ public:
     QPushButton* getLaplacianButton() { return laplacianButton; }
     QPushButton* getSobelButton() { return sobelButton; }
     QPushButton* getDisparityButton() { return disparityButton; }
+    QPushButton* getCailbDepthButton() { return calibDepthButton; }
 
 private:
     // first widget witch is display
@@ -22,6 +23,7 @@ private:
     QPushButton* laplacianButton;
     QPushButton* sobelButton;
     QPushButton* disparityButton;
+    QPushButton* calibDepthButton;
 };
 
 #endif // MAINMENU_H

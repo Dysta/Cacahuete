@@ -43,7 +43,9 @@ SOURCES += main.cpp\
         box/sobelbox.cpp \
         process/disparityprocess.cpp \
         process/laplacianprocess.cpp \
-        process/sobelprocess.cpp
+        process/sobelprocess.cpp \
+    box/calibdepthbox.cpp \
+    process/calibdepthprocess.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
@@ -55,6 +57,8 @@ HEADERS  += mainwindow.h \
         box/sobelbox.h \
         process/disparityprocess.h \
         process/laplacianprocess.h \
-        process/sobelprocess.h
+        process/sobelprocess.h \
+    box/calibdepthbox.h \
+    process/calibdepthprocess.h
 
 FORMS    += mainwindow.ui
