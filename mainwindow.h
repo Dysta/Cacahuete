@@ -9,22 +9,24 @@
 #include "box/disparitybox.h"
 #include "calibration.h"
 #include "depthmap.h"
+#include "network.h"
 
 #include <QMainWindow>
 #include <QWidget>
-#include <QLayout>
 #include <QLabel>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QImage>
-#include <QImageReader>
 #include <QGroupBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QStackedWidget>
 #include <QBoxLayout>
 #include <QPushButton>
-#include <QStackedWidget>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
@@ -64,6 +66,8 @@ private slots:
     void open(void);
     void about(void);
     void close(void);
+    void network(void);
+
     void onLaplacianClick(void);
     void onSobelClick(void);
     void onDisparityClick(void);
@@ -73,6 +77,8 @@ private slots:
     void getCalibrationParamVid(void);
     void applyUndistort(void);
     void getDepthMap(void);
+
+    void onNetworkBtnClick(void);
 
 private:
     void createMenu(void);
@@ -94,6 +100,7 @@ private:
 
     QMenu* _fileMenu;
     QMenu* _aboutMenu;
+    QMenu* _networkMenu;
 
     QAction* _openFileAct;
     QAction* _exitAppAct;
@@ -102,6 +109,7 @@ private:
     QAction* _calibVidAct;
     QAction* _undistordAct;
     QAction* _depthAct;
+    QAction* _networkAct;
 
     QLabel* _imageLabel;
 
@@ -110,6 +118,16 @@ private:
     
     cv::Mat _intrinsic;
     cv::Mat _distcoeffs;
+
+    Network* _network;
+    bool _networkExist = false;
+    QWidget* _networkWidget;
+    QHBoxLayout* _networkBox;
+    QLineEdit* _hostLine;
+    QSpinBox* _portLine;
+    QPushButton* _networkBtn;
+    QString _host;
+    quint16 _port;
 
     Ui::MainWindow *ui;
 };

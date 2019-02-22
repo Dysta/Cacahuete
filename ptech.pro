@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -43,7 +43,8 @@ SOURCES += main.cpp\
         box/sobelbox.cpp \
         process/disparityprocess.cpp \
         process/laplacianprocess.cpp \
-        process/sobelprocess.cpp
+        process/sobelprocess.cpp \
+    network.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
@@ -55,6 +56,7 @@ HEADERS  += mainwindow.h \
         box/sobelbox.h \
         process/disparityprocess.h \
         process/laplacianprocess.h \
-        process/sobelprocess.h
+        process/sobelprocess.h \
+    network.h
 
 FORMS    += mainwindow.ui

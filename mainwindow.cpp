@@ -56,6 +56,10 @@ void MainWindow::createAction() {
     this->_depthAct = new QAction("Obtenir une carte de profondeur", this);
     connect(this->_depthAct, SIGNAL(triggered()), this, SLOT(getDepthMap()));
 
+    // connect to a network
+    this->_networkAct = new QAction("Connexion à un host", this);
+    this->_networkAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_R));
+    connect(this->_networkAct, SIGNAL(triggered()), this, SLOT(network()));
 }
 
 void MainWindow::createMenu() {
@@ -73,6 +77,10 @@ void MainWindow::createMenu() {
     // Creating about menu
     this->_aboutMenu = menuBar()->addMenu("A propos");
     this->_aboutMenu->addAction(_aboutAct);
+
+    // Creating network menu
+    this->_networkMenu = menuBar()->addMenu("Network");
+    this->_networkMenu->addAction(_networkAct);
 }
 
 void MainWindow::createImageGroup(const QString &title) {
@@ -251,6 +259,49 @@ void MainWindow::close() {
     QMessageBox::StandardButton answer = QMessageBox::question(this, "Quitter", "Quitter l'application ?", QMessageBox::Yes | QMessageBox::No);
     if ( answer == QMessageBox::Yes ) {
        QApplication::quit();
+    }
+}
+
+void MainWindow::network() {
+    if (this->_networkExist) {
+        QMessageBox::warning(this, "Attention", "Un réseau existe déjà");
+        return;
+    }
+    this->_networkWidget = new QWidget();
+    this->_networkBox = new QHBoxLayout(this->_networkWidget);
+    this->_hostLine = new QLineEdit(this->_networkWidget);
+    this->_hostLine->setPlaceholderText("IP Address");
+    this->_portLine = new QSpinBox(this->_networkWidget);
+    this->_portLine->setRange(1024, 10000);
+    this->_portLine->setValue(7777);
+    this->_networkBtn = new QPushButton("Connexion", this->_networkWidget);
+
+    this->_networkBox->addWidget(this->_hostLine);
+    this->_networkBox->addWidget(this->_portLine);
+    this->_networkBox->addWidget(this->_networkBtn);
+
+    this->_networkWidget->setWindowTitle("Connexion à un serveur");
+    this->_networkWidget->show();
+
+    connect(this->_networkBtn, SIGNAL(clicked(bool)),
+            this, SLOT(onNetworkBtnClick()));
+}
+
+void MainWindow::onNetworkBtnClick() {
+    if (!this->_networkExist) {
+
+        this->_host = this->_hostLine->text();
+        this->_port = this->_portLine->text().toInt();
+        if (!this->_host.isEmpty()) {
+            QRegularExpression re("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+            QRegularExpressionMatch match = re.match(this->_host);
+            if (match.hasMatch()) {
+                this->_network = new Network(this->_host, this->_port, this);
+                this->_networkWidget->hide();
+                delete this->_networkWidget;
+                this->_networkExist = true;
+            }
+        }
     }
 }
 
