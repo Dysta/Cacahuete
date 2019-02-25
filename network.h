@@ -20,7 +20,7 @@ private slots:
     void onConnect(void);
     void onRead(void);
     void onDisconnect(void);
-    void onError(QTcpSocket::SocketError er);
+    void onError(QAbstractSocket::SocketError er);
 
 private:
     void send(const QByteArray& data);

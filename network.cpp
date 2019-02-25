@@ -10,7 +10,7 @@ Network::Network(const QString& host, quint16 port, QObject* parent)
     connect(this, SIGNAL(disconnected()),
             this, SLOT(onDisconnect()));
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(onError(QTcpSocket::SocketError)));
+            this, SLOT(onError(QAbstractSocket::SocketError)));
 
     this->connectToHost(this->_host, this->_port);
 }
@@ -33,5 +33,5 @@ void Network::onDisconnect() {
 }
 
 void Network::onError(QAbstractSocket::SocketError er) {
-    std::cout << "Error : " << er << std::endl;
+    std::cout << "Error : " << this->errorString().toStdString() << std::endl;
 }
