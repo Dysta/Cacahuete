@@ -82,7 +82,7 @@ void DisparityBox::createSlider() {
     this->_SBMblockSizeSlider->setTickPosition(QSlider::TicksAbove);
     this->_SBMblockSizeSlider->setTickInterval(10);
     this->_SBMblockSizeSlider->setSingleStep(2);
-    this->_SBMblockSizeSlider->setRange(-100, 100);
+    this->_SBMblockSizeSlider->setRange(5, 255);
     this->_SBMblockSizeSlider->setValue(1);
 
     this->_minDisparityLabel = new QLabel("Minimum disparity Number");

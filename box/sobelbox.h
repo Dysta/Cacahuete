@@ -9,7 +9,7 @@
 #include <QSlider>
 #include <QLabel>
 
-#include "sobelprocess.h"
+#include "process/sobelprocess.h"
 
 class SobelBox : public QGroupBox
 {

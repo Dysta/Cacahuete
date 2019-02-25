@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -35,26 +35,28 @@ LIBS            += -L/usr/local/include/opencv2 -lopencv_core \
 SOURCES += main.cpp\
         mainwindow.cpp \
         utils.cpp \
-        mainbox.cpp \
-        laplacianbox.cpp \
-        laplacianprocess.cpp \
-        sobelbox.cpp \
-        sobelprocess.cpp \
-        disparitybox.cpp \
-        disparityprocess.cpp \
         calibration.cpp \
-        depthmap.cpp
+        depthmap.cpp \
+        box/disparitybox.cpp \
+        box/laplacianbox.cpp \
+        box/mainbox.cpp \
+        box/sobelbox.cpp \
+        process/disparityprocess.cpp \
+        process/laplacianprocess.cpp \
+        process/sobelprocess.cpp \
+    network.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
-        mainbox.h \
-        laplacianbox.h \
-        laplacianprocess.h \
-        sobelbox.h \
-        sobelprocess.h \
-        disparitybox.h \
-        disparityprocess.h \
         calibration.h \
-        depthmap.h
+        depthmap.h \
+        box/disparitybox.h \
+        box/laplacianbox.h \
+        box/mainbox.h \
+        box/sobelbox.h \
+        process/disparityprocess.h \
+        process/laplacianprocess.h \
+        process/sobelprocess.h \
+    network.h
 
 FORMS    += mainwindow.ui

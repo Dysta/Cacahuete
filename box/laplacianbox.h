@@ -10,7 +10,7 @@
 #include <QSlider>
 #include <QLabel>
 
-#include "laplacianprocess.h"
+#include "process/laplacianprocess.h"
 
 class LaplacianBox : public QGroupBox
 {

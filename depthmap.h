@@ -20,7 +20,7 @@ class depthmap
 {
 public:
     depthmap();
-    depthmap(QStringList sList, int numBoards,int numCornersH, int numCornersV, bool isVideo);
+    static void Depthmap(QStringList sList, int numBoards,int numCornersH, int numCornersV, bool isVideo);
 };
 
 #endif // DEPTHMAP_H
