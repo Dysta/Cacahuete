@@ -100,7 +100,6 @@ private:
 
     QMenu* _fileMenu;
     QMenu* _aboutMenu;
-    QMenu* _networkMenu;
 
     QAction* _openFileAct;
     QAction* _exitAppAct;

@@ -57,8 +57,8 @@ void MainWindow::createAction() {
     connect(this->_depthAct, SIGNAL(triggered()), this, SLOT(getDepthMap()));
 
     // connect to a network
-    this->_networkAct = new QAction("Connexion à un host", this);
-    this->_networkAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_R));
+    this->_networkAct = new QAction("Recevoir un fichier depuis le reseau", this);
+    this->_networkAct->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_O));
     connect(this->_networkAct, SIGNAL(triggered()), this, SLOT(network()));
 }
 
@@ -72,15 +72,13 @@ void MainWindow::createMenu() {
     this->_fileMenu->addAction(_undistordAct);
     this->_fileMenu->addAction(_depthAct);
     this->_fileMenu->addSeparator();
-    this->_fileMenu->addAction(_exitAppAct);
+    this->_fileMenu->addAction(_networkAct);
 
     // Creating about menu
     this->_aboutMenu = menuBar()->addMenu("A propos");
     this->_aboutMenu->addAction(_aboutAct);
-
-    // Creating network menu
-    this->_networkMenu = menuBar()->addMenu("Network");
-    this->_networkMenu->addAction(_networkAct);
+    this->_aboutMenu->addSeparator();
+    this->_aboutMenu->addAction(_exitAppAct);
 }
 
 void MainWindow::createImageGroup(const QString &title) {
