@@ -32,6 +32,6 @@ void Network::onDisconnect() {
     std::cout << "on disconnect" << std::endl;
 }
 
-void Network::onError(QAbstractSocket::SocketError er) {
+void Network::onError(QAbstractSocket::SocketError) {
     std::cout << "Error : " << this->errorString().toStdString() << std::endl;
 }
