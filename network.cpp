@@ -1,7 +1,8 @@
 #include "network.h"
+#include "mainwindow.h"
 
-Network::Network(const QString& host, quint16 port, QObject* parent)
-    : QTcpSocket(parent), _host(host), _port(port)
+Network::Network(MainWindow* mw, const QString& host, quint16 port, QObject* parent)
+    : QTcpSocket(parent), _mw(mw), _host(host), _port(port)
 {
     connect(this, SIGNAL(connected()),
             this, SLOT(onConnect()));
@@ -25,7 +26,19 @@ void Network::onConnect() {
 }
 
 void Network::onRead() {
-    std::cout << "on read" << std::endl;
+    std::cout << std::endl << "on read" << std::endl;
+    QTcpSocket* soc = qobject_cast<QTcpSocket *>(sender());
+    if (soc == nullptr) return;
+
+    while (soc->bytesAvailable() > 0) {
+        this->_data.append(soc->readAll());
+    }
+
+    qDebug() << "\n\ndata receive : " << this->_data;
+    this->_picture = QImage::fromData(this->_data, "PNG");
+    this->_mw->setOriPucture(this->_picture.copy());
+    this->_mw->copyImage();
+    this->_mw->updateImage();
 }
 
 void Network::onDisconnect() {

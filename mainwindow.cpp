@@ -294,7 +294,7 @@ void MainWindow::onNetworkBtnClick() {
             QRegularExpression re("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
             QRegularExpressionMatch match = re.match(this->_host);
             if (match.hasMatch()) {
-                this->_network = new Network(this->_host, this->_port, this);
+                this->_network = new Network(this, this->_host, this->_port, this);
                 this->_networkWidget->hide();
                 delete this->_networkWidget;
                 this->_networkExist = true;

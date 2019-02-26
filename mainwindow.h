@@ -58,8 +58,10 @@ public:
     QImage* getPicture() { return &_picture; }
     QImage* getOriginalPicture() { return &_originalPicture; }
     void setPicture(QImage pic) { _picture = pic; }
+    void setOriPucture(QImage pic) { _originalPicture = pic; }
     void setIntrinsic(cv::Mat Intrinsic) { _intrinsic = Intrinsic; }
     void setDistcoeffs(cv::Mat Distcoeff) { _distcoeffs = Distcoeff; }
+    void copyImage(void);
 
 
 private slots:
@@ -85,7 +87,6 @@ private:
     void createAction(void);
     void createImageGroup(const QString &title);
     void createSliderGroup(void);
-    void copyImage(void);
 
     QWidget* _mainWidget;
     QGridLayout* _mainLayout;
