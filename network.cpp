@@ -2,7 +2,7 @@
 #include "mainwindow.h"
 
 Network::Network(MainWindow* mw, const QString& host, quint16 port, QObject* parent)
-    : QTcpSocket(parent), _mw(mw), _host(host), _port(port)
+    : QTcpSocket(parent), _mw(mw), _host(host), _port(port), _running(false)
 {
     connect(this, SIGNAL(connected()),
             this, SLOT(onConnect()));
@@ -23,6 +23,7 @@ Network::~Network() {
 void Network::onConnect() {
     std::cout << "successfully connected to host " << this->_host.toStdString()
               << " and port " << this->_port << std::endl;
+    this->_mw->setNetworkSuccess(true);
 }
 
 void Network::onRead() {
@@ -43,6 +44,7 @@ void Network::onRead() {
 
 void Network::onDisconnect() {
     std::cout << "on disconnect" << std::endl;
+    this->_mw->setNetworkSuccess(false);
 }
 
 void Network::onError(QAbstractSocket::SocketError) {

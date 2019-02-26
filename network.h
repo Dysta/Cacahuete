@@ -18,6 +18,7 @@ class Network : public QTcpSocket
 public:
     Network(MainWindow* mw, const QString& host, quint16 port, QObject* parent = nullptr);
     ~Network();
+    bool isCreated() { return _running; }
 
 private slots:
     void onConnect(void);
@@ -32,6 +33,7 @@ private:
 
     QString _host;
     quint16 _port;
+    bool _running;
 
     QByteArray _data;
     QImage _picture;
