@@ -12,7 +12,8 @@ CalibDepthBox::CalibDepthBox(const QString &title, QWidget* parent)
 
     this->_backToMain = new QPushButton("Retour au menu principal");
     this->_calibrationButton = new QPushButton("Faire une calibration");
-    this->_undistortButton = new QPushButton("Corriger une image");
+    this->_undistortButton = new QPushButton("Retordre l'image");
+    this->_depthMapButton = new QPushButton("Creer une carte de profondeur");
 
     this->_calibGrid = new QGridLayout();
 
@@ -28,6 +29,12 @@ CalibDepthBox::CalibDepthBox(const QString &title, QWidget* parent)
     this->_calibGrid->addWidget(this->_depthMapButton, 3, 1);
 
     this->_calibGrid->addWidget(this->_backToMain, 4, 0);
+
+    setLayout(this->_calibGrid);
+
+    connect(this->_calibrationButton, SIGNAL(clicked(bool)), this, SLOT(onCalibrationDo()));
+    connect(this->_undistortButton, SIGNAL(clicked(bool)), this, SLOT(onUndistortDo()));
+    connect(this->_depthMapButton, SIGNAL(clicked(bool)), this, SLOT(onDepthMapDo()));
 }
 
 CalibDepthBox::~CalibDepthBox() {
@@ -45,6 +52,50 @@ void CalibDepthBox::createSlider() {
 
     connect(this->_numCornersHBox, SIGNAL(valueChanged(int)), this, SLOT(onNumCornersHChange(int)));
     connect(this->_numCornersVBox, SIGNAL(valueChanged(int)), this, SLOT(onNumCornersVChange(int)));
+}
+
+void CalibDepthBox::onCalibrationDo(){
+
+    QMessageBox::warning(this, "Attention", "Veillez a bien charger plusieurs images avec un echiquer correspondant aux valeurs donnees.");
+
+    QStringList fileList = QFileDialog::getOpenFileNames(this,
+                                                "Sélectionnez des images",
+                                                "Images/",
+                                                "Image (*.png *.jpg)",
+                                                NULL,
+                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                );
+
+    if ( fileList.isEmpty() ) return;
+
+    //
+    //  L'ECHIQUIER DU PROJET TECH EST DE 9 PAR 6
+    //
+    this->_process->calibration(fileList, fileList.length(), false);
+
+}
+
+void CalibDepthBox::onUndistortDo(){
+    cout << "Undistorting image..." << endl;
+    this->_process->undistort();
+}
+
+void CalibDepthBox::onDepthMapDo(){
+    cout << "Creating depth map..." << endl;
+
+    QMessageBox::warning(this, "Attention", "Veillez a bien charger plusieurs images avec un echiquer correspondant aux valeurs donnees.\nVeillez aussi a avoir mis dans l'ordre d'abord les images de gauche, puis ceux de droite.");
+
+    QStringList fileList = QFileDialog::getOpenFileNames(this,
+                                                "Sélectionnez des images",
+                                                "Images/",
+                                                "Image (*.png *.jpg)",
+                                                NULL,
+                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                );
+
+    if ( fileList.isEmpty() ) return;
+
+    this->_process->depthMap(fileList, fileList.length(), false);
 }
 
 void CalibDepthBox::onNumCornersHChange(int value){

@@ -72,9 +72,6 @@ private slots:
     void onCalibClick(void);
     void onMenuClick(void);
 
-    void getCalibrationParam(void);
-    void getCalibrationParamVid(void);
-    void applyUndistort(void);
     void getDepthMap(void);
 
 private:

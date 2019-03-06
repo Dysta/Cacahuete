@@ -24,12 +24,12 @@ public:
     void setNumCornersV(int);
     void setIntrisic(cv::Mat);
     void setDistCoeffs(cv::Mat);
-
-private:
-    //void updatePicture(void);
     void calibration(QStringList sList, int numBoards, bool isVideo);
     void undistort(void);
     void depthMap(QStringList sList, int numBoards, bool isVideo);
+
+private:
+    //void updatePicture(void);
 
     MainWindow* _parent;
 

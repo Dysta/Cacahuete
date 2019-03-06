@@ -30,6 +30,9 @@ public:
 private slots:
     void onNumCornersHChange(int);
     void onNumCornersVChange(int);
+    void onCalibrationDo();
+    void onUndistortDo();
+    void onDepthMapDo();
 
 private:
     void createSlider(void);
@@ -47,7 +50,6 @@ private:
     QPushButton* _undistortButton;
     QPushButton* _calibrationButton;
     QPushButton* _depthMapButton;
-
 
 };
 

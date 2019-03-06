@@ -100,16 +100,28 @@ void CalibDepthProcess::calibration(QStringList sList, int numBoards, bool isVid
     cv::Mat newDistCoeffs;
 
     // Do the calibration with the parameters
+    if(imagePoints.size() < 2){
+        QMessageBox::warning(this->_parent, "Erreur", "Calibration echouee.\nVous avez probablement entre de mauvaises coordonnees pour l'echiquier, ou vous avez charge pas assez d'images.");
+        return;
+    }
+
     cv::calibrateCamera(objectPoints, imagePoints, image.size(), newIntrinsic, newDistCoeffs, rvecs, tvecs);
 
     this->setIntrisic(newIntrinsic);
     this->setDistCoeffs(newDistCoeffs);
+
+    QMessageBox::warning(this->_parent, "Termine", "Calibration terminee !");
 
 }
 
 void CalibDepthProcess::undistort(){
 
     printf("Entering undistort\n");
+
+    if(this->_intrinsic.empty() && this->_distcoeffs.empty()){
+        QMessageBox::warning(this->_parent, "Erreur", "Veuillez d'abord recuperer les donnees de calibration !");
+        return;
+    }
 
     cv::Mat mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalPicture(), true);
     cv::Mat imageUndistored;
@@ -118,6 +130,7 @@ void CalibDepthProcess::undistort(){
     cv::undistort(mat, imageUndistored, this->_intrinsic, this->_distcoeffs);
     QImage pic = Utils::Convert::CvMat::toQImage(&imageUndistored, true);
     this->_parent->setPicture(pic);
+    this->_parent->updateImage();
 }
 
 void CalibDepthProcess::depthMap(QStringList sList, int numBoards, bool isVideo){
@@ -234,6 +247,11 @@ void CalibDepthProcess::depthMap(QStringList sList, int numBoards, bool isVideo)
     matList2.pop_front();
     imageR = matList2.front();
 
+    if(imagePoints1.size() < 2 || imagePoints2.size() < 2){
+        QMessageBox::warning(this->_parent, "Erreur", "Cration de la carte de profondeur echouee.\nVous avez probablement entre de mauvaises coordonnees pour l'echiquier, ou vous avez charge pas assez d'images.");
+        return;
+    }
+
     cv::Mat intrinsic1, intrinsic2, distcoeffs1, distcoeffs2, R, T, E, F;
     cv::stereoCalibrate(objectPoints, imagePoints1, imagePoints2, intrinsic1, distcoeffs1, intrinsic2, distcoeffs2, image.size(), R, T, E, F);
 
@@ -267,8 +285,11 @@ void CalibDepthProcess::depthMap(QStringList sList, int numBoards, bool isVideo)
 
     cout << "All done !" << endl;
 
+    cout << depthMap.cols << depthMap.rows << depthMap.step << endl;
+
     QImage pic = Utils::Convert::CvMat::toQImage(&depthMap, true);
     this->_parent->setPicture(pic);
+    this->_parent->updateImage();
 
 }
 
