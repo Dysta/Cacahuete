@@ -24,9 +24,9 @@ CalibDepthBox::CalibDepthBox(const QString &title, QWidget* parent)
     this->_calibGrid->addWidget(this->_numCornersVBox, 1, 1);
 
     this->_calibGrid->addWidget(this->_calibrationButton, 2, 0);
+    this->_calibGrid->addWidget(this->_undistortButton, 2, 1);
 
-    this->_calibGrid->addWidget(this->_undistortButton, 3, 0);
-    this->_calibGrid->addWidget(this->_depthMapButton, 3, 1);
+    this->_calibGrid->addWidget(this->_depthMapButton, 3, 0);
 
     this->_calibGrid->addWidget(this->_backToMain, 4, 0);
 

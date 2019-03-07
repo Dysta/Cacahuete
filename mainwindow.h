@@ -7,8 +7,6 @@
 #include "box/laplacianbox.h"
 #include "box/sobelbox.h"
 #include "box/disparitybox.h"
-#include "calibration.h"
-#include "depthmap.h"
 #include "box/calibdepthbox.h"
 
 #include <QMainWindow>
@@ -71,8 +69,6 @@ private slots:
     void onDisparityClick(void);
     void onCalibClick(void);
     void onMenuClick(void);
-
-    void getDepthMap(void);
 
 private:
     void createMenu(void);

@@ -35,8 +35,6 @@ LIBS            += -L/usr/local/include/opencv2 -lopencv_core \
 SOURCES += main.cpp\
         mainwindow.cpp \
         utils.cpp \
-        calibration.cpp \
-        depthmap.cpp \
         box/disparitybox.cpp \
         box/laplacianbox.cpp \
         box/mainbox.cpp \
@@ -49,8 +47,6 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
         utils.h \
-        calibration.h \
-        depthmap.h \
         box/disparitybox.h \
         box/laplacianbox.h \
         box/mainbox.h \

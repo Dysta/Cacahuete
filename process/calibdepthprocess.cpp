@@ -271,8 +271,6 @@ void CalibDepthProcess::depthMap(QStringList sList, int numBoards, bool isVideo)
     cv::remap(image, correctedImgL, map1, map2, cv::INTER_LINEAR);
     cv::remap(imageR, correctedImgR, map1, map2, cv::INTER_LINEAR);
 
-    cv::imshow("Corrected Image", correctedImgL);
-
     cout << "Remap done !" << endl;
     cout << "Creating disparity map..." << endl;
 
@@ -281,14 +279,15 @@ void CalibDepthProcess::depthMap(QStringList sList, int numBoards, bool isVideo)
     cout << "Creating depth map..." << endl;
 
     cv::Mat depthMap;
+
     cv::reprojectImageTo3D(disp, depthMap, Q);
 
     cout << "All done !" << endl;
 
-    cout << depthMap.cols << depthMap.rows << depthMap.step << endl;
+    cv::imshow("Carte de profondeur", depthMap);
 
-    QImage pic = Utils::Convert::CvMat::toQImage(&depthMap, true);
-    this->_parent->setPicture(pic);
+    //QImage pic = Utils::Convert::CvMat::toQImage(&depthMap, true);
+    //this->_parent->setPicture(pic);
     this->_parent->updateImage();
 
 }

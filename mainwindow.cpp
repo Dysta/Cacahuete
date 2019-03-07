@@ -127,32 +127,6 @@ void MainWindow::open() {
 
 }
 
-
-void MainWindow::getDepthMap(){
-    QStringList fileList = QFileDialog::getOpenFileNames(this,
-                                                "Sélectionnez des images",
-                                                "Images/",
-                                                "Image (*.png *.jpg)",
-                                                NULL,
-                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
-                                                );
-
-    if ( fileList.isEmpty() ) return;
-
-    for(int i = 0; i < fileList.size(); i++){
-
-        if ( !this->_picture.load(fileList.at(i)) ) {
-            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
-            return;
-        }
-        if ( this->_picture.isNull() ) {
-            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
-            return;
-        }
-    }
-    depthmap::Depthmap(fileList, fileList.size(), 9, 6, false);
-}
-
 void MainWindow::about() {
     QMessageBox::information(this, "A propos", "Application realise dans le cadre du projet tech de l'universite de Bordeaux ! Permet d'ouvrir et afficher une image de type \" QImage\" et de la convertir en type \" CvMatrice\"");
 }
