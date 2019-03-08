@@ -8,6 +8,7 @@
 #include <QByteArray>
 #include <QImage>
 #include <QString>
+#include <QBuffer>
 
 class MainWindow;
 
