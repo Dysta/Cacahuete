@@ -9,6 +9,9 @@ DisparityBox::DisparityBox(const QString &title, QWidget* parent)
     this->createSlider();
 
     this->_backToMain = new QPushButton("Retour au menu principal");
+    this->_send = new QPushButton("Envoyer l'image");
+    connect(this->_send, SIGNAL(clicked(bool)),
+            this, SLOT(onButtonSendClic(bool)));
 
     this->_disparityGrid = new QGridLayout();
 
@@ -55,6 +58,7 @@ DisparityBox::DisparityBox(const QString &title, QWidget* parent)
     this->_disparityGrid->addWidget(this->_SGBMmodeCombo, 13, 1);
 
     this->_disparityGrid->addWidget(this->_backToMain, 14, 0);
+    this->_disparityGrid->addWidget(this->_send, 14, 1);
 
     setLayout(this->_disparityGrid);
 
@@ -319,4 +323,8 @@ void DisparityBox::onSpeckleRangeChange(int value) {
 void DisparityBox::onSGBMmodeChange(int value) {
     std::cout << "SGBM Mode : " << value << std::endl;
     this->_process->setSGBMmode(value);
+}
+
+void DisparityBox::onButtonSendClic(bool) {
+    this->_process->sendPicture();
 }
