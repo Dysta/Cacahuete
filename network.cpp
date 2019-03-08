@@ -20,10 +20,16 @@ Network::~Network() {
 
 }
 
+void Network::send() {
+    QByteArray arr = QByteArray::fromRawData((const char *) this->_mw->getPicture()->bits(), this->_mw->getPicture()->bytesPerLine());
+    this->write(arr);
+}
+
 void Network::onConnect() {
     std::cout << "successfully connected to host " << this->_host.toStdString()
               << " and port " << this->_port << std::endl;
     this->_mw->setNetworkSuccess(true);
+    this->write("ready to receive");
 }
 
 void Network::onRead() {
