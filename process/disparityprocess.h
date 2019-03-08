@@ -32,6 +32,8 @@ public:
     void setSpeckleRange(int value);
     void setSGBMmode(int value);
 
+    void sendPicture(void);
+
 private:
     void updatePicture(void);
     void process(void);

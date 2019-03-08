@@ -30,6 +30,7 @@ public:
 
 private slots:
     void onModeChange(int index);
+    void onButtonSendClic(bool);
 
     //SBM
     void onSBMnumDisparityChange(int);
@@ -53,6 +54,7 @@ private:
 
     QGridLayout* _disparityGrid;
     QPushButton* _backToMain;
+    QPushButton* _send;
 
     DisparityProcess* _process;
 

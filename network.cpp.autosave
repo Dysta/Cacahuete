@@ -22,7 +22,7 @@ Network::~Network() {
 
 void Network::send() {
     QByteArray arr = QByteArray::fromRawData((const char *) this->_mw->getPicture()->bits(), this->_mw->getPicture()->bytesPerLine());
-    this->write(arr);
+    this->write(arr);   
 }
 
 void Network::onConnect() {

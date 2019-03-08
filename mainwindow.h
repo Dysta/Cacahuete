@@ -63,6 +63,7 @@ public:
     void setDistcoeffs(cv::Mat Distcoeff) { _distcoeffs = Distcoeff; }
     void setNetworkSuccess(bool val) { _networkSuccess = val; }
     void copyImage(void);
+    Network* getNetwork(void) { return _network; }
 
 
 private slots:
