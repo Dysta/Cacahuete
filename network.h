@@ -8,6 +8,7 @@
 #include <QByteArray>
 #include <QImage>
 #include <QString>
+#include <QBuffer>
 
 class MainWindow;
 
@@ -19,6 +20,7 @@ public:
     Network(MainWindow* mw, const QString& host, quint16 port, QObject* parent = nullptr);
     ~Network();
     bool isCreated() { return _running; }
+    void send();
 
 private slots:
     void onConnect(void);
@@ -27,7 +29,6 @@ private slots:
     void onError(QAbstractSocket::SocketError er);
 
 private:
-    void send(const QByteArray& data);
 
     MainWindow* _mw;
 
