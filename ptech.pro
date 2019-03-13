@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -39,11 +39,12 @@ SOURCES += main.cpp\
         box/laplacianbox.cpp \
         box/mainbox.cpp \
         box/sobelbox.cpp \
+        box/calibdepthbox.cpp \
         process/disparityprocess.cpp \
         process/laplacianprocess.cpp \
         process/sobelprocess.cpp \
-    box/calibdepthbox.cpp \
-    process/calibdepthprocess.cpp
+        process/calibdepthprocess.cpp \
+        network.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
@@ -51,10 +52,11 @@ HEADERS  += mainwindow.h \
         box/laplacianbox.h \
         box/mainbox.h \
         box/sobelbox.h \
+        box/calibdepthbox.h \
         process/disparityprocess.h \
         process/laplacianprocess.h \
         process/sobelprocess.h \
-    box/calibdepthbox.h \
-    process/calibdepthprocess.h
+        process/calibdepthprocess.h \
+        network.h
 
 FORMS    += mainwindow.ui

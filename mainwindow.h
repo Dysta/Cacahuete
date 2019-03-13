@@ -8,22 +8,26 @@
 #include "box/sobelbox.h"
 #include "box/disparitybox.h"
 #include "box/calibdepthbox.h"
+#include "calibration.h"
+#include "depthmap.h"
+#include "network.h"
 
 #include <QMainWindow>
 #include <QWidget>
-#include <QLayout>
 #include <QLabel>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QImage>
-#include <QImageReader>
 #include <QGroupBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QStackedWidget>
 #include <QBoxLayout>
 #include <QPushButton>
-#include <QStackedWidget>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
@@ -56,26 +60,33 @@ public:
     QImage* getPicture() { return &_picture; }
     QImage* getOriginalPicture() { return &_originalPicture; }
     void setPicture(QImage pic) { _picture = pic; }
+    void setOriPucture(QImage pic) { _originalPicture = pic; }
     void setIntrinsic(cv::Mat Intrinsic) { _intrinsic = Intrinsic; }
     void setDistcoeffs(cv::Mat Distcoeff) { _distcoeffs = Distcoeff; }
+    void setNetworkSuccess(bool val) { _networkSuccess = val; }
+    void copyImage(void);
+    Network* getNetwork(void) { return _network; }
 
 
 private slots:
     void open(void);
     void about(void);
     void close(void);
+    void network(void);
+
     void onLaplacianClick(void);
     void onSobelClick(void);
     void onDisparityClick(void);
     void onCalibClick(void);
     void onMenuClick(void);
 
+    void onNetworkBtnClick(void);
+    
 private:
     void createMenu(void);
     void createAction(void);
     void createImageGroup(const QString &title);
     void createSliderGroup(void);
-    void copyImage(void);
 
     QWidget* _mainWidget;
     QGridLayout* _mainLayout;
@@ -99,6 +110,7 @@ private:
     QAction* _calibVidAct;
     QAction* _undistordAct;
     QAction* _depthAct;
+    QAction* _networkAct;
 
     QLabel* _imageLabel;
 
@@ -107,6 +119,17 @@ private:
     
     cv::Mat _intrinsic;
     cv::Mat _distcoeffs;
+
+    Network* _network;
+    bool _networkExist = false;
+    bool _networkSuccess = false;
+    QWidget* _networkWidget;
+    QHBoxLayout* _networkBox;
+    QLineEdit* _hostLine;
+    QSpinBox* _portLine;
+    QPushButton* _networkBtn;
+    QString _host;
+    quint16 _port;
 
     Ui::MainWindow *ui;
 };
