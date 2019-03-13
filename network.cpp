@@ -21,7 +21,10 @@ Network::~Network() {
 }
 
 void Network::send() {
-    QByteArray arr = QByteArray::fromRawData((const char *) this->_mw->getPicture()->bits(), this->_mw->getPicture()->bytesPerLine());
+    QByteArray arr;
+    QBuffer buffer(&arr);
+    buffer.open(QIODevice::WriteOnly);
+    this->_mw->getPicture()->save(&buffer, "PNG");
     this->write(arr);
 }
 
@@ -29,13 +32,13 @@ void Network::onConnect() {
     std::cout << "successfully connected to host " << this->_host.toStdString()
               << " and port " << this->_port << std::endl;
     this->_mw->setNetworkSuccess(true);
-    this->write("ready to receive");
 }
 
 void Network::onRead() {
     std::cout << std::endl << "on read" << std::endl;
     QTcpSocket* soc = qobject_cast<QTcpSocket *>(sender());
     if (soc == nullptr) return;
+
 
     while (soc->bytesAvailable() > 0) {
         this->_data.append(soc->readAll());
@@ -46,6 +49,7 @@ void Network::onRead() {
     this->_mw->setOriPucture(this->_picture.copy());
     this->_mw->copyImage();
     this->_mw->updateImage();
+    //this->_data.clear();
 }
 
 void Network::onDisconnect() {

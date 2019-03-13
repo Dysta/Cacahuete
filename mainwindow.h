@@ -7,8 +7,7 @@
 #include "box/laplacianbox.h"
 #include "box/sobelbox.h"
 #include "box/disparitybox.h"
-#include "calibration.h"
-#include "depthmap.h"
+#include "box/calibdepthbox.h"
 #include "network.h"
 
 #include <QMainWindow>
@@ -25,8 +24,6 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QSpinBox>
-#include <QRegularExpression>
-#include <QRegularExpressionMatch>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
@@ -46,7 +43,8 @@ class MainWindow : public QMainWindow
         MAINBOX,
         LAPLACIANBOX,
         SOBELBOX,
-        DISPARITYBOX
+        DISPARITYBOX,
+        CALIBDEPTHBOX
     };
 
 public:
@@ -75,15 +73,11 @@ private slots:
     void onLaplacianClick(void);
     void onSobelClick(void);
     void onDisparityClick(void);
+    void onCalibClick(void);
     void onMenuClick(void);
 
-    void getCalibrationParam(void);
-    void getCalibrationParamVid(void);
-    void applyUndistort(void);
-    void getDepthMap(void);
-
     void onNetworkBtnClick(void);
-
+    
 private:
     void createMenu(void);
     void createAction(void);
@@ -100,6 +94,7 @@ private:
     LaplacianBox* _laplacianBox;
     SobelBox* _sobelBox;
     DisparityBox* _disparityBox;
+    CalibDepthBox* _calibBox;
 
     QMenu* _fileMenu;
     QMenu* _aboutMenu;

@@ -35,28 +35,28 @@ LIBS            += -L/usr/local/include/opencv2 -lopencv_core \
 SOURCES += main.cpp\
         mainwindow.cpp \
         utils.cpp \
-        calibration.cpp \
-        depthmap.cpp \
         box/disparitybox.cpp \
         box/laplacianbox.cpp \
         box/mainbox.cpp \
         box/sobelbox.cpp \
+        box/calibdepthbox.cpp \
         process/disparityprocess.cpp \
         process/laplacianprocess.cpp \
         process/sobelprocess.cpp \
-    network.cpp
+        process/calibdepthprocess.cpp \
+        network.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
-        calibration.h \
-        depthmap.h \
         box/disparitybox.h \
         box/laplacianbox.h \
         box/mainbox.h \
         box/sobelbox.h \
+        box/calibdepthbox.h \
         process/disparityprocess.h \
         process/laplacianprocess.h \
         process/sobelprocess.h \
-    network.h
+        process/calibdepthprocess.h \
+        network.h
 
 FORMS    += mainwindow.ui
