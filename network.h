@@ -28,7 +28,7 @@ private slots:
     void onDisconnect(void);
     void onError(QAbstractSocket::SocketError er);
 
-private:
+private:    
 
     MainWindow* _mw;
 

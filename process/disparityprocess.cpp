@@ -148,5 +148,6 @@ void DisparityProcess::setSGBMmode(int value) {
 }
 
 void DisparityProcess::sendPicture() {
-    this->_parent->getNetwork()->send();
+    if (this->_parent->networkExist())
+        this->_parent->getNetwork()->send();
 }

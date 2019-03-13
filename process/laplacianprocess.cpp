@@ -9,7 +9,7 @@ LaplacianProcess::LaplacianProcess(MainWindow* parent)
 
 void LaplacianProcess::process() {
     cv::Mat mat, laplacian, grey, absLaplacian;
-    mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalPicture(), true);
+    mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true);
     // reduce noise by blurring and convert in greyscale
     if (this->_activeBlur)
         cv::GaussianBlur(mat, mat, cv::Size(this->_sizeH, this->_sizeL), this->_sigmaX, this->_sigmaY);
@@ -17,7 +17,7 @@ void LaplacianProcess::process() {
     cv::Laplacian(grey, laplacian, CV_16S);
     cv::convertScaleAbs(laplacian, absLaplacian);
     QImage pic = Utils::Convert::CvMat::toQImage(&absLaplacian, true);
-    this->_parent->setPicture(pic);
+    this->_parent->setRightPicture(pic);
 }
 
 void LaplacianProcess::updatePicture() {

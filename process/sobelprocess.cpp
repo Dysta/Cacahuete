@@ -11,7 +11,7 @@ SobelProcess::SobelProcess(MainWindow* parent)
 
 void SobelProcess::process() {
     cv::Mat mat, sobel, grey;
-    mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalPicture(), true);
+    mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true);
     /// Generate grad_x and grad_y
     cv::Mat gradX, absX;
     cv::Mat gradY, absY;
@@ -31,7 +31,7 @@ void SobelProcess::process() {
     // Total gradient
     cv::addWeighted(absX, this->_alpha, absY, this->_beta, this->_gamma, sobel);
     QImage pic = Utils::Convert::CvMat::toQImage(&sobel, true);
-    this->_parent->setPicture(pic);
+    this->_parent->setRightPicture(pic);
 }
 
 void SobelProcess::updatePicture() {

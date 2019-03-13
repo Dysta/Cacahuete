@@ -59,12 +59,13 @@ public:
     QImage* getOriginalRightPicture() { return &_originalRightPicture; }
     void setLeftPicture(QImage pic) { _pictureLeft = pic; }
     void setRightPicture(QImage pic) { _pictureRight = pic; }
-    void setOrileftPucture(QImage pic) { _originalLeftPicture = pic; }
+    void setOriLeftPucture(QImage pic) { _originalLeftPicture = pic; }
     void setOriRightPucture(QImage pic) { _originalRightPicture = pic; }
     void setIntrinsic(cv::Mat Intrinsic) { _intrinsic = Intrinsic; }
     void setDistcoeffs(cv::Mat Distcoeff) { _distcoeffs = Distcoeff; }
     void setNetworkSuccess(bool val) { _networkSuccess = val; }
     void copyImage(void);
+    bool networkExist(void) { return _networkExist; }
     Network* getNetwork(void) { return _network; }
 
 

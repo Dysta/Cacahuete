@@ -123,13 +123,13 @@ void CalibDepthProcess::undistort(){
         return;
     }
 
-    cv::Mat mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalPicture(), true);
+    cv::Mat mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true);
     cv::Mat imageUndistored;
 
     // Undistort the current frame
     cv::undistort(mat, imageUndistored, this->_intrinsic, this->_distcoeffs);
     QImage pic = Utils::Convert::CvMat::toQImage(&imageUndistored, true);
-    this->_parent->setPicture(pic);
+    this->_parent->setRightPicture(pic);
     this->_parent->updateImage();
 }
 

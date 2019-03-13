@@ -24,7 +24,7 @@ void Network::send() {
     QByteArray arr;
     QBuffer buffer(&arr);
     buffer.open(QIODevice::WriteOnly);
-    this->_mw->getPicture()->save(&buffer, "PNG");
+    this->_mw->getLeftPicture()->save(&buffer, "PNG");
     this->write(arr);
 }
 
@@ -35,18 +35,22 @@ void Network::onConnect() {
 }
 
 void Network::onRead() {
-    std::cout << std::endl << "on read" << std::endl;
+    qDebug() << "\n\n====================";
+    qDebug() << "current data : " << this->_data;
+    if (this->_data.isEmpty()) qDebug() << "data  vide";//this->_data.clear();
     QTcpSocket* soc = qobject_cast<QTcpSocket *>(sender());
     if (soc == nullptr) return;
 
+    qDebug() << soc->bytesAvailable();
+    this->_data.append(soc->readAll());
 
-    while (soc->bytesAvailable() > 0) {
-        this->_data.append(soc->readAll());
-    }
+    qDebug() << "data size = " << this->_data.size();
 
-    qDebug() << "\n\ndata receive : " << this->_data;
     this->_picture = QImage::fromData(this->_data, "PNG");
-    this->_mw->setOriPucture(this->_picture.copy());
+    QImage left = this->_picture.copy(0, 0, this->_picture.width()/2, this->_picture.height());
+    QImage right = this->_picture.copy(this->_picture.width()/2, 0, this->_picture.width()/2, this->_picture.height());
+    this->_mw->setOriLeftPucture(left.copy());
+    this->_mw->setOriRightPucture(right.copy());
     this->_mw->copyImage();
     this->_mw->updateImage();
     //this->_data.clear();

@@ -117,7 +117,12 @@ void MainWindow::open() {
                                                 /* QFileDialog::DontUseNativeDialog |*/ QFileDialog::ReadOnly
                                                 );
 
-    if (files.isEmpty() || files.length() != 2) return;
+    if (files.isEmpty()) return;
+
+    if (files.length() != 2) {
+        QMessageBox::critical(this, "Erreur", "Vous devez choisir 2 images (camera gauche et droite)");
+        return;
+    }
 
     if (!this->_originalLeftPicture.load(files.at(0))) {
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir l'image gauche");
@@ -141,7 +146,7 @@ void MainWindow::open() {
 }
 
 void MainWindow::about() {
-    QMessageBox::information(this, "A propos", "Application realise dans le cadre du projet tech de l'universite de Bordeaux ! Permet d'ouvrir et afficher une image de type \" QImage\" et de la convertir en type \" CvMatrice\"");
+    QMessageBox::information(this, "A propos", "Application realise dans le cadre du projet tech de l'universite de Bordeaux.");
 }
 
 void MainWindow::close() {
@@ -165,7 +170,7 @@ void MainWindow::network() {
     this->_networkWidget = new QWidget();
     this->_networkBox = new QHBoxLayout(this->_networkWidget);
     this->_hostLine = new QLineEdit(this->_networkWidget);
-    this->_hostLine->setText("127.0.0.1");
+    this->_hostLine->setText("10.0.105.9");
     this->_portLine = new QSpinBox(this->_networkWidget);
     this->_portLine->setRange(1024, 10000);
     this->_portLine->setValue(7777);
@@ -214,7 +219,6 @@ void MainWindow::onDisparityClick() {
         QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
         return;
     }
-    QMessageBox::warning(this, "Attention", "Vous devez avoir chargé une image stereoscopique");
     this->_menuStack->setCurrentIndex(DISPARITYBOX);
 }
 
@@ -223,7 +227,6 @@ void MainWindow::onCalibClick() {
         QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
         return;
     }
-    QMessageBox::warning(this, "Attention", "Veillez à bien ouvrir une image pour la correction");
     this->_menuStack->setCurrentIndex(CALIBDEPTHBOX);
 }
 
