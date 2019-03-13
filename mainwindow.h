@@ -24,8 +24,6 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QSpinBox>
-#include <QRegularExpression>
-#include <QRegularExpressionMatch>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
