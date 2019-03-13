@@ -40,22 +40,6 @@ void MainWindow::createAction() {
     this->_aboutAct = new QAction("Infos", this);
     connect(this->_aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 
-    // Do the calibration with images
-    this->_calibPicAct = new QAction("Parametrer la calibration (Image)", this);
-    connect(this->_calibPicAct, SIGNAL(triggered()), this, SLOT(getCalibrationParam()));
-
-    // Do the calibration with a video (not implemented yet)
-    this->_calibVidAct = new QAction("Parametrer la calibration (Vidéo)", this);
-    connect(this->_calibVidAct, SIGNAL(triggered()), this, SLOT(getCalibrationParamVid()));
-
-    // Undistort images
-    this->_undistordAct = new QAction("Appliquer la calibration", this);
-    connect(this->_undistordAct, SIGNAL(triggered()), this, SLOT(applyUndistort()));
-
-    // Depth map using stereo calib
-    this->_depthAct = new QAction("Obtenir une carte de profondeur", this);
-    connect(this->_depthAct, SIGNAL(triggered()), this, SLOT(getDepthMap()));
-
     // connect to a network
     this->_networkAct = new QAction("Recevoir un fichier depuis le reseau", this);
     this->_networkAct->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_O));
@@ -66,11 +50,6 @@ void MainWindow::createMenu() {
     // Creating file menu
     this->_fileMenu = menuBar()->addMenu("Fichier");
     this->_fileMenu->addAction(_openFileAct);
-    this->_fileMenu->addSeparator();
-    this->_fileMenu->addAction(_calibPicAct);
-    this->_fileMenu->addAction(_calibVidAct);
-    this->_fileMenu->addAction(_undistordAct);
-    this->_fileMenu->addAction(_depthAct);
     this->_fileMenu->addSeparator();
     this->_fileMenu->addAction(_networkAct);
 
@@ -98,11 +77,13 @@ void MainWindow::createSliderGroup() {
     this->_laplacianBox = new LaplacianBox("Laplacian effect", this);
     this->_sobelBox = new SobelBox("Sobel effect", this);
     this->_disparityBox = new DisparityBox("Disparity effect", this);
+    this->_calibBox = new CalibDepthBox("Calibration and depth map", this);
 
     this->_menuStack->insertWidget(MAINBOX, this->_mainBox);
     this->_menuStack->insertWidget(LAPLACIANBOX, this->_laplacianBox);
     this->_menuStack->insertWidget(SOBELBOX, this->_sobelBox);
     this->_menuStack->insertWidget(DISPARITYBOX, this->_disparityBox);
+    this->_menuStack->insertWidget(CALIBDEPTHBOX, this->_calibBox);
 
     this->_mainLayout->addWidget(this->_menuStack, 0, 1);
 
@@ -112,14 +93,15 @@ void MainWindow::createSliderGroup() {
             this, SLOT(onSobelClick()));
     connect(this->_mainBox->getDisparityButton(), SIGNAL(clicked(bool)),
             this, SLOT(onDisparityClick()));
+    connect(this->_mainBox->getCailbDepthButton(), SIGNAL(clicked(bool)), this, SLOT(onCalibClick()));
 
     connect(this->_laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
             this, SLOT(onMenuClick()));
     connect(this->_sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
-             this, SLOT(onMenuClick()));
-    connect(this->_sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
             this, SLOT(onMenuClick()));
     connect(this->_disparityBox->getBackToMainButton(), SIGNAL(clicked(bool)),
+            this, SLOT(onMenuClick()));
+    connect(this->_calibBox->getBackToMainButton(), SIGNAL(clicked(bool)),
             this, SLOT(onMenuClick()));
 }
 
@@ -149,104 +131,6 @@ void MainWindow::open() {
     // On affiche l'image original sans aucune convertion
     this->_imageLabel->setPixmap(QPixmap::fromImage(this->_picture));
 
-}
-
-void MainWindow::getCalibrationParam(){
-    QStringList fileList = QFileDialog::getOpenFileNames(this,
-                                                "Sélectionnez des images",
-                                                "Images/",
-                                                "Image (*.png *.jpg)",
-                                                NULL,
-                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
-                                                );
-
-    if ( fileList.isEmpty() ) return;
-
-    for(int i = 0; i < fileList.size(); i++){
-
-        if ( !this->_picture.load(fileList.at(i)) ) {
-            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
-            return;
-        }
-        if ( this->_picture.isNull() ) {
-            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
-            return;
-        }
-    }
-
-    calibration::calib(this, fileList, fileList.size(), 9, 6, false);
-    // Enable the undistort in the menu
-    _undistordAct->setDisabled(_intrinsic.empty() && _distcoeffs.empty());
-}
-
-void MainWindow::getCalibrationParamVid(){
-    QString file = QFileDialog::getOpenFileName(this,
-                                                "Sélectionnez une video",
-                                                "Video/",
-                                                "Video (*.mp4)",
-                                                NULL,
-                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
-                                                );
-
-    if ( file.isEmpty() ) return;
-
-    QStringList fileList;
-    fileList.append(file);
-
-    calibration::calib(this, fileList, fileList.size(), 9, 6, true);
-    // Enable the undistort in the menu
-    _undistordAct->setDisabled(_intrinsic.empty() && _distcoeffs.empty());
-
-}
-
-void MainWindow::applyUndistort(){
-    QStringList fileList = QFileDialog::getOpenFileNames(this,
-                                                "Sélectionnez des images",
-                                                "Images/",
-                                                "Image (*.png *.jpg)",
-                                                NULL,
-                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
-                                                );
-
-    if ( fileList.isEmpty() ) return;
-
-    for(int i = 0; i < fileList.size(); i++){
-
-        if ( !this->_picture.load(fileList.at(i)) ) {
-            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
-            return;
-        }
-        if ( this->_picture.isNull() ) {
-            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
-            return;
-        }
-    }
-    calibration::undistort(fileList, this->_intrinsic, this->_distcoeffs);
-}
-
-void MainWindow::getDepthMap(){
-    QStringList fileList = QFileDialog::getOpenFileNames(this,
-                                                "Sélectionnez des images",
-                                                "Images/",
-                                                "Image (*.png *.jpg)",
-                                                NULL,
-                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
-                                                );
-
-    if ( fileList.isEmpty() ) return;
-
-    for(int i = 0; i < fileList.size(); i++){
-
-        if ( !this->_picture.load(fileList.at(i)) ) {
-            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
-            return;
-        }
-        if ( this->_picture.isNull() ) {
-            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
-            return;
-        }
-    }
-    depthmap::Depthmap(fileList, fileList.size(), 9, 6, false);
 }
 
 void MainWindow::about() {
@@ -329,6 +213,15 @@ void MainWindow::onDisparityClick() {
     }
     QMessageBox::warning(this, "Attention", "Vous devez avoir chargé une image stereoscopique");
     this->_menuStack->setCurrentIndex(DISPARITYBOX);
+}
+
+void MainWindow::onCalibClick() {
+    if (!this->_imageLabel->pixmap()) {
+        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
+        return;
+    }
+    QMessageBox::warning(this, "Attention", "Veillez à bien ouvrir une image pour la correction");
+    this->_menuStack->setCurrentIndex(CALIBDEPTHBOX);
 }
 
 void MainWindow::onMenuClick() {
