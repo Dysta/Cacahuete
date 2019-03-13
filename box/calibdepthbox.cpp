@@ -63,7 +63,7 @@ void CalibDepthBox::onCalibrationDo(){
                                                 "Images/",
                                                 "Image (*.png *.jpg)",
                                                 NULL,
-                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                QFileDialog::ReadOnly
                                                 );
 
     if ( fileList.isEmpty() ) return;
@@ -90,7 +90,7 @@ void CalibDepthBox::onDepthMapDo(){
                                                 "Images/",
                                                 "Image (*.png *.jpg)",
                                                 NULL,
-                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                QFileDialog::ReadOnly
                                                 );
 
     if ( fileList.isEmpty() ) return;

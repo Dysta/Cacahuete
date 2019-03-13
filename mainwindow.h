@@ -8,8 +8,6 @@
 #include "box/sobelbox.h"
 #include "box/disparitybox.h"
 #include "box/calibdepthbox.h"
-#include "calibration.h"
-#include "depthmap.h"
 #include "network.h"
 
 #include <QMainWindow>

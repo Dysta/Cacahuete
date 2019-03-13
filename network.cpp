@@ -32,7 +32,6 @@ void Network::onConnect() {
     std::cout << "successfully connected to host " << this->_host.toStdString()
               << " and port " << this->_port << std::endl;
     this->_mw->setNetworkSuccess(true);
-    this->write("ready to receive");
 }
 
 void Network::onRead() {
