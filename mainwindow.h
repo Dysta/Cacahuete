@@ -53,10 +53,14 @@ public:
     void updateImage(void);
     QWidget* getMainWidget() { return _mainWidget; }
     QGridLayout* getMainLayout() { return _mainLayout; }
-    QImage* getPicture() { return &_picture; }
-    QImage* getOriginalPicture() { return &_originalPicture; }
-    void setPicture(QImage pic) { _picture = pic; }
-    void setOriPucture(QImage pic) { _originalPicture = pic; }
+    QImage* getLeftPicture() { return &_pictureLeft; }
+    QImage* getRightPicture() { return &_pictureRight; }
+    QImage* getOriginalLeftPicture() { return &_originalLeftPicture; }
+    QImage* getOriginalRightPicture() { return &_originalRightPicture; }
+    void setLeftPicture(QImage pic) { _pictureLeft = pic; }
+    void setRightPicture(QImage pic) { _pictureRight = pic; }
+    void setOrileftPucture(QImage pic) { _originalLeftPicture = pic; }
+    void setOriRightPucture(QImage pic) { _originalRightPicture = pic; }
     void setIntrinsic(cv::Mat Intrinsic) { _intrinsic = Intrinsic; }
     void setDistcoeffs(cv::Mat Distcoeff) { _distcoeffs = Distcoeff; }
     void setNetworkSuccess(bool val) { _networkSuccess = val; }
@@ -108,10 +112,14 @@ private:
     QAction* _depthAct;
     QAction* _networkAct;
 
-    QLabel* _imageLabel;
+    QLabel* _imageLeftLabel;
+    QLabel* _imageRightLabel;
 
-    QImage _picture;
-    QImage _originalPicture;
+    QImage _pictureLeft;
+    QImage _pictureRight;
+
+    QImage _originalLeftPicture;
+    QImage _originalRightPicture;
     
     cv::Mat _intrinsic;
     cv::Mat _distcoeffs;

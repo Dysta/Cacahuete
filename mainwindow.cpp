@@ -62,10 +62,12 @@ void MainWindow::createMenu() {
 
 void MainWindow::createImageGroup(const QString &title) {
     this->_imageGroup = new QGroupBox(title);
-    this->_imageLabel = new QLabel();
-  
+    this->_imageLeftLabel = new QLabel();
+    this->_imageRightLabel = new QLabel();
+
     QBoxLayout* box = new QBoxLayout(QBoxLayout::TopToBottom);
-    box->addWidget(this->_imageLabel);
+    box->addWidget(this->_imageLeftLabel);
+    box->addWidget(this->_imageRightLabel);
     this->_imageGroup->setLayout(box);
     this->_mainLayout->addWidget(this->_imageGroup, 0, 0);
 
@@ -107,29 +109,34 @@ void MainWindow::createSliderGroup() {
 
 
 void MainWindow::open() {
-    QString file = QFileDialog::getOpenFileName(this,
-                                                "Sélectionnez une image",
+    QStringList files = QFileDialog::getOpenFileNames(this,
+                                                "Sélectionnez les images gauche et droite",
                                                 "Images/",
                                                 "Image (*.png *.jpg)",
                                                 NULL,
                                                 /* QFileDialog::DontUseNativeDialog |*/ QFileDialog::ReadOnly
                                                 );
 
-    if (file.isEmpty()) return;
+    if (files.isEmpty() || files.length() != 2) return;
 
-    if (!this->_originalPicture.load(file)) {
-        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir cette image");
+    if (!this->_originalLeftPicture.load(files.at(0))) {
+        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir l'image gauche");
         return;
     }
-    if (this->_originalPicture.isNull()) {
-        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir une image vide");
+    if (!this->_originalRightPicture.load(files.at(1))) {
+        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir l'image droite");
+        return;
+    }
+
+    if (this->_originalLeftPicture.isNull() || this->_originalRightPicture.isNull()) {
+        QMessageBox::critical(this, "Erreur", "Image gauche ou droite vide");
         return;
     }
 
     this->copyImage();
 
     // On affiche l'image original sans aucune convertion
-    this->_imageLabel->setPixmap(QPixmap::fromImage(this->_picture));
+    this->updateImage();
 
 }
 
@@ -187,7 +194,7 @@ void MainWindow::onNetworkBtnClick() {
 }
 
 void MainWindow::onLaplacianClick() {
-    if (!this->_imageLabel->pixmap()) {
+    if (!this->_imageLeftLabel->pixmap() || !this->_imageRightLabel->pixmap()) {
         QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
         return;
     }
@@ -195,7 +202,7 @@ void MainWindow::onLaplacianClick() {
 }
 
 void MainWindow::onSobelClick() {
-    if (!this->_imageLabel->pixmap()) {
+    if (!this->_imageLeftLabel->pixmap() || !this->_imageRightLabel->pixmap()) {
         QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
         return;
     }
@@ -203,7 +210,7 @@ void MainWindow::onSobelClick() {
 }
 
 void MainWindow::onDisparityClick() {
-    if (!this->_imageLabel->pixmap()) {
+    if (!this->_imageLeftLabel->pixmap() || !this->_imageRightLabel->pixmap()) {
         QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
         return;
     }
@@ -212,7 +219,7 @@ void MainWindow::onDisparityClick() {
 }
 
 void MainWindow::onCalibClick() {
-    if (!this->_imageLabel->pixmap()) {
+    if (!this->_imageLeftLabel->pixmap() || !this->_imageRightLabel->pixmap()) {
         QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
         return;
     }
@@ -227,10 +234,12 @@ void MainWindow::onMenuClick() {
 }
 
 void MainWindow::copyImage() {
-    this->_picture = this->_originalPicture.copy(this->_originalPicture.rect());
+    this->_pictureLeft = this->_originalLeftPicture.copy(this->_originalLeftPicture.rect());
+    this->_pictureRight = this->_originalRightPicture.copy(this->_originalRightPicture.rect());
 }
 
 void MainWindow::updateImage() {
-    this->_imageLabel->setPixmap(QPixmap::fromImage(this->_picture));
+    this->_imageLeftLabel->setPixmap(QPixmap::fromImage(this->_pictureLeft));
+    this->_imageRightLabel->setPixmap(QPixmap::fromImage(this->_pictureRight));
 }
 

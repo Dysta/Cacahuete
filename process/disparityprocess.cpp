@@ -10,15 +10,11 @@ DisparityProcess::DisparityProcess(MainWindow* parent)
 }
 
 void DisparityProcess::process() {
-    cv::Mat mat, gLeft, gRight, disp, disp8;
+    cv::Mat gLeft, gRight, disp, disp8;
 
-    mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalPicture(), true);
-    //Division de l'image source en deux images gauche et droite
-    cv::Mat left = mat.colRange(0, mat.cols/2); //Création de l'image gauche
-    int cropping = 0;
+    cv::Mat left = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true); //Création de l'image gauche
     //Si la largeur de l'image (en pixels) est impaire on retire un pixel de largeur sur l'image droite
-    if(mat.cols%2 != 0) cropping = 1;
-    cv::Mat right = mat.colRange(mat.cols/2+cropping, mat.cols); //Création de l'image droite
+    cv::Mat right = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalRightPicture(), true); //Création de l'image droite
 
     cv::cvtColor(left, gLeft, CV_BGR2GRAY);
     cv::cvtColor(right, gRight, CV_BGR2GRAY);
@@ -47,8 +43,9 @@ void DisparityProcess::process() {
 
 
     cv::normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
-    QImage pic = Utils::Convert::CvMat::toQImage(&disp8, true);
-    this->_parent->setPicture(pic);
+    cv::imshow("Disparity", disp8);
+    //QImage pic = Utils::Convert::CvMat::toQImage(&disp8, true);
+    //this->_parent->setPicture(pic);
 }
 
 void DisparityProcess::updatePicture() {
