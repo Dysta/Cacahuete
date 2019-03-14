@@ -19,6 +19,7 @@ class LaplacianProcess
 {
 public:
     LaplacianProcess(MainWindow* parent);
+    void setImage(int value);
     void setActiveBlur(bool state);
     void setSizeH(int value);
     void setSizeL(int value);

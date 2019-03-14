@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QSlider>
 #include <QLabel>
+#include <QComboBox>
 
 #include "process/sobelprocess.h"
 
@@ -20,6 +21,7 @@ public:
     QPushButton* getBacktoMainButton() { return _backToMain; }
 
 private slots:
+    void onImageChange(int);
     void onSizeHChange(int);
     void onSizeLChange(int);
     void onSigmaXChange(int);
@@ -38,6 +40,8 @@ private:
     QGridLayout* _sobelGrid;
     QPushButton* _backToMain;
     SobelProcess* _process;
+
+    QComboBox* _picture;
 
     //Gaussian Blur
     QLabel* _enableBlurLabel;
