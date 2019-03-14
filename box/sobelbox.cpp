@@ -11,38 +11,40 @@ SobelBox::SobelBox(const QString &title, QWidget* parent)
 
     this->_sobelGrid = new QGridLayout();
 
-    this->_sobelGrid->addWidget(this->_enableBlurLabel, 0, 0);
-    this->_sobelGrid->addWidget(this->_enableBlurSlider, 0, 1);
+    this->_sobelGrid->addWidget(this->_picture, 0, 0);
 
-    this->_sobelGrid->addWidget(this->_sizeHLabel, 1, 0);
-    this->_sobelGrid->addWidget(this->_sizeHSlider, 1, 1);
+    this->_sobelGrid->addWidget(this->_enableBlurLabel, 1, 0);
+    this->_sobelGrid->addWidget(this->_enableBlurSlider, 1, 1);
 
-    this->_sobelGrid->addWidget(this->_sizeLLabel, 2, 0);
-    this->_sobelGrid->addWidget(this->_sizeLSlider, 2, 1);
+    this->_sobelGrid->addWidget(this->_sizeHLabel, 2, 0);
+    this->_sobelGrid->addWidget(this->_sizeHSlider, 2, 1);
 
-    this->_sobelGrid->addWidget(this->_sigmaXLabel, 3, 0);
-    this->_sobelGrid->addWidget(this->_sigmaXSlider, 3, 1);
+    this->_sobelGrid->addWidget(this->_sizeLLabel, 3, 0);
+    this->_sobelGrid->addWidget(this->_sizeLSlider, 3, 1);
 
-    this->_sobelGrid->addWidget(this->_sigmaYLabel, 4, 0);
-    this->_sobelGrid->addWidget(this->_sigmaYSlider, 4, 1);
+    this->_sobelGrid->addWidget(this->_sigmaXLabel, 4, 0);
+    this->_sobelGrid->addWidget(this->_sigmaXSlider, 4, 1);
 
-    this->_sobelGrid->addWidget(this->_dxLabel, 5,0);
-    this->_sobelGrid->addWidget(this->_dxSlider, 5, 1);
+    this->_sobelGrid->addWidget(this->_sigmaYLabel, 5, 0);
+    this->_sobelGrid->addWidget(this->_sigmaYSlider, 5, 1);
 
-    this->_sobelGrid->addWidget(this->_dyLabel, 6,0);
-    this->_sobelGrid->addWidget(this->_dySlider, 6, 1);
+    this->_sobelGrid->addWidget(this->_dxLabel, 6, 0);
+    this->_sobelGrid->addWidget(this->_dxSlider, 6, 1);
 
-    this->_sobelGrid->addWidget(this->_alphaLabel, 7,0);
-    this->_sobelGrid->addWidget(this->_alphaSlider, 7, 1);
+    this->_sobelGrid->addWidget(this->_dyLabel, 7, 0);
+    this->_sobelGrid->addWidget(this->_dySlider, 7, 1);
 
-    this->_sobelGrid->addWidget(this->_betaLabel, 8,0);
-    this->_sobelGrid->addWidget(this->_betaSlider, 8, 1);
+    this->_sobelGrid->addWidget(this->_alphaLabel, 8, 0);
+    this->_sobelGrid->addWidget(this->_alphaSlider, 8, 1);
 
-    this->_sobelGrid->addWidget(this->_gammaLabel, 9,0);
-    this->_sobelGrid->addWidget(this->_gammaSlider, 9, 1);
+    this->_sobelGrid->addWidget(this->_betaLabel, 9, 0);
+    this->_sobelGrid->addWidget(this->_betaSlider, 9, 1);
+
+    this->_sobelGrid->addWidget(this->_gammaLabel, 10, 0);
+    this->_sobelGrid->addWidget(this->_gammaSlider, 10, 1);
 
 
-    this->_sobelGrid->addWidget(this->_backToMain, 10, 0);
+    this->_sobelGrid->addWidget(this->_backToMain, 11, 0);
 
     setLayout(this->_sobelGrid);
 }
@@ -52,6 +54,10 @@ SobelBox::~SobelBox() {
 }
 
 void SobelBox::createSlider() {
+    this->_picture = new QComboBox();
+    this->_picture->addItem("Image de Gauche");
+    this->_picture->addItem("Image de Droite");
+
     this->_enableBlurLabel = new QLabel("Enable/Disable Blur");
     this->_enableBlurSlider = new QSlider(Qt::Horizontal);
     this->_enableBlurSlider->setRange(0,1);
@@ -129,6 +135,8 @@ void SobelBox::createSlider() {
     this->_gammaSlider->setRange(0, 30);
     this->_gammaSlider->setValue(0);
 
+    connect(this->_picture, SIGNAL(activated(int)),
+            this, SLOT(onImageChange(int)));
     connect(this->_enableBlurSlider, SIGNAL(valueChanged(int)),
             this, SLOT(onBlurSwitch(int)));
     connect(this->_sizeHSlider, SIGNAL(valueChanged(int)),
@@ -149,6 +157,11 @@ void SobelBox::createSlider() {
             this, SLOT(onBetaChange(int)));
     connect(this->_gammaSlider, SIGNAL(valueChanged(int)),
             this, SLOT(onGammaChange(int)));
+}
+
+void SobelBox::onImageChange(int index) {
+    std::cout << "Index : " << std::endl;
+    this->_process->setImage(index);
 }
 
 void SobelBox::onSizeHChange(int value) {

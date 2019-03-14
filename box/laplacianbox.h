@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QSlider>
 #include <QLabel>
+#include <QComboBox>
 
 #include "process/laplacianprocess.h"
 
@@ -22,6 +23,7 @@ public:
     QPushButton* getBacktoMainButton() { return _backToMain; }
 
 private slots:
+    void onImageChange(int);
     void onSizeHChange(int);
     void onSizeLChange(int);
     void onSigmaXChange(int);
@@ -36,6 +38,8 @@ private:
     QPushButton* _backToMain;
 
     LaplacianProcess* _process;
+
+    QComboBox* _picture;
 
     QSlider* _switchBlurSlider;
     QLabel* _switchBlurLabel;

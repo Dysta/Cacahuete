@@ -12,22 +12,24 @@ LaplacianBox::LaplacianBox(const QString &title, QWidget* parent)
 
     this->_laplacianGrid = new QGridLayout();
 
-    this->_laplacianGrid->addWidget(this->_switchBlurLabel, 0, 0);
-    this->_laplacianGrid->addWidget(this->_switchBlurSlider, 0, 1);
+    this->_laplacianGrid->addWidget(this->_picture, 0, 0);
 
-    this->_laplacianGrid->addWidget(this->_sizeHLabel, 1, 0);
-    this->_laplacianGrid->addWidget(this->_sizeHSlider, 1, 1);
+    this->_laplacianGrid->addWidget(this->_switchBlurLabel, 1, 0);
+    this->_laplacianGrid->addWidget(this->_switchBlurSlider, 1, 1);
 
-    this->_laplacianGrid->addWidget(this->_sizeLLabel, 2, 0);
-    this->_laplacianGrid->addWidget(this->_sizeLSlider, 2, 1);
+    this->_laplacianGrid->addWidget(this->_sizeHLabel, 2, 0);
+    this->_laplacianGrid->addWidget(this->_sizeHSlider, 2, 1);
 
-    this->_laplacianGrid->addWidget(this->_sigmaXLabel, 3, 0);
-    this->_laplacianGrid->addWidget(this->_sigmaXSlider, 3, 1);
+    this->_laplacianGrid->addWidget(this->_sizeLLabel, 3, 0);
+    this->_laplacianGrid->addWidget(this->_sizeLSlider, 3, 1);
 
-    this->_laplacianGrid->addWidget(this->_sigmaYLabel, 4, 0);
-    this->_laplacianGrid->addWidget(this->_sigmaYSlider, 4, 1);
+    this->_laplacianGrid->addWidget(this->_sigmaXLabel, 4, 0);
+    this->_laplacianGrid->addWidget(this->_sigmaXSlider, 4, 1);
 
-    this->_laplacianGrid->addWidget(this->_backToMain, 5, 0);
+    this->_laplacianGrid->addWidget(this->_sigmaYLabel, 5, 0);
+    this->_laplacianGrid->addWidget(this->_sigmaYSlider, 5, 1);
+
+    this->_laplacianGrid->addWidget(this->_backToMain, 6, 0);
 
     setLayout(this->_laplacianGrid);
 }
@@ -38,6 +40,10 @@ LaplacianBox::~LaplacianBox() {
 
 
 void LaplacianBox::createSlider() {
+    this->_picture = new QComboBox();
+    this->_picture->addItem("Image de Gauche");
+    this->_picture->addItem("Image de Droite");
+
     this->_switchBlurLabel = new QLabel("Enable/Disable Blur");
     this->_switchBlurSlider = new QSlider(Qt::Horizontal);
     this->_switchBlurSlider->setRange(0,1);
@@ -76,11 +82,17 @@ void LaplacianBox::createSlider() {
     this->_sigmaYSlider->setRange(0, 100);
     this->_sigmaXSlider->setValue(0);
 
+    connect(this->_picture, SIGNAL(activated(int)), this, SLOT(onImageChange(int)));
     connect(this->_sizeHSlider, SIGNAL(valueChanged(int)), this, SLOT(onSizeHChange(int)));
     connect(this->_sizeLSlider, SIGNAL(valueChanged(int)), this, SLOT(onSizeLChange(int)));
     connect(this->_sigmaXSlider, SIGNAL(valueChanged(int)), this, SLOT(onSigmaXChange(int)));
     connect(this->_sigmaYSlider, SIGNAL(valueChanged(int)), this, SLOT(onSigmaYChange(int)));
     connect(this->_switchBlurSlider, SIGNAL(valueChanged(int)), this, SLOT(onBlurSwitch(int)));
+}
+
+void LaplacianBox::onImageChange(int index) {
+    std::cout << "Index : " << std::endl;
+    this->_process->setImage(index);
 }
 
 void LaplacianBox::onSizeHChange(int value) {
