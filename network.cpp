@@ -47,10 +47,9 @@ void Network::onRead() {
     qDebug() << "data size = " << this->_data.size();
     this->_picture = QImage::fromData(this->_data, "PNG");
 
-    if(this->_picture.isNull()) {
+    if(!this->_picture.isNull()) {
         this->onFinishRead();
     }
-
 }
 
 void Network::onDisconnect() {
