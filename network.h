@@ -29,6 +29,7 @@ private slots:
     void onError(QAbstractSocket::SocketError er);
 
 private:    
+    void onFinishRead(void);
 
     MainWindow* _mw;
 

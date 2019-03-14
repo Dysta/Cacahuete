@@ -45,15 +45,12 @@ void Network::onRead() {
     this->_data.append(soc->readAll());
 
     qDebug() << "data size = " << this->_data.size();
-
     this->_picture = QImage::fromData(this->_data, "PNG");
-    QImage left = this->_picture.copy(0, 0, this->_picture.width()/2, this->_picture.height());
-    QImage right = this->_picture.copy(this->_picture.width()/2, 0, this->_picture.width()/2, this->_picture.height());
-    this->_mw->setOriLeftPucture(left.copy());
-    this->_mw->setOriRightPucture(right.copy());
-    this->_mw->copyImage();
-    this->_mw->updateImage();
-    //this->_data.clear();
+
+    if(this->_picture.isNull()) {
+        this->onFinishRead();
+    }
+
 }
 
 void Network::onDisconnect() {
@@ -63,4 +60,18 @@ void Network::onDisconnect() {
 
 void Network::onError(QAbstractSocket::SocketError) {
     std::cout << "Error : " << this->errorString().toStdString() << std::endl;
+}
+
+void Network::onFinishRead() {
+    qDebug() << "finis read";
+
+    QImage left = this->_picture.copy(0, 0, this->_picture.width()/2, this->_picture.height());
+    QImage right = this->_picture.copy(this->_picture.width()/2, 0, this->_picture.width()/2, this->_picture.height());
+    this->_mw->setOriLeftPucture(left.copy());
+    this->_mw->setOriRightPucture(right.copy());
+    this->_mw->copyImage();
+    this->_mw->updateImage();
+
+
+    this->_data.clear();
 }

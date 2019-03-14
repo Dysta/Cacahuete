@@ -170,7 +170,7 @@ void MainWindow::network() {
     this->_networkWidget = new QWidget();
     this->_networkBox = new QHBoxLayout(this->_networkWidget);
     this->_hostLine = new QLineEdit(this->_networkWidget);
-    this->_hostLine->setText("10.0.105.9");
+    this->_hostLine->setText("10.0.207.5");
     this->_portLine = new QSpinBox(this->_networkWidget);
     this->_portLine->setRange(1024, 10000);
     this->_portLine->setValue(7777);
