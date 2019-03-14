@@ -44,10 +44,17 @@ void Network::onConnect() {
     this->_leftRotButton = new QPushButton("<<");
     this->_rightRotButton = new QPushButton(">>");
 
-    this->_botControlLayout->addWidget(this->_forwardButton, 0, 0);
+    this->_forwardButton->setShortcut(Qt::Key_Z);
+    this->_backwardButton->setShortcut(Qt::Key_S);
+    this->_leftButton->setShortcut(Qt::Key_Q);
+    this->_rightButton->setShortcut(Qt::Key_D);
+    this->_leftRotButton->setShortcut(Qt::Key_A);
+    this->_rightRotButton->setShortcut(Qt::Key_E);
+
+    this->_botControlLayout->addWidget(this->_forwardButton, 0, 0, 1, 2);
     this->_botControlLayout->addWidget(this->_leftButton, 1, 0);
     this->_botControlLayout->addWidget(this->_rightButton, 1, 1);
-    this->_botControlLayout->addWidget(this->_backwardButton, 2, 0);
+    this->_botControlLayout->addWidget(this->_backwardButton, 2, 0, 1, 2);
     this->_botControlLayout->addWidget(this->_leftRotButton, 3, 0);
     this->_botControlLayout->addWidget(this->_rightRotButton, 3, 1);
 
@@ -74,14 +81,11 @@ void Network::onRead() {
     QTcpSocket* soc = qobject_cast<QTcpSocket *>(sender());
     if (soc == nullptr) return;
 
-    qDebug() << soc->bytesAvailable();
     this->_data.append(soc->readAll());
 
-    qDebug() << "data size = " << this->_data.size();
     if (this->_data.size() > MAX_BUFF_SIZE) this->_data.clear(); // si on a trop de data
 
     this->_picture = QImage::fromData(this->_data, "PNG");
-
 
     if(!this->_picture.isNull()) { // si l'image est chargé complètement
         this->onFinishRead();
