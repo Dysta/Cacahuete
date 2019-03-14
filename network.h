@@ -3,12 +3,16 @@
 
 #include <iostream>
 
-#include <QObject>
+#include <QGridLayout>
 #include <QTcpSocket>
 #include <QByteArray>
 #include <QImage>
 #include <QString>
 #include <QBuffer>
+#include <QMessageBox>
+
+#define MAX_BUFF_SIZE 700000
+
 
 class MainWindow;
 
@@ -28,10 +32,26 @@ private slots:
     void onDisconnect(void);
     void onError(QAbstractSocket::SocketError er);
 
+    void onForwardClic(bool);
+    void onBackwardClic(bool);
+    void onLeftClic(bool);
+    void onRightClic(bool);
+    void onLeftRotClic(bool);
+    void onRightRotClic(bool);
+
 private:    
     void onFinishRead(void);
 
     MainWindow* _mw;
+
+    QWidget* _botControllWidget;
+    QGridLayout* _botControlLayout;
+    QPushButton* _forwardButton;
+    QPushButton* _backwardButton;
+    QPushButton* _leftButton;
+    QPushButton* _rightButton;
+    QPushButton* _leftRotButton;
+    QPushButton* _rightRotButton;
 
     QString _host;
     quint16 _port;

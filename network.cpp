@@ -14,6 +14,8 @@ Network::Network(MainWindow* mw, const QString& host, quint16 port, QObject* par
             this, SLOT(onError(QAbstractSocket::SocketError)));
 
     this->connectToHost(this->_host, this->_port);
+
+
 }
 
 Network::~Network() {
@@ -29,15 +31,46 @@ void Network::send() {
 }
 
 void Network::onConnect() {
-    std::cout << "successfully connected to host " << this->_host.toStdString()
-              << " and port " << this->_port << std::endl;
+    QMessageBox::information(this->_mw, "Information", "Connecté avec succes");
     this->_mw->setNetworkSuccess(true);
+
+    this->_botControllWidget = new QWidget();
+    this->_botControlLayout = new QGridLayout();
+
+    this->_forwardButton = new QPushButton("^");
+    this->_backwardButton = new QPushButton("v");
+    this->_leftButton = new QPushButton("<");
+    this->_rightButton = new QPushButton(">");
+    this->_leftRotButton = new QPushButton("<<");
+    this->_rightRotButton = new QPushButton(">>");
+
+    this->_botControlLayout->addWidget(this->_forwardButton, 0, 0);
+    this->_botControlLayout->addWidget(this->_leftButton, 1, 0);
+    this->_botControlLayout->addWidget(this->_rightButton, 1, 1);
+    this->_botControlLayout->addWidget(this->_backwardButton, 2, 0);
+    this->_botControlLayout->addWidget(this->_leftRotButton, 3, 0);
+    this->_botControlLayout->addWidget(this->_rightRotButton, 3, 1);
+
+    this->_botControllWidget->setWindowTitle("Controle du robot");
+    this->_botControllWidget->setLayout(this->_botControlLayout);
+
+    this->_botControllWidget->show();
+
+    connect(this->_forwardButton, SIGNAL(clicked(bool)),
+            this, SLOT(onForwardClic(bool)));
+    connect(this->_backwardButton, SIGNAL(clicked(bool)),
+            this, SLOT(onBackwardClic(bool)));
+    connect(this->_leftButton, SIGNAL(clicked(bool)),
+            this, SLOT(onLeftClic(bool)));
+    connect(this->_rightButton, SIGNAL(clicked(bool)),
+            this, SLOT(onRightClic(bool)));
+    connect(this->_leftRotButton, SIGNAL(clicked(bool)),
+            this, SLOT(onLeftRotClic(bool)));
+    connect(this->_rightRotButton, SIGNAL(clicked(bool)),
+            this, SLOT(onRightRotClic(bool)));
 }
 
 void Network::onRead() {
-    qDebug() << "\n\n====================";
-    qDebug() << "current data : " << this->_data;
-    if (this->_data.isEmpty()) qDebug() << "data  vide";//this->_data.clear();
     QTcpSocket* soc = qobject_cast<QTcpSocket *>(sender());
     if (soc == nullptr) return;
 
@@ -45,9 +78,12 @@ void Network::onRead() {
     this->_data.append(soc->readAll());
 
     qDebug() << "data size = " << this->_data.size();
+    if (this->_data.size() > MAX_BUFF_SIZE) this->_data.clear(); // si on a trop de data
+
     this->_picture = QImage::fromData(this->_data, "PNG");
 
-    if(!this->_picture.isNull()) {
+
+    if(!this->_picture.isNull()) { // si l'image est chargé complètement
         this->onFinishRead();
     }
 }
@@ -58,7 +94,7 @@ void Network::onDisconnect() {
 }
 
 void Network::onError(QAbstractSocket::SocketError) {
-    std::cout << "Error : " << this->errorString().toStdString() << std::endl;
+    QMessageBox::critical(this->_mw, "Erreur", this->errorString().toStdString().c_str());
 }
 
 void Network::onFinishRead() {
@@ -73,4 +109,23 @@ void Network::onFinishRead() {
 
 
     this->_data.clear();
+}
+
+void Network::onForwardClic(bool) {
+    this->write("F");
+}
+void Network::onBackwardClic(bool) {
+    this->write("B");
+}
+void Network::onLeftClic(bool) {
+    this->write("L");
+}
+void Network::onRightClic(bool) {
+    this->write("R");
+}
+void Network::onLeftRotClic(bool) {
+    this->write("O");
+}
+void Network::onRightRotClic(bool) {
+    this->write("A");
 }
