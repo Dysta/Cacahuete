@@ -17,21 +17,24 @@ CalibDepthBox::CalibDepthBox(const QString &title, QWidget* parent)
 
     this->_calibGrid = new QGridLayout();
 
-    this->_calibGrid->addWidget(this->_numCornersHLabel, 0, 0);
-    this->_calibGrid->addWidget(this->_numCornersHBox, 0, 1);
+    this->_calibGrid->addWidget(this->_picture, 0, 0);
 
-    this->_calibGrid->addWidget(this->_numCornersVLabel, 1, 0);
-    this->_calibGrid->addWidget(this->_numCornersVBox, 1, 1);
+    this->_calibGrid->addWidget(this->_numCornersHLabel, 1, 0);
+    this->_calibGrid->addWidget(this->_numCornersHBox, 1, 1);
 
-    this->_calibGrid->addWidget(this->_calibrationButton, 2, 0);
-    this->_calibGrid->addWidget(this->_undistortButton, 2, 1);
+    this->_calibGrid->addWidget(this->_numCornersVLabel, 2, 0);
+    this->_calibGrid->addWidget(this->_numCornersVBox, 2, 1);
 
-    this->_calibGrid->addWidget(this->_depthMapButton, 3, 0);
+    this->_calibGrid->addWidget(this->_calibrationButton, 3, 0);
+    this->_calibGrid->addWidget(this->_undistortButton, 3, 1);
 
-    this->_calibGrid->addWidget(this->_backToMain, 4, 0);
+    this->_calibGrid->addWidget(this->_depthMapButton, 4, 0);
+
+    this->_calibGrid->addWidget(this->_backToMain, 5, 0);
 
     setLayout(this->_calibGrid);
 
+    connect(this->_picture, SIGNAL(activated(int)), this, SLOT(onImageChange(int)));
     connect(this->_calibrationButton, SIGNAL(clicked(bool)), this, SLOT(onCalibrationDo()));
     connect(this->_undistortButton, SIGNAL(clicked(bool)), this, SLOT(onUndistortDo()));
     connect(this->_depthMapButton, SIGNAL(clicked(bool)), this, SLOT(onDepthMapDo()));
@@ -42,6 +45,10 @@ CalibDepthBox::~CalibDepthBox() {
 }
 
 void CalibDepthBox::createSlider() {
+    this->_picture = new QComboBox();
+    this->_picture->addItem("Image de Gauche");
+    this->_picture->addItem("Image de Droite");
+
     this->_numCornersHLabel = new QLabel("Number of corners horizontally");
     this->_numCornersHBox = new QSpinBox();
     this->_numCornersHBox->setMinimum(0);
@@ -96,6 +103,11 @@ void CalibDepthBox::onDepthMapDo(){
     if ( fileList.isEmpty() ) return;
 
     this->_process->depthMap(fileList, fileList.length(), false);
+}
+
+void CalibDepthBox::onImageChange(int index) {
+    std::cout << "Index : " << std::endl;
+    this->_process->setImage(index);
 }
 
 void CalibDepthBox::onNumCornersHChange(int value){

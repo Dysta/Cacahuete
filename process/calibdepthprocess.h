@@ -20,6 +20,7 @@ class CalibDepthProcess
 {
 public:
     CalibDepthProcess(MainWindow* parent);
+    void setImage(int value);
     void setNumCornersH(int);
     void setNumCornersV(int);
     void setIntrisic(cv::Mat);

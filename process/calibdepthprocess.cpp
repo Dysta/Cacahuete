@@ -114,6 +114,26 @@ void CalibDepthProcess::calibration(QStringList sList, int numBoards, bool isVid
 
 }
 
+void CalibDepthProcess::setImage(int value){
+    switch (value){
+        case 0:
+            {
+                std::cout << "Switching to left image" << std::endl;
+                QImage left = *this->_parent->getOriginalLeftPicture();
+                this->_parent->setLeftPicture(left);
+                break;
+            }
+        case 1:
+            {
+                std::cout << "Switching to right image" << std::endl;
+                QImage right = *this->_parent->getOriginalRightPicture();
+                this->_parent->setLeftPicture(right);
+                break;
+            }
+    }
+    this->_parent->updateImage();
+}
+
 void CalibDepthProcess::undistort(){
 
     printf("Entering undistort\n");
@@ -123,7 +143,7 @@ void CalibDepthProcess::undistort(){
         return;
     }
 
-    cv::Mat mat = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true);
+    cv::Mat mat = Utils::Convert::qImage::toCvMat(this->_parent->getLeftPicture(), true);
     cv::Mat imageUndistored;
 
     // Undistort the current frame

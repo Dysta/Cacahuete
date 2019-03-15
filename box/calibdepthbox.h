@@ -8,6 +8,7 @@
 #include <QSpinBox>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QComboBox>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
@@ -28,6 +29,7 @@ public:
     QPushButton* getBackToMainButton() { return _backToMain; }
 
 private slots:
+    void onImageChange(int);
     void onNumCornersHChange(int);
     void onNumCornersVChange(int);
     void onCalibrationDo();
@@ -41,6 +43,8 @@ private:
     QPushButton* _backToMain;
 
     CalibDepthProcess* _process;
+
+    QComboBox* _picture;
 
     QLabel* _numCornersHLabel;
     QSpinBox* _numCornersHBox;
