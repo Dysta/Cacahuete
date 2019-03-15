@@ -25,9 +25,12 @@ public:
     void setNumCornersV(int);
     void setIntrisic(cv::Mat);
     void setDistCoeffs(cv::Mat);
+    void setQ(cv::Mat);
+    void setMaps(cv::Mat, cv::Mat);
     void calibration(QStringList sList, int numBoards, bool isVideo);
     void undistort(void);
-    void depthMap(QStringList sList, int numBoards, bool isVideo);
+    void stereoCalib(QStringList sList, int numBoards, bool isVideo);
+    void depthMap(void);
 
 private:
     //void updatePicture(void);
@@ -39,6 +42,8 @@ private:
 
     cv::Mat _intrinsic;
     cv::Mat _distcoeffs;
+    cv::Mat _map1, _map2;
+    cv::Mat _Q;
 
 };
 
