@@ -13,7 +13,8 @@ CalibDepthBox::CalibDepthBox(const QString &title, QWidget* parent)
     this->_backToMain = new QPushButton("Retour au menu principal");
     this->_calibrationButton = new QPushButton("Faire une calibration");
     this->_undistortButton = new QPushButton("Retordre l'image");
-    this->_depthMapButton = new QPushButton("Creer une carte de profondeur");
+    this->_stereoCalibButton = new QPushButton("Calibration camera stereo");
+    this->_depthMapButton = new QPushButton("Obtenir carte de profondeur");
 
     this->_calibGrid = new QGridLayout();
 
@@ -28,7 +29,8 @@ CalibDepthBox::CalibDepthBox(const QString &title, QWidget* parent)
     this->_calibGrid->addWidget(this->_calibrationButton, 3, 0);
     this->_calibGrid->addWidget(this->_undistortButton, 3, 1);
 
-    this->_calibGrid->addWidget(this->_depthMapButton, 4, 0);
+    this->_calibGrid->addWidget(this->_stereoCalibButton, 4, 0);
+    this->_calibGrid->addWidget(this->_depthMapButton, 4, 1);
 
     this->_calibGrid->addWidget(this->_backToMain, 5, 0);
 
@@ -37,6 +39,7 @@ CalibDepthBox::CalibDepthBox(const QString &title, QWidget* parent)
     connect(this->_picture, SIGNAL(activated(int)), this, SLOT(onImageChange(int)));
     connect(this->_calibrationButton, SIGNAL(clicked(bool)), this, SLOT(onCalibrationDo()));
     connect(this->_undistortButton, SIGNAL(clicked(bool)), this, SLOT(onUndistortDo()));
+    connect(this->_stereoCalibButton, SIGNAL(clicked(bool)), this, SLOT(onStereoCalibDo()));
     connect(this->_depthMapButton, SIGNAL(clicked(bool)), this, SLOT(onDepthMapDo()));
 }
 
@@ -46,8 +49,8 @@ CalibDepthBox::~CalibDepthBox() {
 
 void CalibDepthBox::createSlider() {
     this->_picture = new QComboBox();
-    this->_picture->addItem("Image de Gauche");
-    this->_picture->addItem("Image de Droite");
+    this->_picture->addItem("Détordre l'image de gauche");
+    this->_picture->addItem("Détordre l'image de droite");
 
     this->_numCornersHLabel = new QLabel("Number of corners horizontally");
     this->_numCornersHBox = new QSpinBox();
@@ -87,7 +90,7 @@ void CalibDepthBox::onUndistortDo(){
     this->_process->undistort();
 }
 
-void CalibDepthBox::onDepthMapDo(){
+void CalibDepthBox::onStereoCalibDo(){
     cout << "Creating depth map..." << endl;
 
     QMessageBox::warning(this, "Attention", "Veillez a bien charger plusieurs images avec un echiquer correspondant aux valeurs donnees.\nVeillez aussi a avoir mis dans l'ordre d'abord les images de gauche, puis ceux de droite.");
@@ -102,7 +105,12 @@ void CalibDepthBox::onDepthMapDo(){
 
     if ( fileList.isEmpty() ) return;
 
-    this->_process->depthMap(fileList, fileList.length(), false);
+    this->_process->stereoCalib(fileList, fileList.length(), false);
+}
+
+void CalibDepthBox::onDepthMapDo(){
+    cout << "Getting depth map..." << endl;
+    this->_process->depthMap();
 }
 
 void CalibDepthBox::onImageChange(int index) {

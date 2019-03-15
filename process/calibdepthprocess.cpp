@@ -153,7 +153,7 @@ void CalibDepthProcess::undistort(){
     this->_parent->updateImage();
 }
 
-void CalibDepthProcess::depthMap(QStringList sList, int numBoards, bool isVideo){
+void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVideo){
 
     std::list<cv::Mat> matListL, matListR, matList2;     // List of matrix of the given images
     cv::VideoCapture capture;
@@ -268,7 +268,7 @@ void CalibDepthProcess::depthMap(QStringList sList, int numBoards, bool isVideo)
     imageR = matList2.front();
 
     if(imagePoints1.size() < 2 || imagePoints2.size() < 2){
-        QMessageBox::warning(this->_parent, "Erreur", "Cration de la carte de profondeur echouee.\nVous avez probablement entre de mauvaises coordonnees pour l'echiquier, ou vous avez charge pas assez d'images.");
+        QMessageBox::warning(this->_parent, "Erreur", "Calibration echouee.\nVous avez probablement entre de mauvaises coordonnees pour l'echiquier, ou vous avez charge pas assez d'images.");
         return;
     }
 
@@ -280,16 +280,41 @@ void CalibDepthProcess::depthMap(QStringList sList, int numBoards, bool isVideo)
     cv::Mat R1, R2, P1, P2, Q;
     cv::stereoRectify(intrinsic1, distcoeffs1, intrinsic2, distcoeffs2, image.size(), R, T, R1, R2, P1, P2, Q);
 
+    this->setQ(Q);
+
     cout << "Rectifying camera..." << endl;
 
     cv::Mat map1, map2;
     cv::initUndistortRectifyMap(intrinsic1, distcoeffs1, R1, P1, image.size(), CV_32FC1, map1, map2);
 
-    cout << "Starting to undistort..." << endl;
+    this->setMaps(map1, map2);
 
+    cout << "Calibration done!" << endl;
+
+    fstream fs;
+    fs.open("stercalib.txt", fstream::in | fstream::out | fstream::app);
+
+    fs << this->_map1 << endl;
+    fs << this->_map2 << endl;
+    fs << this->_Q << endl;
+
+    QMessageBox::warning(this->_parent, "Termine", "Calibration terminee !");
+
+}
+
+
+void CalibDepthProcess::depthMap(){
+
+    if(this->_map1.empty() && this->_map2.empty() && this->_Q.empty()){
+        QMessageBox::warning(this->_parent, "Erreur", "Veuillez d'abord recuperer les donnees de calibration !");
+        return;
+    }
+
+    cv::Mat left = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true);
+    cv::Mat right = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalRightPicture(), true);
     cv::Mat correctedImgL, correctedImgR;
-    cv::remap(image, correctedImgL, map1, map2, cv::INTER_LINEAR);
-    cv::remap(imageR, correctedImgR, map1, map2, cv::INTER_LINEAR);
+    cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_LINEAR);
+    cv::remap(right, correctedImgR, this->_map1, this->_map2, cv::INTER_LINEAR);
 
     cout << "Remap done !" << endl;
     cout << "Creating disparity map..." << endl;
@@ -300,7 +325,7 @@ void CalibDepthProcess::depthMap(QStringList sList, int numBoards, bool isVideo)
 
     cv::Mat depthMap;
 
-    cv::reprojectImageTo3D(disp, depthMap, Q);
+    cv::reprojectImageTo3D(disp, depthMap, this->_Q);
 
     cout << "All done !" << endl;
 
@@ -326,4 +351,13 @@ void CalibDepthProcess::setIntrisic(cv::Mat mat){
 
 void CalibDepthProcess::setDistCoeffs(cv::Mat mat){
     this->_distcoeffs = mat;
+}
+
+void CalibDepthProcess::setQ(cv::Mat mat){
+    this->_Q = mat;
+}
+
+void CalibDepthProcess::setMaps(cv::Mat map1, cv::Mat map2){
+    this->_map1 = map1;
+    this->_map2 = map2;
 }

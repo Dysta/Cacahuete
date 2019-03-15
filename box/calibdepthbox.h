@@ -34,6 +34,7 @@ private slots:
     void onNumCornersVChange(int);
     void onCalibrationDo();
     void onUndistortDo();
+    void onStereoCalibDo();
     void onDepthMapDo();
 
 private:
@@ -53,6 +54,7 @@ private:
 
     QPushButton* _undistortButton;
     QPushButton* _calibrationButton;
+    QPushButton* _stereoCalibButton;
     QPushButton* _depthMapButton;
 
 };
