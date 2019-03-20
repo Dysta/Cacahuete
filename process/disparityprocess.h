@@ -20,6 +20,15 @@ public:
     void setMode(int value);
     void setSBMnumDisp(int value);
     void setSBMblockSize(int value);
+    void setPrefilterCap(int value);
+    void setPrefilterSize(int Value);
+    void setPrefilterType(int value);
+    void setRoi1(int value);
+    void setRoi2(int value);
+    void setTextureThreshold(int value);
+    void setSBMuniquenessRatio(int value);
+
+
     void setMinDisp(int value);
     void setSGBMnumDisp(int value);
     void setSGBMblockSize(int value);
@@ -44,6 +53,13 @@ private:
 
     int _SBMnumDisparity;
     int _SBMblockSize;
+    int _preFilterCap;
+    int _preFilterSize;
+    int _preFilterType;
+    int _roi1;
+    int _roi2;
+    int _textureThreshold;
+    int _SBMuniquenessRatio;
 
     int _minDisparity;
     int _SGBMnumDisparity;

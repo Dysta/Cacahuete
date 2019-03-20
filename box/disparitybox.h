@@ -35,6 +35,14 @@ private slots:
     //SBM
     void onSBMnumDisparityChange(int);
     void onSBMblockSizeChange(int);
+    void onPrefilterCapChange(int);
+    void onPrefilterSizeChange(int);
+    void onPrefilterTypeChange(int);
+    void onRoi1Change(int);
+    void onRoi2Change(int);
+    void onTextureThresholdChange(int);
+    void onSBMuniquenessRationChange(int);
+
     //SGBM
     void onMinDisparityChange(int);
     void onSGBMnumDisparityChange(int);
@@ -65,6 +73,21 @@ private:
     QSlider* _SBMnumDisparitySlider;
     QLabel* _SBMblockSizeLabel;
     QSlider* _SBMblockSizeSlider;
+    QLabel* _preFilterCapLabel;
+    QSlider* _preFilterCapSlider;
+    QLabel* _preFilterSizeLabel;
+    QSlider* _preFilterSizeSlider;
+    QLabel* _preFilterTypeLabel;
+    QComboBox* _preFilterTypeCombo;
+    QLabel* _roi1Label;
+    QSlider* _roi1Slider;
+    QLabel* _roi2Label;
+    QSlider* _roi2Slider;
+    QLabel* _textureThresholdLabel;
+    QSlider* _textureThresholdSlider;
+    QLabel* _SBMuniquenessRationLabel;
+    QSlider* _SBMuniquenessRationSlider;
+
 
     //For SGBM mode
     QLabel* _minDisparityLabel;
