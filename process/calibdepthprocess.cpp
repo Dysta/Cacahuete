@@ -3,10 +3,11 @@
 
 using namespace std;
 
-CalibDepthProcess::CalibDepthProcess(MainWindow* parent)
-    : _numCornersH(11), _numCornersV(7)
+CalibDepthProcess::CalibDepthProcess(MainWindow* parent, DisparityProcess* dispProcess)
+    : _numCornersH(9), _numCornersV(6)
 {
     this->_parent = parent;
+    this->_dispProcess = dispProcess;
 }
 
 void CalibDepthProcess::calibration(QStringList sList, int numBoards, bool isVideo) {
@@ -316,10 +317,13 @@ void CalibDepthProcess::depthMap(){
     cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_LINEAR);
     cv::remap(right, correctedImgR, this->_map1, this->_map2, cv::INTER_LINEAR);
 
+    cv::imshow("remap left", correctedImgL);
+    cv::imshow("remap right", correctedImgR);
+
     cout << "Remap done !" << endl;
     cout << "Creating disparity map..." << endl;
 
-    cv::Mat disp = Utils::Convert::CvMat::toDisparity(correctedImgL, correctedImgR, Utils::Convert::SGBM);
+    cv::Mat disp = this->_dispProcess->process(correctedImgL, correctedImgR);
 
     cout << "Creating depth map..." << endl;
 

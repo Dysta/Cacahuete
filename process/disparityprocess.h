@@ -17,6 +17,7 @@ class DisparityProcess
 {
 public:
     DisparityProcess(MainWindow* parent);
+    DisparityProcess* getInstance(void) { return this; }
     void setMode(int value);
     void setSBMnumDisp(int value);
     void setSBMblockSize(int value);
@@ -42,6 +43,8 @@ public:
     void setSGBMmode(int value);
 
     void sendPicture(void);
+
+    cv::Mat process(cv::Mat left, cv::Mat right);
 
 private:
     void updatePicture(void);

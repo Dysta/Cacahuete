@@ -79,7 +79,7 @@ void MainWindow::createSliderGroup() {
     this->_laplacianBox = new LaplacianBox("Laplacian effect", this);
     this->_sobelBox = new SobelBox("Sobel effect", this);
     this->_disparityBox = new DisparityBox("Disparity effect", this);
-    this->_calibBox = new CalibDepthBox("Calibration and depth map", this);
+    this->_calibBox = new CalibDepthBox("Calibration and depth map", this->_disparityBox->getProcess(), this);
 
     this->_menuStack->insertWidget(MAINBOX, this->_mainBox);
     this->_menuStack->insertWidget(LAPLACIANBOX, this->_laplacianBox);
