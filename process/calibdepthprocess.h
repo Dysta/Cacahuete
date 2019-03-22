@@ -7,6 +7,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
+#include <opencv2/core/persistence.hpp>
 #include <opencv2/videoio/videoio.hpp>
 #include <vector>
 
@@ -31,6 +32,7 @@ public:
     void undistort(void);
     void stereoCalib(QStringList sList, int numBoards, bool isVideo);
     void depthMap(void);
+    void loadParam(void);
 
 private:
     //void updatePicture(void);

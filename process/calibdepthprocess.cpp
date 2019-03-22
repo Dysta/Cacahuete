@@ -281,25 +281,23 @@ void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVid
     cv::Mat R1, R2, P1, P2, Q;
     cv::stereoRectify(intrinsic1, distcoeffs1, intrinsic2, distcoeffs2, image.size(), R, T, R1, R2, P1, P2, Q);
 
-    this->setQ(Q);
-
     cout << "Rectifying camera..." << endl;
 
     cv::Mat map1, map2;
     cv::initUndistortRectifyMap(intrinsic1, distcoeffs1, R1, P1, image.size(), CV_32FC1, map1, map2);
 
-    this->setMaps(map1, map2);
-
     cout << "Calibration done!" << endl;
 
-    fstream fs;
-    fs.open("stercalib.txt", fstream::in | fstream::out | fstream::app);
+    cv::FileStorage fs = cv::FileStorage("stereocalib", cv::FileStorage::WRITE | cv::FileStorage::FORMAT_JSON);
 
-    fs << this->_map1 << endl;
-    fs << this->_map2 << endl;
-    fs << this->_Q << endl;
+    fs.write("map1", map1);
+    fs.write("map2", map2);
+    fs.write("Q", Q);
 
-    QMessageBox::warning(this->_parent, "Termine", "Calibration terminee !");
+
+    fs.release();
+
+    QMessageBox::information(this->_parent, "Termine", "Calibration terminee !");
 
 }
 
@@ -343,6 +341,28 @@ void CalibDepthProcess::depthMap(){
     //this->_parent->setPicture(pic);
     this->_parent->updateImage();
 
+}
+
+void CalibDepthProcess::loadParam(){
+    cv::FileStorage fs = cv::FileStorage("stereocalib", cv::FileStorage::READ | cv::FileStorage::FORMAT_JSON);
+    if(!fs.isOpened()){
+        QMessageBox::critical(this->_parent, "Erreur", "Vous devez au moins effectuer la calibration une fois (fichier introuvable)");
+        return;
+    }
+    cv::FileNode map1Node = fs["map1"];
+    cv::FileNode map2Node = fs["map2"];
+    cv::FileNode QNode = fs["Q"];
+
+    cv::Mat map1 = map1Node.mat();
+    cv::Mat map2 = map2Node.mat();
+    cv::Mat Q = QNode.mat();
+
+    this->setMaps(map1, map2);
+    this->setQ(Q);
+
+    fs.release();
+
+    QMessageBox::information(this->_parent, "Termine", "Parametres charges avec succes.");
 }
 
 void CalibDepthProcess::setNumCornersH(int value){
