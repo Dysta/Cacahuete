@@ -26,8 +26,8 @@ void DisparityProcess::process() {
         sbm->setPreFilterCap(this->_preFilterCap);
         sbm->setPreFilterSize(this->_preFilterSize);
         sbm->setPreFilterType(this->_preFilterType);
-        //sbm->setROI1(this->_roi1);
-        //sbm->setROI2(this->_roi2);
+        sbm->setROI1(cv::Rect(this->_roi1, this->_roi1, this->_roi1, this->_roi1));
+        sbm->setROI2(cv::Rect(this->_roi2, this->_roi2, this->_roi2, this->_roi2));
         sbm->setTextureThreshold(this->_textureThreshold);
         sbm->setUniquenessRatio(this->_SBMuniquenessRatio);
 
