@@ -37,6 +37,7 @@ private slots:
     void onUndistortDo();
     void onStereoCalibDo();
     void onDepthMapDo();
+    void onLoadParamDo();
 
 private:
     void createSlider(void);
@@ -58,6 +59,7 @@ private:
     QPushButton* _calibrationButton;
     QPushButton* _stereoCalibButton;
     QPushButton* _depthMapButton;
+    QPushButton* _loadParamButton;
 
 };
 

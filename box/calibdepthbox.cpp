@@ -15,6 +15,7 @@ CalibDepthBox::CalibDepthBox(const QString &title, DisparityProcess* dispProcess
     this->_undistortButton = new QPushButton("Retordre l'image");
     this->_stereoCalibButton = new QPushButton("Calibration camera stereo");
     this->_depthMapButton = new QPushButton("Obtenir carte de profondeur");
+    this->_loadParamButton = new QPushButton("Charger les parametres");
 
     this->_calibGrid = new QGridLayout();
 
@@ -33,6 +34,7 @@ CalibDepthBox::CalibDepthBox(const QString &title, DisparityProcess* dispProcess
     this->_calibGrid->addWidget(this->_depthMapButton, 4, 1);
 
     this->_calibGrid->addWidget(this->_backToMain, 5, 0);
+    this->_calibGrid->addWidget(this->_loadParamButton, 5, 1);
 
     setLayout(this->_calibGrid);
 
@@ -41,6 +43,7 @@ CalibDepthBox::CalibDepthBox(const QString &title, DisparityProcess* dispProcess
     connect(this->_undistortButton, SIGNAL(clicked(bool)), this, SLOT(onUndistortDo()));
     connect(this->_stereoCalibButton, SIGNAL(clicked(bool)), this, SLOT(onStereoCalibDo()));
     connect(this->_depthMapButton, SIGNAL(clicked(bool)), this, SLOT(onDepthMapDo()));
+    connect(this->_loadParamButton, SIGNAL(clicked(bool)), this, SLOT(onLoadParamDo()));
 }
 
 CalibDepthBox::~CalibDepthBox() {
@@ -114,6 +117,11 @@ void CalibDepthBox::onDepthMapDo(){
     QMessageBox::information(this, "Information", "N'oubliez pas de configurer la carte de disparite avant !");
     cout << "Getting depth map..." << endl;
     this->_process->depthMap();
+}
+
+void CalibDepthBox::onLoadParamDo(){
+    cout << "Loading saved parameters..." << endl;
+    this->_process->loadParam();
 }
 
 void CalibDepthBox::onImageChange(int index) {
