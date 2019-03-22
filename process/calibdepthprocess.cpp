@@ -291,12 +291,18 @@ void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVid
 
     cout << "Calibration done!" << endl;
 
-    fstream fs;
-    fs.open("stercalib.txt", fstream::in | fstream::out | fstream::app);
+    cv::FileStorage fs = cv::FileStorage("stereocalibinfo/sterocalib.txt", cv::FileStorage::WRITE | cv::FileStorage::FORMAT_JSON);
 
-    fs << this->_map1 << endl;
-    fs << this->_map2 << endl;
-    fs << this->_Q << endl;
+    fs.write("map1", map1);
+
+    fs.release();
+
+//    fstream fs;
+//    fs.open("stercalib.txt", fstream::in | fstream::out | fstream::app);
+
+//    fs << this->_map1 << endl;
+//    fs << this->_map2 << endl;
+//    fs << this->_Q << endl;
 
     QMessageBox::warning(this->_parent, "Termine", "Calibration terminee !");
 
