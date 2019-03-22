@@ -18,13 +18,14 @@
 #include <vector>
 
 #include "process/calibdepthprocess.h"
+#include "process/disparityprocess.h"
 
 class CalibDepthBox : public QGroupBox
 {
     Q_OBJECT
 
 public:
-    CalibDepthBox(const QString &title, QWidget* parent = nullptr);
+    CalibDepthBox(const QString &title, DisparityProcess* dispProcess, QWidget* parent = nullptr);
     virtual ~CalibDepthBox();
     QPushButton* getBackToMainButton() { return _backToMain; }
 
@@ -44,6 +45,7 @@ private:
     QPushButton* _backToMain;
 
     CalibDepthProcess* _process;
+    DisparityProcess* _dispProcess;
 
     QComboBox* _picture;
 

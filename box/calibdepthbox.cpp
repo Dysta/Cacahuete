@@ -3,10 +3,10 @@
 
 using namespace std;
 
-CalibDepthBox::CalibDepthBox(const QString &title, QWidget* parent)
+CalibDepthBox::CalibDepthBox(const QString &title, DisparityProcess* dispProcess, QWidget* parent)
     : QGroupBox(title, parent)
 {
-    this->_process = new CalibDepthProcess((MainWindow *) parent);
+    this->_process = new CalibDepthProcess((MainWindow *) parent, dispProcess);
 
     this->createSlider();
 
@@ -54,10 +54,12 @@ void CalibDepthBox::createSlider() {
 
     this->_numCornersHLabel = new QLabel("Number of corners horizontally");
     this->_numCornersHBox = new QSpinBox();
+    this->_numCornersHBox->setValue(9);
     this->_numCornersHBox->setMinimum(0);
 
     this->_numCornersVLabel = new QLabel("Number of corners vertically");
     this->_numCornersVBox = new QSpinBox();
+    this->_numCornersVBox->setValue(6);
     this->_numCornersVBox->setMinimum(0);
 
     connect(this->_numCornersHBox, SIGNAL(valueChanged(int)), this, SLOT(onNumCornersHChange(int)));
@@ -109,6 +111,7 @@ void CalibDepthBox::onStereoCalibDo(){
 }
 
 void CalibDepthBox::onDepthMapDo(){
+    QMessageBox::information(this, "Information", "N'oubliez pas de configurer la carte de disparite avant !");
     cout << "Getting depth map..." << endl;
     this->_process->depthMap();
 }

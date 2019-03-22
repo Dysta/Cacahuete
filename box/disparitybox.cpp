@@ -322,6 +322,11 @@ void DisparityBox::createSlider() {
             this, SLOT(onSGBMmodeChange(int)));
 }
 
+DisparityProcess *DisparityBox::getProcess() const
+{
+    return _process;
+}
+
 void DisparityBox::onModeChange(int index) {
     std::cout << "Mode : " << index << std::endl;
     this->_process->setMode(index);

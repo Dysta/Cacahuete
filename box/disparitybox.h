@@ -28,6 +28,8 @@ public:
     virtual ~DisparityBox();
     QPushButton* getBackToMainButton() { return _backToMain; }
 
+    DisparityProcess *getProcess() const;
+
 private slots:
     void onModeChange(int index);
     void onButtonSendClic(bool);

@@ -13,14 +13,14 @@
 
 #include <QImage>
 
-#include "utils.h"
+#include "process/disparityprocess.h"
 
 class MainWindow;
 
 class CalibDepthProcess
 {
 public:
-    CalibDepthProcess(MainWindow* parent);
+    CalibDepthProcess(MainWindow* parent, DisparityProcess* dispProcess);
     void setImage(int value);
     void setNumCornersH(int);
     void setNumCornersV(int);
@@ -37,6 +37,7 @@ private:
     //void updatePicture(void);
 
     MainWindow* _parent;
+    DisparityProcess* _dispProcess;
 
     int _numCornersH;
     int _numCornersV;
