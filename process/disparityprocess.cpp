@@ -2,7 +2,8 @@
 #include "mainwindow.h"
 
 DisparityProcess::DisparityProcess(MainWindow* parent)
-    : _mode(0), _SBMnumDisparity(0), _SBMblockSize(21), _minDisparity(-64), _SGBMnumDisparity(192),
+    : _mode(0), _SBMnumDisparity(0), _SBMblockSize(21), _preFilterCap(1), _preFilterSize(5), _preFilterType(0),
+      _roi1(0), _roi2(0), _textureThreshold(0), _SBMuniquenessRatio(0), _minDisparity(-64), _SGBMnumDisparity(192),
       _SGBMblockSize(5), _p1(600), _p2(2400), _disp12MaxDiff(10), _preFilter(4), _UniquenessRatio(1),
       _speckleWindowsSize(150), _speckleRange(2), _SGBMmode(cv::StereoSGBM::MODE_SGBM)
 {
@@ -22,6 +23,14 @@ void DisparityProcess::process() {
 
     if(this->_mode == 0) {
         cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create(this->_SBMnumDisparity, this->_SBMblockSize);
+        sbm->setPreFilterCap(this->_preFilterCap);
+        sbm->setPreFilterSize(this->_preFilterSize);
+        sbm->setPreFilterType(this->_preFilterType);
+        sbm->setROI1(cv::Rect(this->_roi1, this->_roi1, this->_roi1, this->_roi1));
+        sbm->setROI2(cv::Rect(this->_roi2, this->_roi2, this->_roi2, this->_roi2));
+        sbm->setTextureThreshold(this->_textureThreshold);
+        sbm->setUniquenessRatio(this->_SBMuniquenessRatio);
+
         sbm->compute(gLeft, gRight, disp);
     } else if(this->_mode == 1) {
         // default param : -64,192,5,600,2400,10,4,1,150,2,cv::StereoSGBM::MODE_SGBM
@@ -74,6 +83,45 @@ void DisparityProcess::setSBMblockSize(int value) {
         this->updatePicture();
     }
 }
+
+void DisparityProcess::setPrefilterCap(int value) {
+    _preFilterCap = value;
+    this->updatePicture();
+}
+
+// odd
+void DisparityProcess::setPrefilterSize(int value) {
+    if (value & 1) {
+        _preFilterSize = value;
+        this->updatePicture();
+    }
+}
+
+void DisparityProcess::setPrefilterType(int value) {
+    _preFilterType = value;
+    this->updatePicture();
+}
+
+void DisparityProcess::setRoi1(int value) {
+    _roi1 = value;
+    this->updatePicture();
+}
+
+void DisparityProcess::setRoi2(int value) {
+    _roi2 = value;
+    this->updatePicture();
+}
+
+void DisparityProcess::setTextureThreshold(int value) {
+    _textureThreshold = value;
+    this->updatePicture();
+}
+
+void DisparityProcess::setSBMuniquenessRatio(int value) {
+    _SBMuniquenessRatio = value;
+    this->updatePicture();
+}
+
 
 void DisparityProcess::setMinDisp(int value) {
     _minDisparity = value;

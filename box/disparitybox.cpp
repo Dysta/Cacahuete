@@ -24,6 +24,28 @@ DisparityBox::DisparityBox(const QString &title, QWidget* parent)
     this->_disparityGrid->addWidget(this->_SBMblockSizeLabel, 2, 0);
     this->_disparityGrid->addWidget(this->_SBMblockSizeSlider, 2, 1);
 
+    this->_disparityGrid->addWidget(this->_preFilterCapLabel, 3, 0);
+    this->_disparityGrid->addWidget(this->_preFilterCapSlider, 3, 1);
+
+    this->_disparityGrid->addWidget(this->_preFilterSizeLabel, 4, 0);
+    this->_disparityGrid->addWidget(this->_preFilterSizeSlider, 4, 1);
+
+    this->_disparityGrid->addWidget(this->_preFilterTypeLabel, 5, 0);
+    this->_disparityGrid->addWidget(this->_preFilterTypeCombo, 5, 1);
+
+    this->_disparityGrid->addWidget(this->_roi1Label, 6, 0);
+    this->_disparityGrid->addWidget(this->_roi1Slider, 6, 1);
+
+    this->_disparityGrid->addWidget(this->_roi2Label, 7, 0);
+    this->_disparityGrid->addWidget(this->_roi2Slider, 7, 1);
+
+    this->_disparityGrid->addWidget(this->_textureThresholdLabel, 8, 0);
+    this->_disparityGrid->addWidget(this->_textureThresholdSlider, 8, 1);
+
+    this->_disparityGrid->addWidget(this->_SBMuniquenessRationLabel, 9, 0);
+    this->_disparityGrid->addWidget(this->_SBMuniquenessRationSlider, 9, 1);
+
+
     this->_disparityGrid->addWidget(this->_minDisparityLabel, 3, 0);
     this->_disparityGrid->addWidget(this->_minDisparitySlider, 3, 1);
 
@@ -88,6 +110,62 @@ void DisparityBox::createSlider() {
     this->_SBMblockSizeSlider->setSingleStep(2);
     this->_SBMblockSizeSlider->setRange(5, 255);
     this->_SBMblockSizeSlider->setValue(1);
+
+    this->_preFilterCapLabel = new QLabel("Prefilter Cap");
+    this->_preFilterCapSlider = new QSlider(Qt::Horizontal);
+    this->_preFilterCapSlider->setTickPosition(QSlider::TicksAbove);
+    this->_preFilterCapSlider->setTickInterval(10);
+    this->_preFilterCapSlider->setSingleStep(2);
+    this->_preFilterCapSlider->setRange(1, 63);
+    this->_preFilterCapSlider->setValue(1);
+
+    this->_preFilterSizeLabel = new QLabel("Prefilter Size");
+    this->_preFilterSizeSlider = new QSlider(Qt::Horizontal);
+    this->_preFilterSizeSlider->setTickPosition(QSlider::TicksAbove);
+    this->_preFilterSizeSlider->setTickInterval(10);
+    this->_preFilterSizeSlider->setSingleStep(2);
+    this->_preFilterSizeSlider->setRange(5, 255);
+    this->_preFilterSizeSlider->setValue(5);
+
+    this->_preFilterTypeLabel = new QLabel("Prefilter Type");
+    this->_preFilterTypeCombo = new QComboBox();
+    this->_preFilterTypeCombo->addItem("PREFILTER_NORMALIZED_RESPONSE");
+    this->_preFilterTypeCombo->addItem("PREFILTER_XSOBEL");
+
+    this->_roi1Label = new QLabel("ROI 1");
+    this->_roi1Slider = new QSlider(Qt::Horizontal);
+    this->_roi1Slider->setTickPosition(QSlider::TicksAbove);
+    this->_roi1Slider->setTickInterval(10);
+    this->_roi1Slider->setSingleStep(2);
+    this->_roi1Slider->setRange(0, 255);
+    this->_roi1Slider->setValue(1);
+
+    this->_roi2Label = new QLabel("ROI 2");
+    this->_roi2Slider = new QSlider(Qt::Horizontal);
+    this->_roi2Slider->setTickPosition(QSlider::TicksAbove);
+    this->_roi2Slider->setTickInterval(10);
+    this->_roi2Slider->setSingleStep(2);
+    this->_roi2Slider->setRange(0, 255);
+    this->_roi2Slider->setValue(1);
+
+    this->_textureThresholdLabel = new QLabel("Texture Threshold");
+    this->_textureThresholdSlider = new QSlider(Qt::Horizontal);
+    this->_textureThresholdSlider->setTickPosition(QSlider::TicksAbove);
+    this->_textureThresholdSlider->setTickInterval(10);
+    this->_textureThresholdSlider->setSingleStep(2);
+    this->_textureThresholdSlider->setRange(0, 255);
+    this->_textureThresholdSlider->setValue(1);
+
+    this->_SBMuniquenessRationLabel = new QLabel("Uniqueness Ration");
+    this->_SBMuniquenessRationSlider = new QSlider(Qt::Horizontal);
+    this->_SBMuniquenessRationSlider->setTickPosition(QSlider::TicksAbove);
+    this->_SBMuniquenessRationSlider->setTickInterval(10);
+    this->_SBMuniquenessRationSlider->setSingleStep(2);
+    this->_SBMuniquenessRationSlider->setRange(0, 255);
+    this->_SBMuniquenessRationSlider->setValue(1);
+
+
+
 
     this->_minDisparityLabel = new QLabel("Minimum disparity Number");
     this->_minDisparityLabel->setVisible(false);
@@ -199,10 +277,27 @@ void DisparityBox::createSlider() {
 
     connect(this->_mode, SIGNAL(activated(int)),
             this, SLOT(onModeChange(int)));
+
     connect(this->_SBMnumDisparitySlider, SIGNAL(valueChanged(int)),
             this, SLOT(onSBMnumDisparityChange(int)));
     connect(this->_SBMblockSizeSlider, SIGNAL(valueChanged(int)),
             this, SLOT(onSBMblockSizeChange(int)));
+    connect(this->_preFilterCapSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(onPrefilterCapChange(int)));
+    connect(this->_preFilterSizeSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(onPrefilterSizeChange(int)));
+    connect(this->_preFilterTypeCombo, SIGNAL(activated(int)),
+            this, SLOT(onPrefilterTypeChange(int)));
+    connect(this->_roi1Slider, SIGNAL(valueChanged(int)),
+            this, SLOT(onRoi1Change(int)));
+    connect(this->_roi2Slider, SIGNAL(valueChanged(int)),
+            this, SLOT(onRoi2Change(int)));
+    connect(this->_textureThresholdSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(onTextureThresholdChange(int)));
+    connect(this->_SBMuniquenessRationSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(onSBMuniquenessRationChange(int)));
+
+
     connect(this->_minDisparitySlider, SIGNAL(valueChanged(int)),
             this, SLOT(onMinDisparityChange(int)));
     connect(this->_SGBMnumDisparitySlider, SIGNAL(valueChanged(int)),
@@ -235,6 +330,21 @@ void DisparityBox::onModeChange(int index) {
     this->_SBMnumDisparitySlider->setVisible((bool) !index);
     this->_SBMblockSizeLabel->setVisible((bool) !index);
     this->_SBMblockSizeSlider->setVisible((bool) !index);
+    this->_preFilterCapLabel->setVisible((bool) !index);
+    this->_preFilterCapSlider->setVisible((bool) !index);
+    this->_preFilterSizeLabel->setVisible((bool) !index);
+    this->_preFilterSizeSlider->setVisible((bool) !index);
+    this->_preFilterTypeLabel->setVisible((bool) !index);
+    this->_preFilterTypeCombo->setVisible((bool) !index);
+    this->_roi1Label->setVisible((bool) !index);
+    this->_roi1Slider->setVisible((bool) !index);
+    this->_roi2Label->setVisible((bool) !index);
+    this->_roi2Slider->setVisible((bool) !index);
+    this->_textureThresholdLabel->setVisible((bool) !index);
+    this->_textureThresholdSlider->setVisible((bool) !index);
+    this->_SBMuniquenessRationLabel->setVisible((bool) !index);
+    this->_SBMuniquenessRationSlider->setVisible((bool) !index);
+
 
     this->_minDisparityLabel->setVisible((bool) index);
     this->_minDisparitySlider->setVisible((bool) index);
@@ -269,6 +379,42 @@ void DisparityBox::onSBMblockSizeChange(int value) {
     std::cout << "SBM Block Size : " << value << std::endl;
     this->_process->setSBMblockSize(value);
 }
+
+void DisparityBox::onPrefilterCapChange(int value) {
+    std::cout << "SBM Prefilter Cap : " << value << std::endl;
+    this->_process->setPrefilterCap(value);
+}
+
+void DisparityBox::onPrefilterSizeChange(int value) {
+    std::cout << "SBM Prefilter Size : " << value << std::endl;
+    this->_process->setPrefilterSize(value);
+}
+
+void DisparityBox::onPrefilterTypeChange(int value) {
+    std::cout << "SBM Prefilter Type : " << value << std::endl;
+    this->_process->setPrefilterType(value);
+}
+
+void DisparityBox::onRoi1Change(int value) {
+    std::cout << "SBM ROI1 : " << value << std::endl;
+    this->_process->setRoi1(value);
+}
+
+void DisparityBox::onRoi2Change(int value) {
+    std::cout << "SBM ROI2 : " << value << std::endl;
+    this->_process->setRoi2(value);
+}
+
+void DisparityBox::onTextureThresholdChange(int value) {
+    std::cout << "SBM Texture Threshold : " << value << std::endl;
+    this->_process->setTextureThreshold(value);
+}
+
+void DisparityBox::onSBMuniquenessRationChange(int value) {
+    std::cout << "SBM Uniqueness Ratio : " << value << std::endl;
+    this->_process->setSBMuniquenessRatio(value);
+}
+
 
 void DisparityBox::onMinDisparityChange(int value) {
     std::cout << "Min Disp : " << value << std::endl;

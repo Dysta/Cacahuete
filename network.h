@@ -11,8 +11,7 @@
 #include <QBuffer>
 #include <QMessageBox>
 
-#define MAX_BUFF_SIZE 700000
-
+#define MAX_BUFF_SIZE 400000
 
 class MainWindow;
 

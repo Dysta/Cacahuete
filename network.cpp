@@ -81,20 +81,36 @@ void Network::onRead() {
     QTcpSocket* soc = qobject_cast<QTcpSocket *>(sender());
     if (soc == nullptr) return;
 
+    /*
+    if (this->_loadFaillure >= MAX_LOAD_ATTEMPT) {
+        qDebug() << "max failure attempt reached - reinit";
+        this->_data.clear();
+        this->_loadFaillure = 0;
+    }
+    */
+
     this->_data.append(soc->readAll());
+    qDebug() << "size = " << this->_data.size();
 
-    if (this->_data.size() > MAX_BUFF_SIZE) this->_data.clear(); // si on a trop de data
+    if (this->_data.size() > MAX_BUFF_SIZE) { // si on a trop de data (image corrompu qui bourrine le buffer)
+        qDebug() << "cleared";
+        this->_data.clear();
+    }
 
-    this->_picture = QImage::fromData(this->_data, "PNG");
+    if (this->_data.size() > 0)
+        this->_picture = QImage::fromData(this->_data, "PNG");
 
-    if(!this->_picture.isNull()) { // si l'image est chargé complètement
+    if (!this->_picture.isNull()) { // si l'image est chargé complètement
         this->onFinishRead();
+    } else { // on a raté le chargement
+        qDebug() << "raté";
     }
 }
 
 void Network::onDisconnect() {
-    std::cout << "on disconnect" << std::endl;
     this->_mw->setNetworkSuccess(false);
+    delete this->_botControllWidget;
+    delete this->_botControlLayout;
 }
 
 void Network::onError(QAbstractSocket::SocketError) {
@@ -102,8 +118,7 @@ void Network::onError(QAbstractSocket::SocketError) {
 }
 
 void Network::onFinishRead() {
-    qDebug() << "finis read";
-
+    qDebug() << "finish read";
     QImage left = this->_picture.copy(0, 0, this->_picture.width()/2, this->_picture.height());
     QImage right = this->_picture.copy(this->_picture.width()/2, 0, this->_picture.width()/2, this->_picture.height());
     this->_mw->setOriLeftPucture(left.copy());
