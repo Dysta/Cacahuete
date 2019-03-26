@@ -290,10 +290,12 @@ void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVid
 
     cv::FileStorage fs = cv::FileStorage("stereocalib", cv::FileStorage::WRITE | cv::FileStorage::FORMAT_JSON);
 
+    this->setQ(Q);
+    this->setMaps(map1, map2);
+
     fs.write("map1", map1);
     fs.write("map2", map2);
     fs.write("Q", Q);
-
 
     fs.release();
 

@@ -110,6 +110,11 @@ void CalibDepthBox::onStereoCalibDo(){
 
     if ( fileList.isEmpty() ) return;
 
+    if ( fileList.size() % 2 == 1) {
+        QMessageBox::warning(this, "Erreur", "Vous devez charger un nombre paire d'images.");
+        return;
+    }
+
     this->_process->stereoCalib(fileList, fileList.length(), false);
 }
 
