@@ -290,12 +290,12 @@ void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVid
 
     cv::FileStorage fs = cv::FileStorage("stereocalib", cv::FileStorage::WRITE | cv::FileStorage::FORMAT_JSON);
 
+    this->setQ(Q);
+    this->setMaps(map1, map2);
+
     fs.write("map1", map1);
     fs.write("map2", map2);
     fs.write("Q", Q);
-
-    this->setMaps(map1, map2);
-    this->setQ(Q);
 
     fs.release();
 
@@ -314,8 +314,8 @@ void CalibDepthProcess::depthMap(){
     cv::Mat left = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true);
     cv::Mat right = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalRightPicture(), true);
     cv::Mat correctedImgL, correctedImgR;
-    cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_NEAREST);
-    cv::remap(right, correctedImgR, this->_map1, this->_map2, cv::INTER_NEAREST);
+    cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_LINEAR);
+    cv::remap(right, correctedImgR, this->_map1, this->_map2, cv::INTER_LINEAR);
 
     cout << "Remap done !" << endl;
     cout << "Creating disparity map..." << endl;
