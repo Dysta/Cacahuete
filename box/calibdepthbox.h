@@ -29,6 +29,8 @@ public:
     virtual ~CalibDepthBox();
     QPushButton* getBackToMainButton() { return _backToMain; }
 
+    CalibDepthProcess *getProcess() const;
+
 private slots:
     void onImageChange(int);
     void onNumCornersHChange(int);

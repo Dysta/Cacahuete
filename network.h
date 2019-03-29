@@ -11,7 +11,10 @@
 #include <QBuffer>
 #include <QMessageBox>
 
-#define MAX_BUFF_SIZE 400000
+#include "process/disparityprocess.h"
+#include "process/calibdepthprocess.h"
+
+#define MAX_BUFF_SIZE 500000
 
 class MainWindow;
 
@@ -20,7 +23,7 @@ class Network : public QTcpSocket
     Q_OBJECT
 
 public:
-    Network(MainWindow* mw, const QString& host, quint16 port, QObject* parent = nullptr);
+    Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthProcess* depthProcess);
     ~Network();
     bool isCreated() { return _running; }
     void send();
@@ -42,6 +45,8 @@ private:
     void onFinishRead(void);
 
     MainWindow* _mw;
+    DisparityProcess* _disparityProcess;
+    CalibDepthProcess* _depthProcess;
 
     QWidget* _botControllWidget;
     QGridLayout* _botControlLayout;
@@ -56,7 +61,10 @@ private:
     quint16 _port;
     bool _running;
 
+    bool _sizeReceived;
+
     QByteArray _data;
+    QByteArray _dataSize;
     QImage _picture;
 };
 

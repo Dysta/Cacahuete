@@ -69,6 +69,11 @@ void CalibDepthBox::createSlider() {
     connect(this->_numCornersVBox, SIGNAL(valueChanged(int)), this, SLOT(onNumCornersVChange(int)));
 }
 
+CalibDepthProcess *CalibDepthBox::getProcess() const
+{
+    return _process;
+}
+
 void CalibDepthBox::onCalibrationDo(){
 
     QMessageBox::warning(this, "Attention", "Veillez a bien charger plusieurs images avec un echiquer correspondant aux valeurs donnees.");

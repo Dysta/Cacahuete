@@ -317,9 +317,6 @@ void CalibDepthProcess::depthMap(){
     cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_NEAREST);
     cv::remap(right, correctedImgR, this->_map1, this->_map2, cv::INTER_NEAREST);
 
-    cv::imshow("remap left", correctedImgL);
-    cv::imshow("remap right", correctedImgR);
-
     cout << "Remap done !" << endl;
     cout << "Creating disparity map..." << endl;
 

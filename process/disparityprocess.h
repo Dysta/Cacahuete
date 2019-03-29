@@ -45,11 +45,11 @@ public:
     void sendPicture(void);
 
     cv::Mat process(cv::Mat left, cv::Mat right);
+    void process(void);
+
 
 private:
     void updatePicture(void);
-    void process(void);
-
     MainWindow* _parent;
 
     int _mode;
