@@ -83,10 +83,11 @@ void Network::onRead() {
     if (soc == nullptr) return;
 
     if (!_sizeReceived) {
-        qDebug() << soc->read(8);
+        this->_dataSize = soc->read(4);
+        this->_dataSize = this->_dataSize.toHex();
         qDebug() << "data size data :" << this->_dataSize;
-        qDebug() << "data size :" << this->_dataSize.toInt();
-        this->_sizeReceived = !this->_sizeReceived;
+        qDebug() << "data size :" << this->_dataSize.toInt(nullptr, 16);
+        this->_sizeReceived = true;
     }
 
     this->_data.append(soc->readAll());
@@ -97,7 +98,7 @@ void Network::onRead() {
         this->_data.clear();
     }
 
-    if (this->_data.size() > 0 && this->_data.size() == this->_dataSize.toInt()) {
+    if (this->_data.size() > 0 && this->_data.size() == this->_dataSize.toInt(nullptr, 16)) {
         this->_picture = QImage::fromData(this->_data, "PNG");
         if (!this->_picture.isNull()) { // si l'image est chargé complètement
             this->onFinishRead();
@@ -132,7 +133,7 @@ void Network::onFinishRead() {
 
     this->_data.clear();
     this->_dataSize.clear();
-    this->_sizeReceived = !this->_sizeReceived;
+    this->_sizeReceived = false;
 }
 
 void Network::onForwardClic(bool) {
