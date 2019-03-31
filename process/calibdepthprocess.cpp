@@ -348,7 +348,7 @@ void CalibDepthProcess::loadParam(){
                                                 "",
                                                 "File (*)",
                                                 NULL,
-                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                QFileDialog::ReadOnly
                                                 );
 
     if (file.isEmpty()) return;
