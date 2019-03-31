@@ -343,21 +343,46 @@ void CalibDepthProcess::depthMap(){
 }
 
 void CalibDepthProcess::loadParam(){
-    cv::FileStorage fs = cv::FileStorage("stereocalib", cv::FileStorage::READ | cv::FileStorage::FORMAT_JSON);
-    if(!fs.isOpened()){
-        QMessageBox::critical(this->_parent, "Erreur", "Vous devez au moins effectuer la calibration une fois (fichier introuvable)");
+    QString file = QFileDialog::getOpenFileName(this->_parent,
+                                                "Sélectionnez le fichier contenant les parametres",
+                                                "",
+                                                "File (*)",
+                                                NULL,
+                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
+                                                );
+
+    if (file.isEmpty()) return;
+
+    cv::FileStorage fs;
+
+    try {
+        fs = cv::FileStorage(file.toStdString(), cv::FileStorage::READ | cv::FileStorage::FORMAT_JSON);
+    } catch (const cv::Exception e) {
+        Q_UNUSED(e);
+        QMessageBox::critical(this->_parent, "Erreur", "Impossible d'ouvrir le fichier");
         return;
     }
-    cv::FileNode map1Node = fs["map1"];
-    cv::FileNode map2Node = fs["map2"];
-    cv::FileNode QNode = fs["Q"];
 
-    cv::Mat map1 = map1Node.mat();
-    cv::Mat map2 = map2Node.mat();
-    cv::Mat Q = QNode.mat();
+    if(!fs.isOpened()){
+        QMessageBox::critical(this->_parent, "Erreur", "Erreur dans l'ouverture du fichier");
+        return;
+    }
 
-    this->setMaps(map1, map2);
-    this->setQ(Q);
+    try {
+        cv::FileNode map1Node = fs["map1"];
+        cv::FileNode map2Node = fs["map2"];
+        cv::FileNode QNode = fs["Q"];
+
+        cv::Mat map1 = map1Node.mat();
+        cv::Mat map2 = map2Node.mat();
+        cv::Mat Q = QNode.mat();
+
+        this->setMaps(map1, map2);
+        this->setQ(Q);
+    } catch (const cv::Exception e) {
+        QMessageBox::critical(this->_parent, "Erreur", e.what());
+        return;
+    }
 
     fs.release();
 
