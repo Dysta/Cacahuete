@@ -60,6 +60,7 @@ void CalibDepthProcess::calibration(QStringList sList, int numBoards, bool isVid
         // Searching for a pattern
         bool patternFound = cv::findChessboardCorners(grayImage, boardSize, corners, cv::CALIB_CB_ADAPTIVE_THRESH | cv::CALIB_CB_FILTER_QUADS);
 
+
         if  (patternFound){
             // If a pattern is found, keep it and draw the current points of the chessboard
             cv::cornerSubPix(grayImage, corners, cv::Size(11, 11), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
@@ -313,17 +314,17 @@ void CalibDepthProcess::depthMap(){
 
     cv::Mat left = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true);
     cv::Mat right = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalRightPicture(), true);
-    cv::Mat correctedImgL, correctedImgR;
-    cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_LINEAR);
-    cv::remap(right, correctedImgR, this->_map1, this->_map2, cv::INTER_LINEAR);
+//    cv::Mat correctedImgL, correctedImgR;
+//    cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_LINEAR);
+//    cv::remap(right, correctedImgR, this->_map1, this->_map2, cv::INTER_LINEAR);
 
-    cv::imshow("remap left", correctedImgL);
-    cv::imshow("remap right", correctedImgR);
+//    cv::imshow("remap left", correctedImgL);
+//    cv::imshow("remap right", correctedImgR);
 
-    cout << "Remap done !" << endl;
+//    cout << "Remap done !" << endl;
     cout << "Creating disparity map..." << endl;
 
-    cv::Mat disp = this->_dispProcess->process(correctedImgL, correctedImgR);
+    cv::Mat disp = this->_dispProcess->process(left, right);
 
     cout << "Creating depth map..." << endl;
 

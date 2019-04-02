@@ -9,6 +9,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/persistence.hpp>
 #include <opencv2/videoio/videoio.hpp>
+#include <opencv2/aruco/charuco.hpp>
 #include <vector>
 
 #include <QImage>
