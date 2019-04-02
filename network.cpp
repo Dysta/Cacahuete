@@ -1,8 +1,8 @@
 #include "network.h"
 #include "mainwindow.h"
 
-Network::Network(MainWindow* mw, const QString& host, quint16 port, QObject* parent)
-    : QTcpSocket(parent), _mw(mw), _host(host), _port(port), _running(false)
+Network::Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthProcess* depthProcess)
+    : QTcpSocket((QObject*) mw), _mw(mw), _host(host), _port(port), _running(false), _sizeReceived(false)
 {
     connect(this, SIGNAL(connected()),
             this, SLOT(onConnect()));
@@ -15,7 +15,8 @@ Network::Network(MainWindow* mw, const QString& host, quint16 port, QObject* par
 
     this->connectToHost(this->_host, this->_port);
 
-
+    this->_disparityProcess = dispProcess;
+    this->_depthProcess = depthProcess;
 }
 
 Network::~Network() {
@@ -81,13 +82,13 @@ void Network::onRead() {
     QTcpSocket* soc = qobject_cast<QTcpSocket *>(sender());
     if (soc == nullptr) return;
 
-    /*
-    if (this->_loadFaillure >= MAX_LOAD_ATTEMPT) {
-        qDebug() << "max failure attempt reached - reinit";
-        this->_data.clear();
-        this->_loadFaillure = 0;
+    if (!_sizeReceived) {
+        this->_dataSize = soc->read(4);
+        this->_dataSize = this->_dataSize.toHex();
+        qDebug() << "data size data :" << this->_dataSize;
+        qDebug() << "data size :" << this->_dataSize.toInt(nullptr, 16);
+        this->_sizeReceived = true;
     }
-    */
 
     this->_data.append(soc->readAll());
     qDebug() << "size = " << this->_data.size();
@@ -97,13 +98,13 @@ void Network::onRead() {
         this->_data.clear();
     }
 
-    if (this->_data.size() > 0)
+    if (this->_data.size() > 0 && this->_data.size() == this->_dataSize.toInt(nullptr, 16)) {
         this->_picture = QImage::fromData(this->_data, "PNG");
-
-    if (!this->_picture.isNull()) { // si l'image est chargé complètement
-        this->onFinishRead();
-    } else { // on a raté le chargement
-        qDebug() << "raté";
+        if (!this->_picture.isNull()) { // si l'image est chargé complètement
+            this->onFinishRead();
+        } else { // on a raté le chargement
+            qDebug() << "raté";
+        }
     }
 }
 
@@ -126,8 +127,13 @@ void Network::onFinishRead() {
     this->_mw->copyImage();
     this->_mw->updateImage();
 
+    this->_disparityProcess->process();
+    this->_depthProcess->depthMap();
+
 
     this->_data.clear();
+    this->_dataSize.clear();
+    this->_sizeReceived = false;
 }
 
 void Network::onForwardClic(bool) {
