@@ -32,7 +32,7 @@ public:
     void calibration(QStringList sList, int numBoards, bool isVideo);
     void undistort(void);
     void stereoCalib(QStringList sList, int numBoards, bool isVideo);
-    void depthMap(void);
+    void depthMap(bool useRemap);
     void loadParam(void);
 
 private:

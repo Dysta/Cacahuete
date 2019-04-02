@@ -1,7 +1,7 @@
 #include "network.h"
 #include "mainwindow.h"
 
-Network::Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthProcess* depthProcess)
+Network::Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthBox* depthBox,CalibDepthProcess* depthProcess)
     : QTcpSocket((QObject*) mw), _mw(mw), _host(host), _port(port), _running(false), _sizeReceived(false)
 {
     connect(this, SIGNAL(connected()),
@@ -16,6 +16,7 @@ Network::Network(MainWindow* mw, const QString& host, quint16 port, DisparityPro
     this->connectToHost(this->_host, this->_port);
 
     this->_disparityProcess = dispProcess;
+    this->_depthBox = depthBox;
     this->_depthProcess = depthProcess;
 }
 
@@ -128,7 +129,7 @@ void Network::onFinishRead() {
     this->_mw->updateImage();
 
     this->_disparityProcess->process();
-    this->_depthProcess->depthMap();
+    this->_depthProcess->depthMap(this->_depthBox->_useRemap->isChecked());
 
 
     this->_data.clear();

@@ -20,6 +20,7 @@ CalibDepthBox::CalibDepthBox(const QString &title, DisparityProcess* dispProcess
     this->_calibGrid = new QGridLayout();
 
     this->_calibGrid->addWidget(this->_picture, 0, 0);
+    this->_calibGrid->addWidget(this->_useRemap, 0, 1);
 
     this->_calibGrid->addWidget(this->_numCornersHLabel, 1, 0);
     this->_calibGrid->addWidget(this->_numCornersHBox, 1, 1);
@@ -39,6 +40,7 @@ CalibDepthBox::CalibDepthBox(const QString &title, DisparityProcess* dispProcess
     setLayout(this->_calibGrid);
 
     connect(this->_picture, SIGNAL(activated(int)), this, SLOT(onImageChange(int)));
+    connect(this->_useRemap, SIGNAL(stateChanged(int)), this, SLOT(onRemapChange()));
     connect(this->_calibrationButton, SIGNAL(clicked(bool)), this, SLOT(onCalibrationDo()));
     connect(this->_undistortButton, SIGNAL(clicked(bool)), this, SLOT(onUndistortDo()));
     connect(this->_stereoCalibButton, SIGNAL(clicked(bool)), this, SLOT(onStereoCalibDo()));
@@ -54,6 +56,8 @@ void CalibDepthBox::createSlider() {
     this->_picture = new QComboBox();
     this->_picture->addItem("Détordre l'image de gauche");
     this->_picture->addItem("Détordre l'image de droite");
+
+    this->_useRemap = new QCheckBox("Utiliser le remapping");
 
     this->_numCornersHLabel = new QLabel("Number of corners horizontally");
     this->_numCornersHBox = new QSpinBox();
@@ -123,10 +127,14 @@ void CalibDepthBox::onStereoCalibDo(){
     this->_process->stereoCalib(fileList, fileList.length(), false);
 }
 
+void CalibDepthBox::onRemapChange(){
+    cout << "Using remapping set to " << this->_useRemap->isChecked() << endl;
+}
+
 void CalibDepthBox::onDepthMapDo(){
     QMessageBox::information(this, "Information", "N'oubliez pas de configurer la carte de disparite avant !");
     cout << "Getting depth map..." << endl;
-    this->_process->depthMap();
+    this->_process->depthMap(this->_useRemap->isChecked());
 }
 
 void CalibDepthBox::onLoadParamDo(){

@@ -9,6 +9,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QComboBox>
+#include <QCheckBox>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
@@ -30,9 +31,11 @@ public:
     QPushButton* getBackToMainButton() { return _backToMain; }
 
     CalibDepthProcess *getProcess() const;
+    QCheckBox* _useRemap;
 
 private slots:
     void onImageChange(int);
+    void onRemapChange();
     void onNumCornersHChange(int);
     void onNumCornersVChange(int);
     void onCalibrationDo();

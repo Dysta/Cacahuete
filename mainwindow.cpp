@@ -190,7 +190,7 @@ void MainWindow::onNetworkBtnClick() {
     this->_host = this->_hostLine->text();
     this->_port = this->_portLine->text().toInt();
     if (!this->_host.isEmpty()) {
-        this->_network = new Network(this, this->_host, this->_port, this->_disparityBox->getProcess(), this->_calibBox->getProcess());
+        this->_network = new Network(this, this->_host, this->_port, this->_disparityBox->getProcess(), this->_calibBox,this->_calibBox->getProcess());
         this->_networkWidget->hide();
         delete this->_networkWidget;
         this->_networkExist = true;
