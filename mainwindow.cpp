@@ -40,7 +40,6 @@ void MainWindow::createAction() {
     this->_aboutAct = new QAction("Infos", this);
     connect(this->_aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 
-    // connect to a network
     this->_networkAct = new QAction("Recevoir un fichier depuis le reseau", this);
     this->_networkAct->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_O));
     connect(this->_networkAct, SIGNAL(triggered()), this, SLOT(network()));
@@ -114,7 +113,7 @@ void MainWindow::open() {
                                                 "Images/",
                                                 "Image (*.png *.jpg)",
                                                 NULL,
-                                                /* QFileDialog::DontUseNativeDialog |*/ QFileDialog::ReadOnly
+                                                QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly
                                                 );
 
     if (files.isEmpty()) return;
@@ -191,7 +190,7 @@ void MainWindow::onNetworkBtnClick() {
     this->_host = this->_hostLine->text();
     this->_port = this->_portLine->text().toInt();
     if (!this->_host.isEmpty()) {
-        this->_network = new Network(this, this->_host, this->_port, this->_disparityBox->getProcess(), this->_calibBox->getProcess());
+        this->_network = new Network(this, this->_host, this->_port, this->_disparityBox->getProcess(), this->_calibBox,this->_calibBox->getProcess());
         this->_networkWidget->hide();
         delete this->_networkWidget;
         this->_networkExist = true;

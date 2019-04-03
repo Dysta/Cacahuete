@@ -16,6 +16,11 @@ class MainWindow;
 class DisparityProcess
 {
 public:
+    enum {
+        SBM,
+        SGBM
+    };
+
     DisparityProcess(MainWindow* parent);
     DisparityProcess* getInstance(void) { return this; }
     void setMode(int value);

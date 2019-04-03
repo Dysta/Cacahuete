@@ -11,48 +11,13 @@ DisparityProcess::DisparityProcess(MainWindow* parent)
 }
 
 void DisparityProcess::process() {
-    cv::Mat gLeft, gRight, disp, disp8;
-
     cv::Mat left = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true); //Création de l'image gauche
     //Si la largeur de l'image (en pixels) est impaire on retire un pixel de largeur sur l'image droite
     cv::Mat right = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalRightPicture(), true); //Création de l'image droite
 
-    cv::cvtColor(left, gLeft, CV_BGR2GRAY);
-    cv::cvtColor(right, gRight, CV_BGR2GRAY);
+    cv::Mat disp = this->process(left, right);
 
-
-    if(this->_mode == 0) {
-        cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create(this->_SBMnumDisparity, this->_SBMblockSize);
-        sbm->setPreFilterCap(this->_preFilterCap);
-        sbm->setPreFilterSize(this->_preFilterSize);
-        sbm->setPreFilterType(this->_preFilterType);
-        sbm->setROI1(cv::Rect(this->_roi1, this->_roi1, this->_roi1, this->_roi1));
-        sbm->setROI2(cv::Rect(this->_roi2, this->_roi2, this->_roi2, this->_roi2));
-        sbm->setTextureThreshold(this->_textureThreshold);
-        sbm->setUniquenessRatio(this->_SBMuniquenessRatio);
-
-        sbm->compute(gLeft, gRight, disp);
-    } else if(this->_mode == 1) {
-        // default param : -64,192,5,600,2400,10,4,1,150,2,cv::StereoSGBM::MODE_SGBM
-        cv::Ptr<cv::StereoSGBM> sgbm = cv::StereoSGBM::create(
-                    this->_minDisparity ,
-                    this->_SGBMnumDisparity,
-                    this->_SGBMblockSize,
-                    this->_p1,
-                    this->_p2,
-                    this->_disp12MaxDiff,
-                    this->_preFilter,
-                    this->_UniquenessRatio,
-                    this->_speckleWindowsSize,
-                    this->_speckleRange,
-                    this->_SGBMmode
-                    );
-        sgbm->compute(gLeft, gRight, disp);
-    }
-
-
-    cv::normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
-    cv::imshow("Disparity", disp8);
+    cv::imshow("Disparity", disp);
     //QImage pic = Utils::Convert::CvMat::toQImage(&disp8, true);
     //this->_parent->setPicture(pic);
 }
@@ -64,7 +29,7 @@ cv::Mat DisparityProcess::process(cv::Mat left, cv::Mat right) {
     cv::cvtColor(right, gRight, CV_BGR2GRAY);
 
 
-    if(this->_mode == 0) {
+    if(this->_mode == DisparityProcess::SBM) {
         cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create(this->_SBMnumDisparity, this->_SBMblockSize);
         sbm->setPreFilterCap(this->_preFilterCap);
         sbm->setPreFilterSize(this->_preFilterSize);
@@ -75,7 +40,7 @@ cv::Mat DisparityProcess::process(cv::Mat left, cv::Mat right) {
         sbm->setUniquenessRatio(this->_SBMuniquenessRatio);
 
         sbm->compute(gLeft, gRight, disp);
-    } else if(this->_mode == 1) {
+    } else if(this->_mode == DisparityProcess::SGBM) {
         // default param : -64,192,5,600,2400,10,4,1,150,2,cv::StereoSGBM::MODE_SGBM
         cv::Ptr<cv::StereoSGBM> sgbm = cv::StereoSGBM::create(
                     this->_minDisparity ,
@@ -96,8 +61,6 @@ cv::Mat DisparityProcess::process(cv::Mat left, cv::Mat right) {
 
     cv::normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
     return disp8;
-    //QImage pic = Utils::Convert::CvMat::toQImage(&disp8, true);
-    //this->_parent->setPicture(pic);
 }
 
 void DisparityProcess::updatePicture() {

@@ -9,6 +9,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/persistence.hpp>
 #include <opencv2/videoio/videoio.hpp>
+#include <opencv2/aruco/charuco.hpp>
 #include <vector>
 
 #include <QImage>
@@ -31,7 +32,7 @@ public:
     void calibration(QStringList sList, int numBoards, bool isVideo);
     void undistort(void);
     void stereoCalib(QStringList sList, int numBoards, bool isVideo);
-    void depthMap(void);
+    void depthMap(bool useRemap);
     void loadParam(void);
 
 private:
