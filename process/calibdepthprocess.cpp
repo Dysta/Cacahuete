@@ -289,23 +289,29 @@ void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVid
 
     cout << "Calibration done!" << endl;
 
-    cv::FileStorage fs = cv::FileStorage("stereocalib", cv::FileStorage::WRITE | cv::FileStorage::FORMAT_JSON);
+    QString file = QFileDialog::getSaveFileName(this->_parent, "Enregistrer les parametres", "", "File (*.json)");
 
-    this->setQ(Q);
-    this->setMaps(map1, map2);
+    if (!file.isEmpty()) {
+        if (!file.contains(".json"))
+            file.append(".json");
+        cv::FileStorage fs = cv::FileStorage(file.toStdString(), cv::FileStorage::WRITE | cv::FileStorage::FORMAT_JSON);
 
-    fs.write("map1", map1);
-    fs.write("map2", map2);
-    fs.write("Q", Q);
+        this->setQ(Q);
+        this->setMaps(map1, map2);
 
-    fs.release();
+        fs.write("map1", map1);
+        fs.write("map2", map2);
+        fs.write("Q", Q);
+
+        fs.release();
+    }
 
     QMessageBox::information(this->_parent, "Termine", "Calibration terminee !");
 
 }
 
 
-void CalibDepthProcess::depthMap(bool useRemap){
+void CalibDepthProcess::depthMap(){
 
     if(this->_map1.empty() && this->_map2.empty() && this->_Q.empty()){
         QMessageBox::warning(this->_parent, "Erreur", "Veuillez d'abord recuperer les donnees de calibration !");
@@ -315,7 +321,7 @@ void CalibDepthProcess::depthMap(bool useRemap){
     cv::Mat left = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true);
     cv::Mat right = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalRightPicture(), true);
 
-    if(useRemap){
+    if(this->_useRemap){
         cv::Mat correctedImgL, correctedImgR;
         cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_LINEAR);
         cv::remap(right, correctedImgR, this->_map1, this->_map2, cv::INTER_LINEAR);
@@ -348,11 +354,16 @@ void CalibDepthProcess::depthMap(bool useRemap){
 
 }
 
+void CalibDepthProcess::setUseRemap(bool useRemap)
+{
+    _useRemap = useRemap;
+}
+
 void CalibDepthProcess::loadParam(){
     QString file = QFileDialog::getOpenFileName(this->_parent,
                                                 "Sélectionnez le fichier contenant les parametres",
                                                 "",
-                                                "File (*)",
+                                                "JSON File (*.json)",
                                                 NULL,
                                                 QFileDialog::ReadOnly
                                                 );

@@ -24,7 +24,7 @@ class Network : public QTcpSocket
     Q_OBJECT
 
 public:
-    Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthBox* depthBox, CalibDepthProcess* depthProcess);
+    Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthProcess* depthProcess);
     ~Network();
     bool isCreated() { return _running; }
     void send();

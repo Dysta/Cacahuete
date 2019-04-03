@@ -32,8 +32,9 @@ public:
     void calibration(QStringList sList, int numBoards, bool isVideo);
     void undistort(void);
     void stereoCalib(QStringList sList, int numBoards, bool isVideo);
-    void depthMap(bool useRemap);
+    void depthMap(void);
     void loadParam(void);
+    void setUseRemap(bool useRemap);
 
 private:
     //void updatePicture(void);
@@ -43,6 +44,7 @@ private:
 
     int _numCornersH;
     int _numCornersV;
+    bool _useRemap;
 
     cv::Mat _intrinsic;
     cv::Mat _distcoeffs;
