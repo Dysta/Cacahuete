@@ -129,12 +129,12 @@ void CalibDepthBox::onStereoCalibDo(){
 
 void CalibDepthBox::onRemapChange(){
     cout << "Using remapping set to " << this->_useRemap->isChecked() << endl;
+    this->_process->setUseRemap(this->_useRemap->isChecked());
 }
 
 void CalibDepthBox::onDepthMapDo(){
     QMessageBox::information(this, "Information", "N'oubliez pas de configurer la carte de disparite avant !");
     cout << "Getting depth map..." << endl;
-    this->_process->setUseRemap(this->_useRemap->isChecked());
     this->_process->depthMap();
 }
 
