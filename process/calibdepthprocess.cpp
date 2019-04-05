@@ -352,6 +352,8 @@ void CalibDepthProcess::depthMap(){
     //this->_parent->setPicture(pic);
     this->_parent->updateImage();
 
+
+
 }
 
 void CalibDepthProcess::setUseRemap(bool useRemap)

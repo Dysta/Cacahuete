@@ -7,6 +7,7 @@
 #include "box/sobelbox.h"
 #include "box/disparitybox.h"
 #include "box/calibdepthbox.h"
+#include "box/trackerbox.h"
 #include "network.h"
 
 #include <QMainWindow>
@@ -44,7 +45,8 @@ class MainWindow : public QMainWindow
         LAPLACIANBOX,
         SOBELBOX,
         DISPARITYBOX,
-        CALIBDEPTHBOX
+        CALIBDEPTHBOX,
+        TRACKERBOX
     };
 
 public:
@@ -94,6 +96,7 @@ private:
     SobelBox* _sobelBox;
     DisparityBox* _disparityBox;
     CalibDepthBox* _calibBox;
+    TrackerBox* _trackBox;
 
     QMenu* _fileMenu;
     QMenu* _aboutMenu;

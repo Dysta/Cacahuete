@@ -80,11 +80,13 @@ void MainWindow::createSliderGroup() {
     this->_sobelBox = new SobelBox("Sobel effect", this);
     this->_disparityBox = new DisparityBox("Disparity effect", this);
     this->_calibBox = new CalibDepthBox("Calibration and depth map", this->_disparityBox->getProcess(), this);
+    this->_trackBox = new TrackerBox("Enable object tracking", this);
 
     this->_tabWidget->addTab(this->_laplacianBox, "Laplacian");
     this->_tabWidget->addTab(this->_sobelBox, "Sobel");
     this->_tabWidget->addTab(this->_disparityBox, "Disparity");
     this->_tabWidget->addTab(this->_calibBox, "Calibrate");
+    this->_tabWidget->addTab(this->_trackBox, "Tracking");
 
     this->_mainLayout->addWidget(this->_tabWidget, 0, 1);
 
@@ -125,6 +127,8 @@ void MainWindow::open() {
 
     // On affiche l'image original sans aucune convertion
     this->updateImage();
+
+    this->_trackBox->_process->process(Utils::Convert::qImage::toCvMat(this->getOriginalLeftPicture(), true));
 
 }
 

@@ -46,7 +46,9 @@ SOURCES += main.cpp\
         network.cpp \
         tracker.cpp \
         process/sbmprocess.cpp \
-    process/sgbmprocess.cpp
+    process/sgbmprocess.cpp \
+    box/trackerbox.cpp \
+    process/trackerprocess.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
@@ -61,6 +63,8 @@ HEADERS  += mainwindow.h \
         network.h \
         tracker.h \
         process/sbmprocess.h \
-    process/sgbmprocess.h
+    process/sgbmprocess.h \
+    box/trackerbox.h \
+    process/trackerprocess.h
 
 FORMS    += mainwindow.ui
