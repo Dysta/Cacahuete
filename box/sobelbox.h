@@ -18,7 +18,6 @@ class SobelBox : public QGroupBox
 public:
     SobelBox(const QString &title, QWidget* parent = nullptr);
     virtual ~SobelBox();
-    QPushButton* getBacktoMainButton() { return _backToMain; }
 
 private slots:
     void onImageChange(int);
@@ -38,7 +37,6 @@ private:
     void createSlider(void);
 
     QGridLayout* _sobelGrid;
-    QPushButton* _backToMain;
     SobelProcess* _process;
 
     QComboBox* _picture;

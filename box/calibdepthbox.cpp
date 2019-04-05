@@ -10,7 +10,6 @@ CalibDepthBox::CalibDepthBox(const QString &title, DisparityProcess* dispProcess
 
     this->createSlider();
 
-    this->_backToMain = new QPushButton("Retour au menu principal");
     this->_calibrationButton = new QPushButton("Faire une calibration");
     this->_undistortButton = new QPushButton("Retordre l'image");
     this->_stereoCalibButton = new QPushButton("Calibration camera stereo");
@@ -34,8 +33,7 @@ CalibDepthBox::CalibDepthBox(const QString &title, DisparityProcess* dispProcess
     this->_calibGrid->addWidget(this->_stereoCalibButton, 4, 0);
     this->_calibGrid->addWidget(this->_depthMapButton, 4, 1);
 
-    this->_calibGrid->addWidget(this->_backToMain, 5, 0);
-    this->_calibGrid->addWidget(this->_loadParamButton, 5, 1);
+    this->_calibGrid->addWidget(this->_loadParamButton, 5, 0, 1, 2);
 
     setLayout(this->_calibGrid);
 

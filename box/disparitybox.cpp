@@ -8,10 +8,6 @@ DisparityBox::DisparityBox(const QString &title, QWidget* parent)
 
     this->createSlider();
 
-    this->_backToMain = new QPushButton("Retour au menu principal");
-    this->_send = new QPushButton("Envoyer l'image");
-    connect(this->_send, SIGNAL(clicked(bool)),
-            this, SLOT(onButtonSendClic(bool)));
 
     this->_disparityGrid = new QGridLayout();
 
@@ -79,8 +75,6 @@ DisparityBox::DisparityBox(const QString &title, QWidget* parent)
     this->_disparityGrid->addWidget(this->_SGBMmodeLabel, 13, 0);
     this->_disparityGrid->addWidget(this->_SGBMmodeCombo, 13, 1);
 
-    this->_disparityGrid->addWidget(this->_backToMain, 14, 0);
-    this->_disparityGrid->addWidget(this->_send, 14, 1);
 
     setLayout(this->_disparityGrid);
 
@@ -101,7 +95,7 @@ void DisparityBox::createSlider() {
     this->_SBMnumDisparitySlider->setTickInterval(10);
     this->_SBMnumDisparitySlider->setSingleStep(16);
     this->_SBMnumDisparitySlider->setRange(0, 250);
-    this->_SBMnumDisparitySlider->setValue(0);
+    this->_SBMnumDisparitySlider->setValue(64);
 
     this->_SBMblockSizeLabel = new QLabel("Block size");
     this->_SBMblockSizeSlider = new QSlider(Qt::Horizontal);
@@ -109,7 +103,7 @@ void DisparityBox::createSlider() {
     this->_SBMblockSizeSlider->setTickInterval(10);
     this->_SBMblockSizeSlider->setSingleStep(2);
     this->_SBMblockSizeSlider->setRange(5, 255);
-    this->_SBMblockSizeSlider->setValue(1);
+    this->_SBMblockSizeSlider->setValue(27);
 
     this->_preFilterCapLabel = new QLabel("Prefilter Cap");
     this->_preFilterCapSlider = new QSlider(Qt::Horizontal);
@@ -117,7 +111,7 @@ void DisparityBox::createSlider() {
     this->_preFilterCapSlider->setTickInterval(10);
     this->_preFilterCapSlider->setSingleStep(2);
     this->_preFilterCapSlider->setRange(1, 63);
-    this->_preFilterCapSlider->setValue(1);
+    this->_preFilterCapSlider->setValue(39);
 
     this->_preFilterSizeLabel = new QLabel("Prefilter Size");
     this->_preFilterSizeSlider = new QSlider(Qt::Horizontal);
@@ -125,7 +119,7 @@ void DisparityBox::createSlider() {
     this->_preFilterSizeSlider->setTickInterval(10);
     this->_preFilterSizeSlider->setSingleStep(2);
     this->_preFilterSizeSlider->setRange(5, 255);
-    this->_preFilterSizeSlider->setValue(5);
+    this->_preFilterSizeSlider->setValue(31);
 
     this->_preFilterTypeLabel = new QLabel("Prefilter Type");
     this->_preFilterTypeCombo = new QComboBox();
@@ -154,7 +148,7 @@ void DisparityBox::createSlider() {
     this->_textureThresholdSlider->setTickInterval(10);
     this->_textureThresholdSlider->setSingleStep(2);
     this->_textureThresholdSlider->setRange(0, 255);
-    this->_textureThresholdSlider->setValue(1);
+    this->_textureThresholdSlider->setValue(219);
 
     this->_SBMuniquenessRationLabel = new QLabel("Uniqueness Ration");
     this->_SBMuniquenessRationSlider = new QSlider(Qt::Horizontal);
@@ -162,7 +156,7 @@ void DisparityBox::createSlider() {
     this->_SBMuniquenessRationSlider->setTickInterval(10);
     this->_SBMuniquenessRationSlider->setSingleStep(2);
     this->_SBMuniquenessRationSlider->setRange(0, 255);
-    this->_SBMuniquenessRationSlider->setValue(1);
+    this->_SBMuniquenessRationSlider->setValue(3);
 
 
 
@@ -474,8 +468,4 @@ void DisparityBox::onSpeckleRangeChange(int value) {
 void DisparityBox::onSGBMmodeChange(int value) {
     std::cout << "SGBM Mode : " << value << std::endl;
     this->_process->setSGBMmode(value);
-}
-
-void DisparityBox::onButtonSendClic(bool) {
-    this->_process->sendPicture();
 }

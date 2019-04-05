@@ -7,8 +7,6 @@ SobelBox::SobelBox(const QString &title, QWidget* parent)
 
     this->createSlider();
 
-    this->_backToMain = new QPushButton("Retour au menu principal");
-
     this->_sobelGrid = new QGridLayout();
 
     this->_sobelGrid->addWidget(this->_picture, 0, 0);
@@ -42,9 +40,6 @@ SobelBox::SobelBox(const QString &title, QWidget* parent)
 
     this->_sobelGrid->addWidget(this->_gammaLabel, 10, 0);
     this->_sobelGrid->addWidget(this->_gammaSlider, 10, 1);
-
-
-    this->_sobelGrid->addWidget(this->_backToMain, 11, 0);
 
     setLayout(this->_sobelGrid);
 }

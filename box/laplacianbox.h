@@ -20,7 +20,6 @@ class LaplacianBox : public QGroupBox
 public:
     LaplacianBox(const QString &title, QWidget* parent = nullptr);
     virtual ~LaplacianBox();
-    QPushButton* getBacktoMainButton() { return _backToMain; }
 
 private slots:
     void onImageChange(int);
@@ -35,7 +34,6 @@ private:
 
     // first widget witch is display
     QGridLayout* _laplacianGrid;
-    QPushButton* _backToMain;
 
     LaplacianProcess* _process;
 
