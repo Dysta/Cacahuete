@@ -12,6 +12,7 @@ SobelProcess::SobelProcess(MainWindow* parent)
 void SobelProcess::process() {
     cv::Mat mat, sobel, grey;
     mat = Utils::Convert::qImage::toCvMat(this->_parent->getLeftPicture(), true);
+    if (mat.empty()) return;
     /// Generate grad_x and grad_y
     cv::Mat gradX, absX;
     cv::Mat gradY, absY;
