@@ -2,8 +2,8 @@
 #include "mainwindow.h"
 
 DisparityProcess::DisparityProcess(MainWindow* parent)
-    : _mode(0), _SBMnumDisparity(0), _SBMblockSize(21), _preFilterCap(1), _preFilterSize(5), _preFilterType(0),
-      _roi1(0), _roi2(0), _textureThreshold(0), _SBMuniquenessRatio(0), _minDisparity(-64), _SGBMnumDisparity(192),
+    : _mode(0), _SBMnumDisparity(64), _SBMblockSize(29), _preFilterCap(39), _preFilterSize(31), _preFilterType(0),
+      _roi1(0), _roi2(0), _textureThreshold(219), _SBMuniquenessRatio(3), _minDisparity(-64), _SGBMnumDisparity(192),
       _SGBMblockSize(5), _p1(600), _p2(2400), _disp12MaxDiff(10), _preFilter(4), _UniquenessRatio(1),
       _speckleWindowsSize(150), _speckleRange(2), _SGBMmode(cv::StereoSGBM::MODE_SGBM)
 {

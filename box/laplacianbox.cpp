@@ -8,8 +8,6 @@ LaplacianBox::LaplacianBox(const QString &title, QWidget* parent)
 
     this->createSlider();
 
-    this->_backToMain = new QPushButton("Retour au menu principal");
-
     this->_laplacianGrid = new QGridLayout();
 
     this->_laplacianGrid->addWidget(this->_picture, 0, 0);
@@ -28,8 +26,6 @@ LaplacianBox::LaplacianBox(const QString &title, QWidget* parent)
 
     this->_laplacianGrid->addWidget(this->_sigmaYLabel, 5, 0);
     this->_laplacianGrid->addWidget(this->_sigmaYSlider, 5, 1);
-
-    this->_laplacianGrid->addWidget(this->_backToMain, 6, 0);
 
     setLayout(this->_laplacianGrid);
 }

@@ -37,7 +37,6 @@ SOURCES += main.cpp\
         utils.cpp \
         box/disparitybox.cpp \
         box/laplacianbox.cpp \
-        box/mainbox.cpp \
         box/sobelbox.cpp \
         box/calibdepthbox.cpp \
         process/disparityprocess.cpp \
@@ -50,7 +49,6 @@ HEADERS  += mainwindow.h \
         utils.h \
         box/disparitybox.h \
         box/laplacianbox.h \
-        box/mainbox.h \
         box/sobelbox.h \
         box/calibdepthbox.h \
         process/disparityprocess.h \

@@ -2,7 +2,8 @@
 #include "mainwindow.h"
 
 Network::Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthProcess* depthProcess)
-    : QTcpSocket((QObject*) mw), _mw(mw), _host(host), _port(port), _running(false), _sizeReceived(false)
+    : QTcpSocket((QObject*) mw), _mw(mw), _host(host), _port(port),
+      _running(false), _sizeReceived(false)
 {
     connect(this, SIGNAL(connected()),
             this, SLOT(onConnect()));
@@ -83,20 +84,15 @@ void Network::onRead() {
     if (soc == nullptr) return;
 
     if (!_sizeReceived) {
-        this->_dataSize = soc->read(4);
-        this->_dataSize = this->_dataSize.toHex();
-        qDebug() << "data size data :" << this->_dataSize;
-        qDebug() << "data size :" << this->_dataSize.toInt(nullptr, 16);
+        this->_dataSize = soc->read(4).toHex();
+        qDebug() << "picture size data :" << this->_dataSize;
+        qDebug() << "picture size :" << this->_dataSize.toInt(nullptr, 16);
         this->_sizeReceived = true;
+        this->_data.clear();
     }
 
     this->_data.append(soc->readAll());
-    qDebug() << "size = " << this->_data.size();
-
-    if (this->_data.size() > MAX_BUFF_SIZE) { // si on a trop de data (image corrompu qui bourrine le buffer)
-        qDebug() << "cleared";
-        this->_data.clear();
-    }
+    qDebug() << "buffer size = " << this->_data.size();
 
     if (this->_data.size() > 0 && this->_data.size() == this->_dataSize.toInt(nullptr, 16)) {
         this->_picture = QImage::fromData(this->_data, "PNG");
@@ -110,8 +106,8 @@ void Network::onRead() {
 
 void Network::onDisconnect() {
     this->_mw->setNetworkSuccess(false);
-    delete this->_botControllWidget;
     delete this->_botControlLayout;
+    delete this->_botControllWidget;
 }
 
 void Network::onError(QAbstractSocket::SocketError) {
@@ -127,13 +123,12 @@ void Network::onFinishRead() {
     this->_mw->copyImage();
     this->_mw->updateImage();
 
-    this->_disparityProcess->process();
-    this->_depthProcess->depthMap();
-
-
     this->_data.clear();
     this->_dataSize.clear();
     this->_sizeReceived = false;
+
+    this->_disparityProcess->process();
+    this->_depthProcess->depthMap();
 }
 
 void Network::onForwardClic(bool) {

@@ -28,7 +28,6 @@ class CalibDepthBox : public QGroupBox
 public:
     CalibDepthBox(const QString &title, DisparityProcess* dispProcess, QWidget* parent = nullptr);
     virtual ~CalibDepthBox();
-    QPushButton* getBackToMainButton() { return _backToMain; }
 
     CalibDepthProcess *getProcess() const;
     QCheckBox* _useRemap;
@@ -48,7 +47,6 @@ private:
     void createSlider(void);
 
     QGridLayout* _calibGrid;
-    QPushButton* _backToMain;
 
     CalibDepthProcess* _process;
     DisparityProcess* _dispProcess;

@@ -74,36 +74,20 @@ void MainWindow::createImageGroup(const QString &title) {
 }
 
 void MainWindow::createSliderGroup() {
-    this->_mainBox = new MainBox("Menu principal");
+    this->_tabWidget = new QTabWidget(this);
+
     this->_laplacianBox = new LaplacianBox("Laplacian effect", this);
     this->_sobelBox = new SobelBox("Sobel effect", this);
     this->_disparityBox = new DisparityBox("Disparity effect", this);
     this->_calibBox = new CalibDepthBox("Calibration and depth map", this->_disparityBox->getProcess(), this);
 
-    this->_menuStack->insertWidget(MAINBOX, this->_mainBox);
-    this->_menuStack->insertWidget(LAPLACIANBOX, this->_laplacianBox);
-    this->_menuStack->insertWidget(SOBELBOX, this->_sobelBox);
-    this->_menuStack->insertWidget(DISPARITYBOX, this->_disparityBox);
-    this->_menuStack->insertWidget(CALIBDEPTHBOX, this->_calibBox);
+    this->_tabWidget->addTab(this->_laplacianBox, "Laplacian");
+    this->_tabWidget->addTab(this->_sobelBox, "Sobel");
+    this->_tabWidget->addTab(this->_disparityBox, "Disparity");
+    this->_tabWidget->addTab(this->_calibBox, "Calibrate");
 
-    this->_mainLayout->addWidget(this->_menuStack, 0, 1);
+    this->_mainLayout->addWidget(this->_tabWidget, 0, 1);
 
-    connect(this->_mainBox->getLaplacianButton(), SIGNAL(clicked()),
-            this, SLOT(onLaplacianClick()));
-    connect(this->_mainBox->getSobelButton(), SIGNAL(clicked(bool)),
-            this, SLOT(onSobelClick()));
-    connect(this->_mainBox->getDisparityButton(), SIGNAL(clicked(bool)),
-            this, SLOT(onDisparityClick()));
-    connect(this->_mainBox->getCailbDepthButton(), SIGNAL(clicked(bool)), this, SLOT(onCalibClick()));
-
-    connect(this->_laplacianBox->getBacktoMainButton(), SIGNAL(clicked()),
-            this, SLOT(onMenuClick()));
-    connect(this->_sobelBox->getBacktoMainButton(), SIGNAL(clicked()),
-            this, SLOT(onMenuClick()));
-    connect(this->_disparityBox->getBackToMainButton(), SIGNAL(clicked(bool)),
-            this, SLOT(onMenuClick()));
-    connect(this->_calibBox->getBackToMainButton(), SIGNAL(clicked(bool)),
-            this, SLOT(onMenuClick()));
 }
 
 
@@ -169,7 +153,7 @@ void MainWindow::network() {
     this->_networkWidget = new QWidget();
     this->_networkBox = new QHBoxLayout(this->_networkWidget);
     this->_hostLine = new QLineEdit(this->_networkWidget);
-    this->_hostLine->setText("10.0.204.");
+    this->_hostLine->setText("10.0.208.11");
     this->_portLine = new QSpinBox(this->_networkWidget);
     this->_portLine->setRange(1024, 10000);
     this->_portLine->setValue(7777);
@@ -195,44 +179,6 @@ void MainWindow::onNetworkBtnClick() {
         delete this->_networkWidget;
         this->_networkExist = true;
     }
-}
-
-void MainWindow::onLaplacianClick() {
-    if (!this->_imageLeftLabel->pixmap() || !this->_imageRightLabel->pixmap()) {
-        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
-        return;
-    }
-    this->_menuStack->setCurrentIndex(LAPLACIANBOX);
-}
-
-void MainWindow::onSobelClick() {
-    if (!this->_imageLeftLabel->pixmap() || !this->_imageRightLabel->pixmap()) {
-        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
-        return;
-    }
-    this->_menuStack->setCurrentIndex(SOBELBOX);
-}
-
-void MainWindow::onDisparityClick() {
-    if (!this->_imageLeftLabel->pixmap() || !this->_imageRightLabel->pixmap()) {
-        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
-        return;
-    }
-    this->_menuStack->setCurrentIndex(DISPARITYBOX);
-}
-
-void MainWindow::onCalibClick() {
-//    if (!this->_imageLeftLabel->pixmap() || !this->_imageRightLabel->pixmap()) {
-//        QMessageBox::critical(this, "Erreur", "Vous devez d'abord charger une image");
-//        return;
-//    }
-    this->_menuStack->setCurrentIndex(CALIBDEPTHBOX);
-}
-
-void MainWindow::onMenuClick() {
-    this->copyImage();
-    this->updateImage();
-    this->_menuStack->setCurrentIndex(MAINBOX);
 }
 
 void MainWindow::copyImage() {

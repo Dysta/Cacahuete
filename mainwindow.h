@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "box/mainbox.h"
 #include "ui_mainwindow.h"
 #include "utils.h"
 #include "box/laplacianbox.h"
@@ -24,6 +23,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QSpinBox>
+#include <QTabWidget>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
@@ -75,12 +75,6 @@ private slots:
     void close(void);
     void network(void);
 
-    void onLaplacianClick(void);
-    void onSobelClick(void);
-    void onDisparityClick(void);
-    void onCalibClick(void);
-    void onMenuClick(void);
-
     void onNetworkBtnClick(void);
     
 private:
@@ -92,10 +86,10 @@ private:
     QWidget* _mainWidget;
     QGridLayout* _mainLayout;
     QStackedWidget* _menuStack;
+    QTabWidget* _tabWidget;
 
 
     QGroupBox* _imageGroup;
-    MainBox* _mainBox;
     LaplacianBox* _laplacianBox;
     SobelBox* _sobelBox;
     DisparityBox* _disparityBox;

@@ -26,13 +26,11 @@ class DisparityBox : public QGroupBox
 public:
     DisparityBox(const QString &title, QWidget* parent = nullptr);
     virtual ~DisparityBox();
-    QPushButton* getBackToMainButton() { return _backToMain; }
 
     DisparityProcess *getProcess() const;
 
 private slots:
     void onModeChange(int index);
-    void onButtonSendClic(bool);
 
     //SBM
     void onSBMnumDisparityChange(int);
@@ -63,8 +61,6 @@ private:
     void createSlider(void);
 
     QGridLayout* _disparityGrid;
-    QPushButton* _backToMain;
-    QPushButton* _send;
 
     DisparityProcess* _process;
 
