@@ -30,7 +30,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 INCLUDEPATH     += /usr/local/include/opencv2
 LIBS            += -L/usr/local/include/opencv2 -lopencv_core \
                     -lopencv_highgui -lopencv_imgproc -lopencv_calib3d \
-                    -lopencv_videoio
+                    -lopencv_videoio -lopencv_video
 
 SOURCES += main.cpp\
         mainwindow.cpp \
