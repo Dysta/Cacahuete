@@ -44,7 +44,8 @@ SOURCES += main.cpp\
         process/laplacianprocess.cpp \
         process/sobelprocess.cpp \
         process/calibdepthprocess.cpp \
-        network.cpp
+        network.cpp \
+    tracker.cpp
 
 HEADERS  += mainwindow.h \
         utils.h \
@@ -57,6 +58,7 @@ HEADERS  += mainwindow.h \
         process/laplacianprocess.h \
         process/sobelprocess.h \
         process/calibdepthprocess.h \
-        network.h
+        network.h \
+    tracker.h
 
 FORMS    += mainwindow.ui
