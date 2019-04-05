@@ -102,6 +102,8 @@ void Network::onRead() {
             qDebug() << "raté";
         }
     }
+
+    if (this->_data.size() >= MAX_BUFF_SIZE) this->_data.clear();
 }
 
 void Network::onDisconnect() {
