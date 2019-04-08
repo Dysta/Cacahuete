@@ -128,8 +128,6 @@ void MainWindow::open() {
     // On affiche l'image original sans aucune convertion
     this->updateImage();
 
-    this->_trackBox->_process->process(Utils::Convert::qImage::toCvMat(this->getOriginalLeftPicture(), true));
-
 }
 
 void MainWindow::about() {

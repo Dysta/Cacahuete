@@ -69,6 +69,7 @@ public:
     void copyImage(void);
     bool networkExist(void) { return _networkExist; }
     Network* getNetwork(void) { return _network; }
+    TrackerBox* _trackBox;
 
 
 private slots:
@@ -96,7 +97,6 @@ private:
     SobelBox* _sobelBox;
     DisparityBox* _disparityBox;
     CalibDepthBox* _calibBox;
-    TrackerBox* _trackBox;
 
     QMenu* _fileMenu;
     QMenu* _aboutMenu;

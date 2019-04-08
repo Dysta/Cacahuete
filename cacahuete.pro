@@ -44,7 +44,6 @@ SOURCES += main.cpp\
         process/sobelprocess.cpp \
         process/calibdepthprocess.cpp \
         network.cpp \
-        tracker.cpp \
         process/sbmprocess.cpp \
     process/sgbmprocess.cpp \
     box/trackerbox.cpp \
@@ -61,7 +60,6 @@ HEADERS  += mainwindow.h \
         process/sobelprocess.h \
         process/calibdepthprocess.h \
         network.h \
-        tracker.h \
         process/sbmprocess.h \
     process/sgbmprocess.h \
     box/trackerbox.h \

@@ -342,17 +342,14 @@ void CalibDepthProcess::depthMap(){
 
     cout << "All done !" << endl;
 
+    this->_parent->_trackBox->_process->process(depthMap3Chans);
 
     vector<cv::Mat> channels(3);
     cv::split(depthMap3Chans, channels);
     cv::Mat depthMap = channels[2];
 
     cv::imshow("Carte de profondeur", depthMap);
-    //QImage pic = Utils::Convert::CvMat::toQImage(&depthMap, true);
-    //this->_parent->setPicture(pic);
     this->_parent->updateImage();
-
-
 
 }
 
