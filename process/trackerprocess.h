@@ -12,7 +12,7 @@ public:
     TrackerProcess(MainWindow* parent);
     void setUseTracking(bool useTracking);
     void process();
-    void process(cv::Mat img);
+    cv::Mat process(cv::Mat img);
 
     void updatePicture();
     void setHsize(int hsize);

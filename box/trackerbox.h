@@ -20,8 +20,8 @@ public:
     TrackerBox(const QString &title, QWidget* parent = nullptr);
     virtual ~TrackerBox();
 
-    QCheckBox* _useTracking;
-    TrackerProcess* _process;
+
+    TrackerProcess *getProcess() const;
 
 private slots:
     void onTrackChange();
@@ -36,6 +36,10 @@ private:
     void createSlider(void);
 
     QGridLayout* _trackGrid;
+
+
+    QCheckBox* _useTracking;
+    TrackerProcess* _process;
 
     QLabel* _switchHsizeLabel;
     QSlider* _switchHsizeSlider;

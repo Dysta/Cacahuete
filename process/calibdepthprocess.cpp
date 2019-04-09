@@ -321,6 +321,20 @@ void CalibDepthProcess::depthMap(){
     cv::Mat left = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalLeftPicture(), true);
     cv::Mat right = Utils::Convert::qImage::toCvMat(this->_parent->getOriginalRightPicture(), true);
 
+    cv::Mat depthMap = this->depthMap(left, right);
+
+    cv::imshow("Carte de profondeur", depthMap);
+    this->_parent->updateImage();
+
+}
+
+cv::Mat CalibDepthProcess::depthMap(cv::Mat left, cv::Mat right){
+
+    if(this->_map1.empty() && this->_map2.empty() && this->_Q.empty()){
+        QMessageBox::warning(this->_parent, "Erreur", "Veuillez d'abord recuperer les donnees de calibration !");
+        return cv::Mat();
+    }
+
     if(this->_useRemap){
         cv::Mat correctedImgL, correctedImgR;
         cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_LINEAR);
@@ -342,15 +356,13 @@ void CalibDepthProcess::depthMap(){
 
     cout << "All done !" << endl;
 
-    this->_parent->_trackBox->_process->process(depthMap3Chans);
+//    this->_parent->_trackBox->_process->process(depthMap3Chans);
 
     vector<cv::Mat> channels(3);
     cv::split(depthMap3Chans, channels);
     cv::Mat depthMap = channels[2];
 
-    cv::imshow("Carte de profondeur", depthMap);
-    this->_parent->updateImage();
-
+    return depthMap;
 }
 
 void CalibDepthProcess::setUseRemap(bool useRemap)

@@ -12,8 +12,9 @@
 #include <QMessageBox>
 
 #include "process/disparityprocess.h"
-#include "box/calibdepthbox.h"
 #include "process/calibdepthprocess.h"
+#include "process/trackerprocess.h"
+
 
 #define MAX_BUFF_SIZE 500000
 
@@ -24,7 +25,7 @@ class Network : public QTcpSocket
     Q_OBJECT
 
 public:
-    Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthProcess* depthProcess);
+    Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthProcess* depthProcess, TrackerProcess* trackerProcess);
     ~Network();
     bool isCreated() { return _running; }
     void send();
@@ -47,8 +48,8 @@ private:
 
     MainWindow* _mw;
     DisparityProcess* _disparityProcess;
-    CalibDepthBox* _depthBox;
     CalibDepthProcess* _depthProcess;
+    TrackerProcess* _trackerProcess;
 
     QWidget* _botControllWidget;
     QGridLayout* _botControlLayout;

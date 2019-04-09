@@ -101,6 +101,11 @@ void TrackerBox::createSlider(){
             SLOT(onSminChange(int)));
 }
 
+TrackerProcess *TrackerBox::getProcess() const
+{
+    return _process;
+}
+
 void TrackerBox::onTrackChange(){
     std::cout << "Tracking set to : " << this->_useTracking->isChecked() << std::endl;
     this->_process->setUseTracking(this->_useTracking->isChecked());

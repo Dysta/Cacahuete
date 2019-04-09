@@ -1,7 +1,7 @@
 #include "network.h"
 #include "mainwindow.h"
 
-Network::Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthProcess* depthProcess)
+Network::Network(MainWindow* mw, const QString& host, quint16 port, DisparityProcess* dispProcess, CalibDepthProcess* depthProcess, TrackerProcess* trackerProcess)
     : QTcpSocket((QObject*) mw), _mw(mw), _host(host), _port(port),
       _running(false), _sizeReceived(false)
 {
@@ -18,6 +18,7 @@ Network::Network(MainWindow* mw, const QString& host, quint16 port, DisparityPro
 
     this->_disparityProcess = dispProcess;
     this->_depthProcess = depthProcess;
+    this->_trackerProcess = trackerProcess;
 }
 
 Network::~Network() {
@@ -118,6 +119,7 @@ void Network::onError(QAbstractSocket::SocketError) {
 
 void Network::onFinishRead() {
     qDebug() << "finish read";
+    cv::Mat mLeft, mRight, disp, depth, track;
     QImage left = this->_picture.copy(0, 0, this->_picture.width()/2, this->_picture.height());
     QImage right = this->_picture.copy(this->_picture.width()/2, 0, this->_picture.width()/2, this->_picture.height());
     this->_mw->setOriLeftPucture(left.copy());
@@ -129,8 +131,16 @@ void Network::onFinishRead() {
     this->_dataSize.clear();
     this->_sizeReceived = false;
 
-    this->_disparityProcess->process();
-    this->_depthProcess->depthMap();
+    mLeft = Utils::Convert::qImage::toCvMat(&left, true);
+    mRight = Utils::Convert::qImage::toCvMat(&right, true);
+
+    disp = this->_disparityProcess->process(mLeft, mRight);
+    depth = this->_depthProcess->depthMap(mLeft, mRight);
+    track = this->_trackerProcess->process(mLeft);
+
+    cv::imshow("disp", disp);
+    cv::imshow("depth", depth);
+    cv::imshow("track", track);
 }
 
 void Network::onForwardClic(bool) {

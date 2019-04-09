@@ -28,7 +28,7 @@ void DisparityProcess::process() {
 cv::Mat DisparityProcess::process(cv::Mat left, cv::Mat right) {
     if (this->_mode == DisparityProcess::SBM)
         return this->_SBMProcess->process(left, right);
-    else if (this->_mode == DisparityProcess::SGBM)
+    else
         return this->_SGBMProcess->process(left, right);
 }
 

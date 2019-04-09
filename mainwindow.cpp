@@ -68,6 +68,7 @@ void MainWindow::createImageGroup(const QString &title) {
     box->addWidget(this->_imageLeftLabel);
     box->addWidget(this->_imageRightLabel);
     this->_imageGroup->setLayout(box);
+    this->_imageGroup->setMinimumWidth(600);
     this->_mainLayout->addWidget(this->_imageGroup, 0, 0);
 
     //this->imageGroup->setVisible(false);
@@ -87,6 +88,7 @@ void MainWindow::createSliderGroup() {
     this->_tabWidget->addTab(this->_disparityBox, "Disparity");
     this->_tabWidget->addTab(this->_calibBox, "Calibrate");
     this->_tabWidget->addTab(this->_trackBox, "Tracking");
+    this->_tabWidget->setMinimumWidth(600);
 
     this->_mainLayout->addWidget(this->_tabWidget, 0, 1);
 
@@ -176,7 +178,10 @@ void MainWindow::onNetworkBtnClick() {
     this->_host = this->_hostLine->text();
     this->_port = this->_portLine->text().toInt();
     if (!this->_host.isEmpty()) {
-        this->_network = new Network(this, this->_host, this->_port, this->_disparityBox->getProcess(), this->_calibBox->getProcess());
+        this->_network = new Network(this, this->_host, this->_port,
+                                     this->_disparityBox->getProcess(),
+                                     this->_calibBox->getProcess(),
+                                     this->_trackBox->getProcess());
         this->_networkWidget->hide();
         delete this->_networkWidget;
         this->_networkExist = true;

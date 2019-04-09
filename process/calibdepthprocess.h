@@ -33,6 +33,7 @@ public:
     void undistort(void);
     void stereoCalib(QStringList sList, int numBoards, bool isVideo);
     void depthMap(void);
+    cv::Mat depthMap(cv::Mat left, cv::Mat right);
     void loadParam(void);
     void setUseRemap(bool useRemap);
 
