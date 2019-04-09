@@ -2,7 +2,7 @@
 #include "mainwindow.h"
 
 TrackerProcess::TrackerProcess(MainWindow* parent)
-    : _hsize(16), _hranges1(0), _hranges2(180), _vmin(10), _vmax(100), _smin(100)
+    : _hsize(16), _hranges(180), _vmin(10), _vmax(100), _smin(100), _width(50), _height(50), _x(0), _y(0)
 {
     this->_parent = parent;
 }
@@ -12,7 +12,7 @@ void TrackerProcess::process(){
 
     cv::Rect trackWindow;
     int hsize = _hsize;
-    float hranges[] = {_hranges1, _hranges2};
+    float hranges[] = {0, _hranges};
     const float* phranges = hranges;
 
     cv::Mat hsv, hue, mask, hist, histimg = cv::Mat::zeros(200 ,320, CV_8UC3), backproj;
@@ -31,7 +31,7 @@ void TrackerProcess::process(){
     hue.create(hsv.size(), hsv.depth());
     cv::mixChannels(&hsv, 1, &hue, 1, ch, 1);
 
-    cv::Rect selection(hue.cols/2, hue.rows/2, 50, 50);
+    cv::Rect selection(this->_x, this->_y, this->_width, this->_height);
     cv::Mat roi(hue, selection), maskroi(mask, selection);
 
     cv::calcHist(&roi, 1, 0, maskroi, hist, 1, &hsize, &phranges);
@@ -83,7 +83,7 @@ void TrackerProcess::process(cv::Mat img){
 
     cv::Rect trackWindow;
     int hsize = _hsize;
-    float hranges[] = {_hranges1, _hranges2};
+    float hranges[] = {0, _hranges};
     const float* phranges = hranges;
 
     cv::Mat hsv, hue, mask, hist, histimg = cv::Mat::zeros(200 ,320, CV_8UC3), backproj;
@@ -167,22 +167,13 @@ void TrackerProcess::setHsize(int hsize){
     this->updatePicture();
 }
 
-void TrackerProcess::setHranges1(float hranges1){
-    this->_hranges1 = hranges1;
+void TrackerProcess::setHranges(float hranges){
+    this->_hranges = hranges;
     this->updatePicture();
 }
 
-float TrackerProcess::getHranges1(){
-    return this->_hranges1;
-}
-
-void TrackerProcess::setHranges2(float hranges2){
-    this->_hranges2 = hranges2;
-    this->updatePicture();
-}
-
-float TrackerProcess::getHranges2(){
-    return this->_hranges2;
+float TrackerProcess::getHranges(){
+    return this->_hranges;
 }
 
 void TrackerProcess::setVmin(int vmin){
@@ -198,4 +189,40 @@ void TrackerProcess::setVmax(int vmax){
 void TrackerProcess::setSmin(int smin){
     this->_smin = smin;
     this->updatePicture();
+}
+
+void TrackerProcess::setX(int x){
+    this->_x = x;
+    this->updatePicture();
+}
+
+int TrackerProcess::getX(){
+    return this->_x;
+}
+
+void TrackerProcess::setY(int y){
+    this->_y = y;
+    this->updatePicture();
+}
+
+int TrackerProcess::getY(){
+    return this->_y;
+}
+
+void TrackerProcess::setWidth(int width){
+    this->_width = width;
+    this->updatePicture();
+}
+
+int TrackerProcess::getWidth(){
+    return this->_width;
+}
+
+void TrackerProcess::setHeight(int height){
+    this->_height = height;
+    this->updatePicture();
+}
+
+int TrackerProcess::getHeight(){
+    return this->_height;
 }
