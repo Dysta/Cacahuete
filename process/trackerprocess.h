@@ -16,13 +16,21 @@ public:
 
     void updatePicture();
     void setHsize(int hsize);
-    void setHranges1(float hranges1);
-    void setHranges2(float hranges2);
-    float getHranges1();
-    float getHranges2();
+    void setHranges(float hranges);
+    float getHranges();
     void setVmin(int vmin);
     void setVmax(int vmax);
     void setSmin(int smin);
+    void setX(int x);
+    int getX();
+    void setY(int y);
+    int getY();
+    void setWidth(int width);
+    int getWidth();
+    void setHeight(int height);
+    int getHeight();
+    MainWindow *getParent() const;
+
 private:
     MainWindow* _parent;
 
@@ -32,8 +40,11 @@ private:
     int _vmax;
     int _smin;
     int _hsize;
-    float _hranges1;
-    float _hranges2;
+    float _hranges;
+    int _x;
+    int _y;
+    int _width;
+    int _height;
 };
 
 #endif // TRACKERPROCESS_H

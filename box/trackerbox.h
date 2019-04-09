@@ -23,14 +23,19 @@ public:
 
     TrackerProcess *getProcess() const;
 
+    QSlider* _switchXSlider;
+    QSlider* _switchYSlider;
 private slots:
     void onTrackChange();
     void onHsizeChange(int);
-    void onHranges1Change(int);
-    void onHranges2Change(int);
+    void onHrangesChange(int);
     void onVminChange(int);
     void onVmaxChange(int);
     void onSminChange(int);
+    void onXChange(int);
+    void onYChange(int);
+    void onWidthChange(int);
+    void onHeightChange(int);
 
 private:
     void createSlider(void);
@@ -43,10 +48,8 @@ private:
 
     QLabel* _switchHsizeLabel;
     QSlider* _switchHsizeSlider;
-    QLabel* _switchHranges1Label;
-    QSlider* _switchHranges1Slider;
-    QLabel* _switchHranges2Label;
-    QSlider* _switchHranges2Slider;
+    QLabel* _switchHrangesLabel;
+    QSlider* _switchHrangesSlider;
 
     QLabel* _switchVminLabel;
     QSlider* _switchVminSlider;
@@ -54,6 +57,13 @@ private:
     QSlider* _switchVmaxSlider;
     QLabel* _switchSminLabel;
     QSlider* _switchSminSlider;
+
+    QLabel* _switchXLabel;
+    QLabel* _switchYLabel;
+    QLabel* _switchWidthLabel;
+    QSlider* _switchWidthSlider;
+    QLabel* _switchHeightLabel;
+    QSlider* _switchHeightSlider;
 };
 
 #endif // TRACKERBOX_H
