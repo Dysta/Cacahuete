@@ -138,9 +138,9 @@ void Network::onFinishRead() {
     depth = this->_depthProcess->depthMap(mLeft, mRight);
     track = this->_trackerProcess->process(mLeft);
 
-    cv::imshow("disp", disp);
-    cv::imshow("depth", depth);
-    cv::imshow("track", track);
+//    cv::imshow("disp", disp);
+//    cv::imshow("depth", depth);
+//    cv::imshow("track", track);
 }
 
 void Network::onForwardClic(bool) {

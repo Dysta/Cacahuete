@@ -71,7 +71,7 @@ void MainWindow::createImageGroup(const QString &title) {
     this->_imageGroup->setMinimumWidth(600);
     this->_mainLayout->addWidget(this->_imageGroup, 0, 0);
 
-    //this->imageGroup->setVisible(false);
+
 }
 
 void MainWindow::createSliderGroup() {
