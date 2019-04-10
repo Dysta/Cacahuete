@@ -67,7 +67,6 @@ cv::Mat TrackerProcess::process(cv::Mat img){
     }
 
     cv::calcBackProject(&hue, 1, 0, hist, backproj, &phranges);
-    std::cout << "Getting CamShift" << std::endl;
     // Création de la portion à suivre
     cv::RotatedRect trackBox = cv::CamShift(backproj,
                                             trackWindow,
@@ -111,32 +110,23 @@ int TrackerProcess::checkMovementDepth(cv::RotatedRect trackBox, cv::Mat depthMa
     if(trackRect.area() <= 1)
         return 0;
 
-    int count = 0;
-    int sum = 0;
-
     for(int x = trackRect.x; x < trackRect.x + trackRect.width; x++){
         for(int y = trackRect.y; y < trackRect.y + trackRect.height; y++){
-            if(depthMap.at<int>(x, y) != INFINITY && depthMap.at<int>(x, y) <= 100){
-                sum += depthMap.at<int>(x, y);
-                count ++;
+            if(depthMap.at<int>(x, y) != INFINITY){
+                if(depthMap.at<int>(x, y) <= 8)
+                    return -1;
+                if(depthMap.at<int>(x, y) > 12)
+                    return 1;
             }
         }
     }
 
-    if(count < 0)
-        sum = sum/count;
-
-    if(sum < 1)
-        return 1;
-    if(sum > 5)
-        return -1;
-
     return 0;
+
 }
 
 void TrackerProcess::updatePicture() {
     if(_useTracking && !(this->_parent->getOriginalLeftPicture()->isNull())){
-        std::cout << "Update de l'image" << std::endl;
         this->process();
         this->_parent->updateImage();
     }

@@ -153,32 +153,26 @@ TrackerProcess *TrackerBox::getProcess() const
 }
 
 void TrackerBox::onTrackChange(){
-    std::cout << "Tracking set to : " << this->_useTracking->isChecked() << std::endl;
     this->_process->setUseTracking(this->_useTracking->isChecked());
 }
 
 void TrackerBox::onHsizeChange(int hsize){
-    std::cout << "hsize set to : " << hsize << std::endl;
     this->_process->setHsize(hsize);
 }
 
 void TrackerBox::onHrangesChange(int hranges){
-    std::cout << "hranges2 set to : " << hranges << std::endl;
     this->_process->setHranges(hranges);
 }
 
 void TrackerBox::onVminChange(int vmin){
-    std::cout << "vmin set to : " << vmin << std::endl;
     this->_process->setVmin(vmin);
 }
 
 void TrackerBox::onVmaxChange(int vmax){
-    std::cout << "vmax set to : " << vmax << std::endl;
     this->_process->setVmax(vmax);
 }
 
 void TrackerBox::onSminChange(int smin){
-    std::cout << "smin set to : " << smin << std::endl;
     this->_process->setSmin(smin);
 }
 
@@ -187,7 +181,6 @@ void TrackerBox::onXChange(int x){
         this->_process->setWidth((x + this->_process->getWidth()) - this->_process->getParent()->getOriginalLeftPicture()->width());
         this->_switchWidthSlider->setValue((x + this->_process->getWidth()) - this->_process->getParent()->getOriginalLeftPicture()->width());
     }
-    std::cout << "x position set to : " << x << std::endl;
     this->_process->setX(x);
 }
 
@@ -196,20 +189,17 @@ void TrackerBox::onYChange(int y){
         this->_process->setHeight((y + this->_process->getHeight()) - this->_process->getParent()->getOriginalLeftPicture()->height());
         this->_switchHeightSlider->setValue((y + this->_process->getHeight()) - this->_process->getParent()->getOriginalLeftPicture()->height());
     }
-    std::cout << "y position set to : " << y << std::endl;
     this->_process->setY(y);
 }
 
 void TrackerBox::onWidthChange(int width){
     if(this->_process->getX() + width < this->_process->getParent()->getOriginalLeftPicture()->width()){
-        std::cout << "smin set to : " << width << std::endl;
         this->_process->setWidth(width);
     }
 }
 
 void TrackerBox::onHeightChange(int height){
     if(this->_process->getY() + height < this->_process->getParent()->getOriginalLeftPicture()->height()){
-        std::cout << "smin set to : " << height << std::endl;
         this->_process->setHeight(height);
     }
 }
