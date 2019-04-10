@@ -53,39 +53,131 @@ public:
     MainWindow(QWidget *parent, const QString title);
     ~MainWindow();
     void updateImage(void);
+    /**
+     * @brief getMainWidget
+     * @return main Widget
+     */
     QWidget* getMainWidget() { return _mainWidget; }
+    /**
+     * @brief getMainLayout
+     * @return main Layou
+     */
     QGridLayout* getMainLayout() { return _mainLayout; }
+    /**
+     * @brief getLeftPicture
+     * @return the current left picture
+     */
     QImage* getLeftPicture() { return &_pictureLeft; }
+    /**
+     * @brief getRightPicture
+     * @return the current right picture
+     */
     QImage* getRightPicture() { return &_pictureRight; }
+    /**
+     * @brief getOriginalLeftPicture
+     * @return the original left picture
+     */
     QImage* getOriginalLeftPicture() { return &_originalLeftPicture; }
+    /**
+     * @brief getOriginalRightPicture
+     * @return the original right picture
+     */
     QImage* getOriginalRightPicture() { return &_originalRightPicture; }
-    void setLeftPicture(QImage pic) { _pictureLeft = pic; }
-    void setRightPicture(QImage pic) { _pictureRight = pic; }
-    void setOriLeftPucture(QImage pic) { _originalLeftPicture = pic; }
-    void setOriRightPucture(QImage pic) { _originalRightPicture = pic; }
-    void setPictureTrack(QImage pic) { _pictureTrack = pic; }
-    void setPictureDepth(QImage pic) { _pictureDepth = pic; }
-    void setPictureDisp(QImage pic) { _pictureDisp = pic; }
-    void setIntrinsic(cv::Mat Intrinsic) { _intrinsic = Intrinsic; }
-    void setDistcoeffs(cv::Mat Distcoeff) { _distcoeffs = Distcoeff; }
-    void setNetworkSuccess(bool val) { _networkSuccess = val; }
-    void copyImage(void);
-    bool networkExist(void) { return _networkExist; }
+    /**
+     * @brief getMatDisp
+     * @return the disparity cv::Mat
+     */
+    cv::Mat getMatDisp() const;
+    /**
+     * @brief getMatDepth
+     * @return the depth cv::Mat
+     */
+    cv::Mat getMatDepth() const;
+    /**
+     * @brief getMatTrack
+     * @return the tracking cv::Mat
+     */
+    cv::Mat getMatTrack() const;
+    /**
+     * @brief getNetwork
+     * @return the current network (nullptr if it doesn't exist)
+     */
     Network* getNetwork(void) { return _network; }
 
-
-
+    /**
+     * @brief setLeftPicture
+     * @param pic
+     */
+    void setLeftPicture(QImage pic) { _pictureLeft = pic; }
+    /**
+     * @brief setRightPicture
+     * @param pic
+     */
+    void setRightPicture(QImage pic) { _pictureRight = pic; }
+    /**
+     * @brief setOriLeftPucture
+     * @param pic
+     */
+    void setOriLeftPucture(QImage pic) { _originalLeftPicture = pic; }
+    /**
+     * @brief setOriRightPucture
+     * @param pic
+     */
+    void setOriRightPucture(QImage pic) { _originalRightPicture = pic; }
+    /**
+     * @brief setPictureTrack
+     * @param pic
+     */
+    void setPictureTrack(QImage pic) { _pictureTrack = pic; }
+    /**
+     * @brief setPictureDepth
+     * @param pic
+     */
+    void setPictureDepth(QImage pic) { _pictureDepth = pic; }
+    /**
+     * @brief setPictureDisp
+     * @param pic
+     */
+    void setPictureDisp(QImage pic) { _pictureDisp = pic; }
+    /**
+     * @brief setIntrinsic
+     * @param Intrinsic
+     */
+    void setIntrinsic(cv::Mat Intrinsic) { _intrinsic = Intrinsic; }
+    /**
+     * @brief setDistcoeffs
+     * @param Distcoeff
+     */
+    void setDistcoeffs(cv::Mat Distcoeff) { _distcoeffs = Distcoeff; }
+    /**
+     * @brief setNetworkSuccess
+     * @param val
+     */
+    void setNetworkSuccess(bool val) { _networkSuccess = val; }
+    /**
+     * @brief setMatDisp
+     * @param matDisp
+     */
     void setMatDisp(const cv::Mat &matDisp);
-
+    /**
+     * @brief setMatDepth
+     * @param matDepth
+     */
     void setMatDepth(const cv::Mat &matDepth);
-
+    /**
+     * @brief setMatTrack
+     * @param matTrack
+     */
     void setMatTrack(const cv::Mat &matTrack);
-
-    cv::Mat getMatDisp() const;
-
-    cv::Mat getMatDepth() const;
-
-    cv::Mat getMatTrack() const;
+    /**
+     * @brief copyImage
+     */
+    void copyImage(void);
+    /**
+     * @brief networkExist
+     * @return true if network exist, false otherwise
+     */
+    bool networkExist(void) { return _networkExist; }
 
 private slots:
     void open(void);
