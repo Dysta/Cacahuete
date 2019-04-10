@@ -55,7 +55,7 @@ void TrackerBox::createSlider(){
     this->_switchHsizeSlider->setRange(2,360);
     this->_switchHsizeSlider->setValue(16);
 
-    this->_switchHrangesLabel = new QLabel("Hranges");
+    this->_switchHrangesLabel = new QLabel("Tolerance intensite lumineuse");
     this->_switchHrangesSlider = new QSlider(Qt::Horizontal);
     this->_switchHrangesSlider->setRange(1,360);
     this->_switchHrangesSlider->setValue(180);

@@ -134,6 +134,7 @@ void Network::onFinishRead() {
     this->_disparityProcess->process();
     this->_depthProcess->depthMap();
     this->_trackerProcess->process();
+
 }
 
 void Network::onForwardClic(bool) {

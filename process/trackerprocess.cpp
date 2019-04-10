@@ -27,7 +27,6 @@ cv::Mat TrackerProcess::process(cv::Mat img){
     cv::Mat hsv, hue, mask, hist, histimg = cv::Mat::zeros(200 ,320, CV_8UC3), backproj;
 
     cv::cvtColor(img, hsv, cv::COLOR_BGR2HSV);
-    cv::imshow("HSV", hsv);
 
     int vmin = this->_vmin;
     int vmax = this->_vmax;
@@ -41,7 +40,7 @@ cv::Mat TrackerProcess::process(cv::Mat img){
     hue.create(hsv.size(), hsv.depth());
     cv::mixChannels(&hsv, 1, &hue, 1, ch, 1);
 
-    cv::Rect selection(hue.cols/2, hue.rows/2, 50, 50);
+    cv::Rect selection(this->_x, this->_y, this->_width, this->_height);
     cv::Mat roi(hue, selection), maskroi(mask, selection);
 
     cv::calcHist(&roi, 1, 0, maskroi, hist, 1, &hsize, &phranges);
@@ -83,6 +82,8 @@ cv::Mat TrackerProcess::process(cv::Mat img){
     }
 
     cv::ellipse(img, trackBox, cv::Scalar(0, 0, 255), 3, cv::LINE_AA);
+
+    //cv::imshow("tracking", img);
 
     return img;
 }
