@@ -47,7 +47,6 @@ cv::Mat SBMProcess::process(cv::Mat left, cv::Mat right) {
 }
 
 void SBMProcess::updatePicture() {
-    std::cout << "Update de l'image" << std::endl;
     this->process();
     this->_parent->updateImage();
 }

@@ -8,12 +8,12 @@ QT       += core gui widgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = ptech
+TARGET = cacahuete
 TEMPLATE = app
 
 # Redirect tmp file
-OBJECTS_DIR = ./tmp/obj
-MOC_DIR = ./tmp/moc
+OBJECTS_DIR = ./tmp
+MOC_DIR = ./tmp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings

@@ -20,15 +20,12 @@ void CalibDepthProcess::calibration(QStringList sList, int numBoards, bool isVid
         capture = cv::VideoCapture(sList.at(0).toStdString());
     } else {
 
-        printf("Entering calibration\n");
         QImage *tmpImage = new QImage();
 
         for(int c = 0; c < sList.size(); c++){  // We give to matList all the images
-            printf("loading img %d...\n", c);
             tmpImage->load(sList.at(c));
             cv::Mat tmpMat = Utils::Convert::qImage::toCvMat(tmpImage, true);
             matList.push_back(tmpMat);
-            printf("Loagind %d done!\n", c);
         }
     }
 
@@ -120,14 +117,12 @@ void CalibDepthProcess::setImage(int value){
     switch (value){
         case 0:
             {
-                std::cout << "Switching to left image" << std::endl;
                 QImage left = *this->_parent->getOriginalLeftPicture();
                 this->_parent->setLeftPicture(left);
                 break;
             }
         case 1:
             {
-                std::cout << "Switching to right image" << std::endl;
                 QImage right = *this->_parent->getOriginalRightPicture();
                 this->_parent->setLeftPicture(right);
                 break;
@@ -137,8 +132,6 @@ void CalibDepthProcess::setImage(int value){
 }
 
 void CalibDepthProcess::undistort(){
-
-    printf("Entering undistort\n");
 
     if(this->_intrinsic.empty() && this->_distcoeffs.empty()){
         QMessageBox::warning(this->_parent, "Erreur", "Veuillez d'abord recuperer les donnees de calibration !");
@@ -165,12 +158,10 @@ void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVid
         capture = cv::VideoCapture(sList.at(0).toStdString());
     } else {
 
-        printf("Entering calibration\n");
         QImage *tmpImageL = new QImage();
         QImage *tmpImageR = new QImage();
 
         for(int c = 0; c < sList.size()/2; c++){  // We give to matList all the images
-            printf("loading img %d and %d...\n", c+1, (c+1) + sList.size()/2);
             tmpImageL->load(sList.at(c));
             cv::Mat tmpMatL = Utils::Convert::qImage::toCvMat(tmpImageL, true);
             matListL.push_back(tmpMatL);
@@ -179,7 +170,6 @@ void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVid
             matListR.push_back(tmpMatR);
             matList2.push_back(tmpMatL);
             matList2.push_back(tmpMatR);
-            printf("Loading %d done!\n", c);
         }
     }
 
@@ -262,7 +252,6 @@ void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVid
         }
     }
 
-    cout << "Got all the points!" << endl;
     cout << imagePoints1.size() << " " << imagePoints2.size() << endl;
 
     cv::Mat image = matList2.front();
@@ -277,17 +266,14 @@ void CalibDepthProcess::stereoCalib(QStringList sList, int numBoards, bool isVid
     cv::Mat intrinsic1, intrinsic2, distcoeffs1, distcoeffs2, R, T, E, F;
     cv::stereoCalibrate(objectPoints, imagePoints1, imagePoints2, intrinsic1, distcoeffs1, intrinsic2, distcoeffs2, image.size(), R, T, E, F);
 
-    cout << "Got stereo parameters..." << endl;
 
     cv::Mat R1, R2, P1, P2, Q;
     cv::stereoRectify(intrinsic1, distcoeffs1, intrinsic2, distcoeffs2, image.size(), R, T, R1, R2, P1, P2, Q);
 
-    cout << "Rectifying camera..." << endl;
 
     cv::Mat map1, map2;
     cv::initUndistortRectifyMap(intrinsic1, distcoeffs1, R1, P1, image.size(), CV_32FC1, map1, map2);
 
-    cout << "Calibration done!" << endl;
 
     QString file = QFileDialog::getSaveFileName(this->_parent, "Enregistrer les parametres", "", "File (*.json)");
 
@@ -339,22 +325,17 @@ cv::Mat CalibDepthProcess::depthMap(cv::Mat left, cv::Mat right){
         cv::Mat correctedImgL, correctedImgR;
         cv::remap(left, correctedImgL, this->_map1, this->_map2, cv::INTER_LINEAR);
         cv::remap(right, correctedImgR, this->_map1, this->_map2, cv::INTER_LINEAR);
-        cout << "Remap done !" << endl;
         left = correctedImgL;
         right = correctedImgR;
     }
 
-    cout << "Creating disparity map..." << endl;
 
     cv::Mat disp = this->_dispProcess->process(left, right);
-
-    cout << "Creating depth map..." << endl;
 
     cv::Mat depthMap3Chans;
 
     cv::reprojectImageTo3D(disp, depthMap3Chans, this->_Q);
 
-    cout << "All done !" << endl;
 
 //    this->_parent->_trackBox->_process->process(depthMap3Chans);
 

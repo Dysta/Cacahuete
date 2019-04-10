@@ -87,32 +87,26 @@ void LaplacianBox::createSlider() {
 }
 
 void LaplacianBox::onImageChange(int index) {
-    std::cout << "Index : " << std::endl;
     this->_process->setImage(index);
 }
 
 void LaplacianBox::onSizeHChange(int value) {
-    std::cout << "Size h value : " << value << std::endl;
     this->_process->setSizeH(value);
 }
 
 void LaplacianBox::onSizeLChange(int value) {
-    std::cout << "Size l value : " << value << std::endl;
     this->_process->setSizeL(value);
 }
 
 void LaplacianBox::onSigmaXChange(int value) {
-    std::cout << "Sigma X value : " << value << std::endl;
     this->_process->setSigmaX(value);
 }
 
 void LaplacianBox::onSigmaYChange(int value) {
-    std::cout << "Sigma Y value : " << value << std::endl;
     this->_process->setSigmaY(value);
 }
 
 void LaplacianBox::onBlurSwitch(int value) {
-    std::cout << "Blur value : " << value << std::endl;
     this->_process->setActiveBlur((bool) value);
 
     this->_sizeHLabel->setVisible((bool) value);

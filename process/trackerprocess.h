@@ -36,15 +36,15 @@ private:
 
     bool _useTracking;
 
+    int _hsize;
+    float _hranges;
     int _vmin;
     int _vmax;
     int _smin;
-    int _hsize;
-    float _hranges;
-    int _x;
-    int _y;
     int _width;
     int _height;
+    int _x;
+    int _y;
 };
 
 #endif // TRACKERPROCESS_H
