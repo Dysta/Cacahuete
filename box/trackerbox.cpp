@@ -137,6 +137,16 @@ void TrackerBox::createSlider(){
             SLOT(onHeightChange(int)));
 }
 
+QSlider *TrackerBox::getSwitchYSlider() const
+{
+    return _switchYSlider;
+}
+
+QSlider *TrackerBox::getSwitchXSlider() const
+{
+    return _switchXSlider;
+}
+
 TrackerProcess *TrackerBox::getProcess() const
 {
     return _process;

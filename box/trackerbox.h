@@ -19,12 +19,22 @@ class TrackerBox : public QGroupBox
 public:
     TrackerBox(const QString &title, QWidget* parent = nullptr);
     virtual ~TrackerBox();
-
-
+    /**
+     * @brief getProcess
+     * @return
+     */
     TrackerProcess *getProcess() const;
+    /**
+     * @brief getSwitchXSlider
+     * @return
+     */
+    QSlider *getSwitchXSlider() const;
+    /**
+     * @brief getSwitchYSlider
+     * @return
+     */
+    QSlider *getSwitchYSlider() const;
 
-    QSlider* _switchXSlider;
-    QSlider* _switchYSlider;
 private slots:
     void onTrackChange();
     void onHsizeChange(int);
@@ -59,7 +69,9 @@ private:
     QSlider* _switchSminSlider;
 
     QLabel* _switchXLabel;
+    QSlider* _switchXSlider;
     QLabel* _switchYLabel;
+    QSlider* _switchYSlider;
     QLabel* _switchWidthLabel;
     QSlider* _switchWidthSlider;
     QLabel* _switchHeightLabel;
