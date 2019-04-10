@@ -93,6 +93,7 @@ private:
     void onFinishRead(void);
     void checkMovement(int move);
     void checkRotation(int rotate);
+    void createControlWidget(void);
 
     MainWindow* _mw;
     DisparityProcess* _disparityProcess;

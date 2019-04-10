@@ -258,8 +258,8 @@ void MainWindow::updateImage() {
     this->_imageLeftLabel->setPixmap(QPixmap::fromImage(this->_pictureLeft));
     this->_imageRightLabel->setPixmap(QPixmap::fromImage(this->_pictureRight));
 
-    this->_trackBox->_switchXSlider->setRange(0, this->getOriginalLeftPicture()->width()/2);
-    this->_trackBox->_switchYSlider->setRange(0, this->getOriginalLeftPicture()->height()/2);
+    this->_trackBox->getSwitchXSlider()->setRange(0, this->getOriginalLeftPicture()->width()/2);
+    this->_trackBox->getSwitchYSlider()->setRange(0, this->getOriginalLeftPicture()->height()/2);
 
     if (!this->_pictureDisp.isNull())
         this->_dispartyLabel->setPixmap(QPixmap::fromImage(this->_pictureDisp));

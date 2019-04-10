@@ -8,26 +8,19 @@ namespace CvMat {
 
     QImage toQImage(cv::Mat *mat, bool copy) {
         QImage::Format format;
-        std::cout << mat->type() << std::endl;
         switch(mat->type()) {
             case CV_8U :
                 format = QImage::Format_Indexed8;
                 break;
-
-
             case CV_8UC4 :
                format = QImage::Format_ARGB32;
                break;
-
-
             case CV_32F:
-                format = QImage::Format_RGB32;
+                format = QImage::Format_RGB888;
                 break;
-
             default:
                 format = QImage::Format_RGB32;
                 break;
-
         }
 
         QImage img = QImage(mat->data, mat->cols, mat->rows, mat->step, format);

@@ -37,6 +37,10 @@ void Network::onConnect() {
     QMessageBox::information(this->_mw, "Information", "Connecté avec succes");
     this->_mw->setNetworkSuccess(true);
 
+//    this->createControlWidget();
+}
+
+void Network::createControlWidget() {
     this->_botControllWidget = new QWidget();
     this->_botControlLayout = new QGridLayout();
 
