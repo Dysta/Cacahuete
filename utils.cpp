@@ -10,25 +10,27 @@ namespace CvMat {
         QImage::Format format;
         std::cout << mat->type() << std::endl;
         switch(mat->type()) {
-            case CV_8U :{
+            case CV_8U :
                 format = QImage::Format_Indexed8;
                 break;
-            }
 
-            case CV_8UC4 :{
+
+            case CV_8UC4 :
                format = QImage::Format_ARGB32;
                break;
-            }
 
-            default :{
+
+            case CV_32F:
                 format = QImage::Format_RGB32;
                 break;
-            }
+
+            default:
+                format = QImage::Format_RGB32;
+                break;
+
         }
 
-
         QImage img = QImage(mat->data, mat->cols, mat->rows, mat->step, format);
-
         return ( copy ) ? img.copy() : img ;
     }
 

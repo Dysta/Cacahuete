@@ -17,9 +17,9 @@ void SBMProcess::process() {
 
     cv::Mat disp = this->process(left, right);
 
-    cv::imshow("SBMDisparity", disp);
-    //QImage pic = Utils::Convert::CvMat::toQImage(&disp8, true);
-    //this->_parent->setPicture(pic);
+    QImage pic = Utils::Convert::CvMat::toQImage(&disp, true);
+    this->_parent->setMatDisp(disp);
+    this->_parent->setPictureDisp(pic);
 }
 
 cv::Mat SBMProcess::process(cv::Mat left, cv::Mat right) {

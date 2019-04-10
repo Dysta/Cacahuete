@@ -12,7 +12,9 @@ void TrackerProcess::process(){
 
     track = this->process(img);
 
-    cv::imshow("tracking", track);
+    QImage pic = Utils::Convert::CvMat::toQImage(&track, true);
+    this->_parent->setMatTrack(track);
+    this->_parent->setPictureTrack(pic);
 }
 
 cv::Mat TrackerProcess::process(cv::Mat img){
@@ -82,7 +84,6 @@ cv::Mat TrackerProcess::process(cv::Mat img){
     cv::ellipse(img, trackBox, cv::Scalar(0, 0, 255), 3, cv::LINE_AA);
 
     return img;
-    //cv::imshow("Histogram", histimg);
 }
 
 void TrackerProcess::updatePicture() {
