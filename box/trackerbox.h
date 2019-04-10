@@ -64,6 +64,7 @@ private:
     QSlider* _switchWidthSlider;
     QLabel* _switchHeightLabel;
     QSlider* _switchHeightSlider;
+
 };
 
 #endif // TRACKERBOX_H

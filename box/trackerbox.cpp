@@ -203,3 +203,4 @@ void TrackerBox::onHeightChange(int height){
         this->_process->setHeight(height);
     }
 }
+

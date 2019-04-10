@@ -111,17 +111,27 @@ int TrackerProcess::checkMovementDepth(cv::RotatedRect trackBox, cv::Mat depthMa
     if(trackRect.area() <= 1)
         return 0;
 
+    int count = 0;
+    int sum = 0;
+
     for(int x = trackRect.x; x < trackRect.x + trackRect.width; x++){
         for(int y = trackRect.y; y < trackRect.y + trackRect.height; y++){
-            if(depthMap.at<int>(x, y) != INFINITY && depthMap.at<int>(x, y) <= 30){
-                if(depthMap.at<int>(x, y) <= 8)
-                    return -1;
-                if(depthMap.at<int>(x, y) > 12)
-                    return 1;
+            if(depthMap.at<int>(x, y) != INFINITY && depthMap.at<int>(x, y) <= 100){
+                sum += depthMap.at<int>(x, y);
+                count ++;
             }
         }
     }
 
+    if(count < 0)
+        sum = sum/count;
+
+    if(sum < 1)
+        return 1;
+    if(sum > 5)
+        return -1;
+
+    return 0;
 }
 
 void TrackerProcess::updatePicture() {
