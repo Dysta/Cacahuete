@@ -131,16 +131,9 @@ void Network::onFinishRead() {
     this->_dataSize.clear();
     this->_sizeReceived = false;
 
-    mLeft = Utils::Convert::qImage::toCvMat(&left, true);
-    mRight = Utils::Convert::qImage::toCvMat(&right, true);
-
-    disp = this->_disparityProcess->process(mLeft, mRight);
-    depth = this->_depthProcess->depthMap(mLeft, mRight);
-    track = this->_trackerProcess->process(mLeft);
-
-    cv::imshow("disp", disp);
-    cv::imshow("depth", depth);
-    cv::imshow("track", track);
+    this->_disparityProcess->process();
+    this->_depthProcess->depthMap();
+    this->_trackerProcess->process();
 }
 
 void Network::onForwardClic(bool) {

@@ -323,9 +323,9 @@ void CalibDepthProcess::depthMap(){
 
     cv::Mat depthMap = this->depthMap(left, right);
 
-    cv::imshow("Carte de profondeur", depthMap);
+    QImage pic = Utils::Convert::CvMat::toQImage(&depthMap, true);
+    this->_parent->setPictureDepth(pic);
     this->_parent->updateImage();
-
 }
 
 cv::Mat CalibDepthProcess::depthMap(cv::Mat left, cv::Mat right){
@@ -361,6 +361,8 @@ cv::Mat CalibDepthProcess::depthMap(cv::Mat left, cv::Mat right){
     vector<cv::Mat> channels(3);
     cv::split(depthMap3Chans, channels);
     cv::Mat depthMap = channels[2];
+
+    this->_parent->setMatDepth(depthMap);
 
     return depthMap;
 }

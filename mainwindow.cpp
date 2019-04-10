@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent, const QString title)
     this->createAction();
     this->createMenu();
     this->createImageGroup("Image");
+    this->createDispGroup("Disparity");
+    this->createDepthGroup("Depth");
+    this->createTrackGroup("Tracker");
     this->createSliderGroup();
 
     this->_mainWidget->setLayout(this->_mainLayout);
@@ -70,8 +73,66 @@ void MainWindow::createImageGroup(const QString &title) {
     this->_imageGroup->setLayout(box);
     this->_imageGroup->setMinimumWidth(600);
     this->_mainLayout->addWidget(this->_imageGroup, 0, 0);
+}
 
-    //this->imageGroup->setVisible(false);
+void MainWindow::createDispGroup(const QString &title) {
+    this->_disparityGroup = new QGroupBox(title);
+    this->_dispartyLabel = new QLabel();
+
+    QBoxLayout* box = new QBoxLayout(QBoxLayout::TopToBottom);
+    box->addWidget(this->_dispartyLabel);
+    this->_disparityGroup->setLayout(box);
+    this->_mainLayout->addWidget(this->_disparityGroup, 1, 0);
+}
+
+void MainWindow::createDepthGroup(const QString &title) {
+    this->_depthGroup = new QGroupBox(title);
+    this->_depthLabel = new QLabel();
+
+    QBoxLayout* box = new QBoxLayout(QBoxLayout::TopToBottom);
+    box->addWidget(this->_depthLabel);
+    this->_depthGroup->setLayout(box);
+    this->_mainLayout->addWidget(this->_depthGroup, 1, 1);
+}
+
+void MainWindow::createTrackGroup(const QString &title) {
+    this->_trackGroup = new QGroupBox(title);
+    this->_trackLabel = new QLabel();
+
+    QBoxLayout* box = new QBoxLayout(QBoxLayout::TopToBottom);
+    box->addWidget(this->_trackLabel);
+    this->_trackGroup->setLayout(box);
+    this->_mainLayout->addWidget(this->_trackGroup, 1, 2);
+}
+
+cv::Mat MainWindow::getMatTrack() const
+{
+    return _matTrack;
+}
+
+cv::Mat MainWindow::getMatDepth() const
+{
+    return _matDepth;
+}
+
+cv::Mat MainWindow::getMatDisp() const
+{
+    return _matDisp;
+}
+
+void MainWindow::setMatTrack(const cv::Mat &matTrack)
+{
+    _matTrack = matTrack;
+}
+
+void MainWindow::setMatDepth(const cv::Mat &matDepth)
+{
+    _matDepth = matDepth;
+}
+
+void MainWindow::setMatDisp(const cv::Mat &matDisp)
+{
+    _matDisp = matDisp;
 }
 
 void MainWindow::createSliderGroup() {
@@ -90,7 +151,7 @@ void MainWindow::createSliderGroup() {
     this->_tabWidget->addTab(this->_trackBox, "Tracking");
     this->_tabWidget->setMinimumWidth(600);
 
-    this->_mainLayout->addWidget(this->_tabWidget, 0, 1);
+    this->_mainLayout->addWidget(this->_tabWidget, 0, 1, 1, 2);
 
 }
 
@@ -196,7 +257,18 @@ void MainWindow::copyImage() {
 void MainWindow::updateImage() {
     this->_imageLeftLabel->setPixmap(QPixmap::fromImage(this->_pictureLeft));
     this->_imageRightLabel->setPixmap(QPixmap::fromImage(this->_pictureRight));
+
     this->_trackBox->_switchXSlider->setRange(0, this->getOriginalLeftPicture()->width()/2);
     this->_trackBox->_switchYSlider->setRange(0, this->getOriginalLeftPicture()->height()/2);
+
+    if (!this->_pictureDisp.isNull())
+        this->_dispartyLabel->setPixmap(QPixmap::fromImage(this->_pictureDisp));
+
+    if (!this->_pictureDepth.isNull())
+        this->_depthLabel->setPixmap(QPixmap::fromImage(this->_pictureDepth));
+
+    if (!this->_pictureTrack.isNull())
+        this->_trackLabel->setPixmap(QPixmap::fromImage(this->_pictureTrack));
+
 }
 

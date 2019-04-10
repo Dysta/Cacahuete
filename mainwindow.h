@@ -63,14 +63,29 @@ public:
     void setRightPicture(QImage pic) { _pictureRight = pic; }
     void setOriLeftPucture(QImage pic) { _originalLeftPicture = pic; }
     void setOriRightPucture(QImage pic) { _originalRightPicture = pic; }
+    void setPictureTrack(QImage pic) { _pictureTrack = pic; }
+    void setPictureDepth(QImage pic) { _pictureDepth = pic; }
+    void setPictureDisp(QImage pic) { _pictureDisp = pic; }
     void setIntrinsic(cv::Mat Intrinsic) { _intrinsic = Intrinsic; }
     void setDistcoeffs(cv::Mat Distcoeff) { _distcoeffs = Distcoeff; }
     void setNetworkSuccess(bool val) { _networkSuccess = val; }
     void copyImage(void);
     bool networkExist(void) { return _networkExist; }
     Network* getNetwork(void) { return _network; }
-    TrackerBox* _trackBox;
 
+
+
+    void setMatDisp(const cv::Mat &matDisp);
+
+    void setMatDepth(const cv::Mat &matDepth);
+
+    void setMatTrack(const cv::Mat &matTrack);
+
+    cv::Mat getMatDisp() const;
+
+    cv::Mat getMatDepth() const;
+
+    cv::Mat getMatTrack() const;
 
 private slots:
     void open(void);
@@ -85,6 +100,9 @@ private:
     void createAction(void);
     void createImageGroup(const QString &title);
     void createSliderGroup(void);
+    void createDispGroup(const QString &title);
+    void createDepthGroup(const QString &title);
+    void createTrackGroup(const QString &title);
 
     QWidget* _mainWidget;
     QGridLayout* _mainLayout;
@@ -93,10 +111,15 @@ private:
 
 
     QGroupBox* _imageGroup;
+    QGroupBox* _disparityGroup;
+    QGroupBox* _depthGroup;
+    QGroupBox* _trackGroup;
+
     LaplacianBox* _laplacianBox;
     SobelBox* _sobelBox;
     DisparityBox* _disparityBox;
     CalibDepthBox* _calibBox;
+    TrackerBox* _trackBox;
 
     QMenu* _fileMenu;
     QMenu* _aboutMenu;
@@ -112,15 +135,25 @@ private:
 
     QLabel* _imageLeftLabel;
     QLabel* _imageRightLabel;
+    QLabel* _dispartyLabel;
+    QLabel* _depthLabel;
+    QLabel* _trackLabel;
 
     QImage _pictureLeft;
     QImage _pictureRight;
+    QImage _pictureDisp;
+    QImage _pictureDepth;
+    QImage _pictureTrack;
 
     QImage _originalLeftPicture;
     QImage _originalRightPicture;
     
+    cv::Mat _matDisp;
+    cv::Mat _matDepth;
+    cv::Mat _matTrack;
     cv::Mat _intrinsic;
     cv::Mat _distcoeffs;
+
 
     Network* _network;
     bool _networkExist = false;
