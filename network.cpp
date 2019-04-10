@@ -86,14 +86,11 @@ void Network::onRead() {
 
     if (!_sizeReceived) {
         this->_dataSize = soc->read(4).toHex();
-        qDebug() << "picture size data :" << this->_dataSize;
-        qDebug() << "picture size :" << this->_dataSize.toInt(nullptr, 16);
         this->_sizeReceived = true;
         this->_data.clear();
     }
 
     this->_data.append(soc->readAll());
-    qDebug() << "buffer size = " << this->_data.size();
 
     if (this->_data.size() > 0 && this->_data.size() == this->_dataSize.toInt(nullptr, 16)) {
         this->_picture = QImage::fromData(this->_data, "PNG");
@@ -118,8 +115,6 @@ void Network::onError(QAbstractSocket::SocketError) {
 }
 
 void Network::onFinishRead() {
-    qDebug() << "finish read";
-    cv::Mat mLeft, mRight, disp, depth, track;
     QImage left = this->_picture.copy(0, 0, this->_picture.width()/2, this->_picture.height());
     QImage right = this->_picture.copy(this->_picture.width()/2, 0, this->_picture.width()/2, this->_picture.height());
     this->_mw->setOriLeftPucture(left.copy());

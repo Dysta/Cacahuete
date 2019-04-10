@@ -155,57 +155,46 @@ void SobelBox::createSlider() {
 }
 
 void SobelBox::onImageChange(int index) {
-    std::cout << "Index : " << std::endl;
     this->_process->setImage(index);
 }
 
 void SobelBox::onSizeHChange(int value) {
-    std::cout << "Size h value : " << value << std::endl;
     this->_process->setSizeH(value);
 }
 
 void SobelBox::onSizeLChange(int value) {
-    std::cout << "Size l value : " << value << std::endl;
     this->_process->setSizeL(value);
 }
 
 void SobelBox::onSigmaXChange(int value) {
-    std::cout << "Sigma X value : " << value << std::endl;
     this->_process->setSigmaX(value);
 }
 
 void SobelBox::onSigmaYChange(int value) {
-    std::cout << "Sigma Y value : " << value << std::endl;
     this->_process->setSigmaY(value);
 }
 
 void SobelBox::onDxChange(int value) {
-    std::cout << "dx value : " << value << std::endl;
     this->_process->setSigmaY(value);
 }
 
 void SobelBox::onDyChange(int value) {
-    std::cout << "dY value : " << value << std::endl;
     this->_process->setSigmaY(value);
 }
 
 void SobelBox::onAlphaChange(int value) {
-    std::cout << "Alpha value : " << value << std::endl;
     this->_process->setSigmaY(value);
 }
 
 void SobelBox::onBetaChange(int value) {
-    std::cout << "beta value : " << value << std::endl;
     this->_process->setSigmaY(value);
 }
 
 void SobelBox::onGammaChange(int value) {
-    std::cout << "Gamma value : " << value << std::endl;
     this->_process->setSigmaY(value);
 }
 
 void SobelBox::onBlurSwitch(int value) {
-    std::cout << "Blur value : " << value << std::endl;
     this->_process->setActiveBlur((bool) value);
 
     this->_sizeHLabel->setVisible((bool) value);
@@ -216,16 +205,4 @@ void SobelBox::onBlurSwitch(int value) {
     this->_sigmaXSlider->setVisible((bool) value);
     this->_sigmaYLabel->setVisible((bool) value);
     this->_sigmaYSlider->setVisible((bool) value);
-    /*
-    this->_dxLabel->setVisible((bool) value);
-    this->_dxSlider->setVisible((bool) value);
-    this->_dyLabel->setVisible((bool) value);
-    this->_dySlider->setVisible((bool) value);
-    this->_alphaLabel->setVisible((bool) value);
-    this->_alphaSlider->setVisible((bool) value);
-    this->_betaLabel->setVisible((bool) value);
-    this->_betaSlider->setVisible((bool) value);
-    this->_gammaLabel->setVisible((bool) value);
-    this->_gammaSlider->setVisible((bool) value);
-    */
 }

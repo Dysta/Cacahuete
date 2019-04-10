@@ -322,7 +322,6 @@ DisparityProcess *DisparityBox::getProcess() const
 }
 
 void DisparityBox::onModeChange(int index) {
-    std::cout << "Mode : " << index << std::endl;
     this->_process->setMode(index);
 
     this->_SBMnumDisparityLabel->setVisible((bool) !index);
@@ -370,102 +369,82 @@ void DisparityBox::onModeChange(int index) {
 }
 
 void DisparityBox::onSBMnumDisparityChange(int value) {
-    std::cout << "SBM Num Disp : " << value << std::endl;
     this->_process->getSBMProcess()->setNumDisp(value);
 }
 
 void DisparityBox::onSBMblockSizeChange(int value) {
-    std::cout << "SBM Block Size : " << value << std::endl;
     this->_process->getSBMProcess()->setBlockSize(value);
 }
 
 void DisparityBox::onPrefilterCapChange(int value) {
-    std::cout << "SBM Prefilter Cap : " << value << std::endl;
     this->_process->getSBMProcess()->setPrefilterCap(value);
 }
 
 void DisparityBox::onPrefilterSizeChange(int value) {
-    std::cout << "SBM Prefilter Size : " << value << std::endl;
     this->_process->getSBMProcess()->setPrefilterSize(value);
 }
 
 void DisparityBox::onPrefilterTypeChange(int value) {
-    std::cout << "SBM Prefilter Type : " << value << std::endl;
     this->_process->getSBMProcess()->setPrefilterType(value);
 }
 
 void DisparityBox::onRoi1Change(int value) {
-    std::cout << "SBM ROI1 : " << value << std::endl;
     this->_process->getSBMProcess()->setRoi1(value);
 }
 
 void DisparityBox::onRoi2Change(int value) {
-    std::cout << "SBM ROI2 : " << value << std::endl;
     this->_process->getSBMProcess()->setRoi2(value);
 }
 
 void DisparityBox::onTextureThresholdChange(int value) {
-    std::cout << "SBM Texture Threshold : " << value << std::endl;
     this->_process->getSBMProcess()->setTextureThreshold(value);
 }
 
 void DisparityBox::onSBMuniquenessRationChange(int value) {
-    std::cout << "SBM Uniqueness Ratio : " << value << std::endl;
     this->_process->getSBMProcess()->setUniquenessRatio(value);
 }
 
 
 void DisparityBox::onMinDisparityChange(int value) {
-    std::cout << "Min Disp : " << value << std::endl;
     this->_process->getSGBMProcess()->setMinDisp(value);
 }
 
 void DisparityBox::onSGBMnumDisparityChange(int value) {
-    std::cout << "SGBM Num Disp : " << value << std::endl;
     this->_process->getSGBMProcess()->setNumDisp(value);
 }
 
 void DisparityBox::onSGBMblockSizeChange(int value) {
-    std::cout << "SGBM Block Size : " << value << std::endl;
     this->_process->getSGBMProcess()->setBlockSize(value);
 }
 
 void DisparityBox::onP1Change(int value) {
-    std::cout << "P1 : " << value << std::endl;
     this->_process->getSGBMProcess()->setP1(value);
 }
 
 void DisparityBox::onP2Change(int value) {
-    std::cout << "P2 : " << value << std::endl;
     this->_process->getSGBMProcess()->setP2(value);
 }
 
 void DisparityBox::onDisp12MaxDiffChange(int value) {
-    std::cout << "Disp12 Max Diff : " << value << std::endl;
     this->_process->getSGBMProcess()->setDisp12MaxDiffChange(value);
 }
 
 void DisparityBox::onPreFilterChange(int value) {
-    std::cout << "Prefilter : " << value << std::endl;
     this->_process->getSGBMProcess()->setPrefilter(value);
 }
 
 void DisparityBox::onUniquenessRatioChange(int value) {
-    std::cout << "Uniqueness Ration : " << value << std::endl;
     this->_process->getSGBMProcess()->setUniquenessRatio(value);
 }
 
 void DisparityBox::onSpeckleWindowsSizeChange(int value) {
-    std::cout << "Speckle Window Size : " << value << std::endl;
     this->_process->getSGBMProcess()->setSpeckleWindowsSize(value);
 }
 
 void DisparityBox::onSpeckleRangeChange(int value) {
-    std::cout << "Speckle Range : " << value << std::endl;
     this->_process->getSGBMProcess()->setSpeckleRange(value);
 }
 
 void DisparityBox::onSGBMmodeChange(int value) {
-    std::cout << "SGBM Mode : " << value << std::endl;
     this->_process->getSGBMProcess()->setMode(value);
 }

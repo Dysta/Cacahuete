@@ -9,7 +9,6 @@ DisparityProcess::DisparityProcess(MainWindow* parent)
 }
 
 void DisparityProcess::updatePicture() {
-    std::cout << "Update de l'image" << std::endl;
     if (this->_mode == DisparityProcess::SBM)
         this->_SBMProcess->process();
     else if (this->_mode == DisparityProcess::SGBM)

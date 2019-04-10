@@ -54,7 +54,6 @@ cv::Mat SGBMProcess::process(cv::Mat left, cv::Mat right) {
 }
 
 void SGBMProcess::updatePicture() {
-    std::cout << "Update de l'image" << std::endl;
     this->process();
     this->_parent->updateImage();
 }

@@ -90,20 +90,15 @@ void CalibDepthBox::onCalibrationDo(){
 
     if ( fileList.isEmpty() ) return;
 
-    //
-    //  L'ECHIQUIER DU PROJET TECH EST DE 9 PAR 6
-    //
     this->_process->calibration(fileList, fileList.length(), false);
 
 }
 
 void CalibDepthBox::onUndistortDo(){
-    cout << "Undistorting image..." << endl;
     this->_process->undistort();
 }
 
 void CalibDepthBox::onStereoCalibDo(){
-    cout << "Creating depth map..." << endl;
 
     QMessageBox::warning(this, "Attention", "Veillez a bien charger plusieurs images avec un echiquer correspondant aux valeurs donnees.\nVeillez aussi a avoir mis dans l'ordre d'abord les images de gauche, puis ceux de droite.");
 
@@ -126,32 +121,26 @@ void CalibDepthBox::onStereoCalibDo(){
 }
 
 void CalibDepthBox::onRemapChange(){
-    cout << "Using remapping set to " << this->_useRemap->isChecked() << endl;
     this->_process->setUseRemap(this->_useRemap->isChecked());
 }
 
 void CalibDepthBox::onDepthMapDo(){
     QMessageBox::information(this, "Information", "N'oubliez pas de configurer la carte de disparite avant !");
-    cout << "Getting depth map..." << endl;
     this->_process->depthMap();
 }
 
 void CalibDepthBox::onLoadParamDo(){
-    cout << "Loading saved parameters..." << endl;
     this->_process->loadParam();
 }
 
 void CalibDepthBox::onImageChange(int index) {
-    std::cout << "Index : " << std::endl;
     this->_process->setImage(index);
 }
 
 void CalibDepthBox::onNumCornersHChange(int value){
-    cout << "Number of corners hotizontally : " << value << endl;
     this->_process->setNumCornersH(value);
 }
 
 void CalibDepthBox::onNumCornersVChange(int value){
-    cout << "Number of corners vertically : " << value << endl;
     this->_process->setNumCornersV(value);
 }

@@ -39,14 +39,12 @@ void SobelProcess::setImage(int value){
     switch (value){
         case 0:
             {
-                std::cout << "Switching to left image" << std::endl;
                 QImage left = *this->_parent->getOriginalLeftPicture();
                 this->_parent->setLeftPicture(left);
                 break;
             }
         case 1:
             {
-                std::cout << "Switching to right image" << std::endl;
                 QImage right = *this->_parent->getOriginalRightPicture();
                 this->_parent->setLeftPicture(right);
                 break;
@@ -57,7 +55,6 @@ void SobelProcess::setImage(int value){
 }
 
 void SobelProcess::updatePicture() {
-    std::cout << "Update picture" << std::endl;
     this->process();
     this->_parent->updateImage();
 }
