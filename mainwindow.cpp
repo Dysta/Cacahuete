@@ -130,8 +130,6 @@ void MainWindow::open() {
     // On affiche l'image original sans aucune convertion
     this->updateImage();
 
-    this->_trackBox->_switchXSlider->setRange(0, this->getOriginalLeftPicture()->width()/2);
-    this->_trackBox->_switchYSlider->setRange(0, this->getOriginalLeftPicture()->height()/2);
 }
 
 void MainWindow::about() {
@@ -198,5 +196,7 @@ void MainWindow::copyImage() {
 void MainWindow::updateImage() {
     this->_imageLeftLabel->setPixmap(QPixmap::fromImage(this->_pictureLeft));
     this->_imageRightLabel->setPixmap(QPixmap::fromImage(this->_pictureRight));
+    this->_trackBox->_switchXSlider->setRange(0, this->getOriginalLeftPicture()->width()/2);
+    this->_trackBox->_switchYSlider->setRange(0, this->getOriginalLeftPicture()->height()/2);
 }
 

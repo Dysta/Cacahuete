@@ -25,6 +25,7 @@ cv::Mat TrackerProcess::process(cv::Mat img){
     cv::Mat hsv, hue, mask, hist, histimg = cv::Mat::zeros(200 ,320, CV_8UC3), backproj;
 
     cv::cvtColor(img, hsv, cv::COLOR_BGR2HSV);
+    cv::imshow("HSV", hsv);
 
     int vmin = this->_vmin;
     int vmax = this->_vmax;
@@ -82,7 +83,6 @@ cv::Mat TrackerProcess::process(cv::Mat img){
     cv::ellipse(img, trackBox, cv::Scalar(0, 0, 255), 3, cv::LINE_AA);
 
     return img;
-    //cv::imshow("Histogram", histimg);
 }
 
 void TrackerProcess::updatePicture() {
