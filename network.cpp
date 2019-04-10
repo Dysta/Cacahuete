@@ -130,6 +130,15 @@ void Network::onFinishRead() {
     this->_depthProcess->depthMap();
     this->_trackerProcess->process();
 
+    int move = this->_trackerProcess->checkMovement(this->_trackerProcess->getTrackBox());
+    switch(move){
+        case 1:
+            this->write("O");
+            break;
+        case 2:
+            this->write("A");
+            break;
+    }
 }
 
 void Network::onForwardClic(bool) {

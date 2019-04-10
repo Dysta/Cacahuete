@@ -68,9 +68,12 @@ cv::Mat TrackerProcess::process(cv::Mat img){
 
     cv::calcBackProject(&hue, 1, 0, hist, backproj, &phranges);
     std::cout << "Getting CamShift" << std::endl;
+    // Création de la portion à suivre
     cv::RotatedRect trackBox = cv::CamShift(backproj,
                                             trackWindow,
                                             cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1));
+
+    this->setTrackBox(trackBox);
 
     if(trackWindow.area() <= 1){
         int cols = backproj.cols;
@@ -83,9 +86,23 @@ cv::Mat TrackerProcess::process(cv::Mat img){
 
     cv::ellipse(img, trackBox, cv::Scalar(0, 0, 255), 3, cv::LINE_AA);
 
-    //cv::imshow("tracking", img);
-
     return img;
+}
+
+int TrackerProcess::checkMovement(cv::RotatedRect trackBox){
+    cv::Rect trackRect = trackBox.boundingRect();
+    cv::Point middle = cv::Point(this->_parent->getLeftPicture()->width()/2, this->_parent->getLeftPicture()->height()/2);
+
+    if(trackRect.area() <= 1)
+        return 0;
+
+    if(!trackRect.contains(middle)){
+        if(middle.x >= trackRect.x + trackRect.width)
+            return 1;
+        if(middle.x < trackRect.x)
+            return 2;
+    }
+    return 0;
 }
 
 void TrackerProcess::updatePicture() {
@@ -164,6 +181,14 @@ void TrackerProcess::setHeight(int height){
 
 int TrackerProcess::getHeight(){
     return this->_height;
+}
+
+void TrackerProcess::setTrackBox(cv::RotatedRect trackBox){
+    this->_trackBox = trackBox;
+}
+
+cv::RotatedRect TrackerProcess::getTrackBox(){
+    return this->_trackBox;
 }
 
 MainWindow *TrackerProcess::getParent() const

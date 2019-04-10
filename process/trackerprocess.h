@@ -13,6 +13,7 @@ public:
     void setUseTracking(bool useTracking);
     void process();
     cv::Mat process(cv::Mat img);
+    int checkMovement(cv::RotatedRect trackBox);
 
     void updatePicture();
     void setHsize(int hsize);
@@ -29,6 +30,8 @@ public:
     int getWidth();
     void setHeight(int height);
     int getHeight();
+    void setTrackBox(cv::RotatedRect trackBox);
+    cv::RotatedRect getTrackBox();
     MainWindow *getParent() const;
 
 private:
@@ -36,6 +39,7 @@ private:
 
     bool _useTracking;
 
+    cv::RotatedRect _trackBox;
     int _hsize;
     float _hranges;
     int _vmin;
