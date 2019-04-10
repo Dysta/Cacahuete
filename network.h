@@ -45,6 +45,8 @@ private slots:
 
 private:    
     void onFinishRead(void);
+    void checkMovement(int move);
+    void checkRotation(int rotate);
 
     MainWindow* _mw;
     DisparityProcess* _disparityProcess;

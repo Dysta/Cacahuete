@@ -130,13 +130,32 @@ void Network::onFinishRead() {
     this->_depthProcess->depthMap();
     this->_trackerProcess->process();
 
-    int move = this->_trackerProcess->checkMovement(this->_trackerProcess->getTrackBox());
+    int rotate = this->_trackerProcess->checkMovement(this->_trackerProcess->getTrackBox());
+    int move = this->_trackerProcess->checkMovementDepth(this->_trackerProcess->getTrackBox(), this->_mw->getMatDepth());
+
+    this->checkRotation(rotate);
+    this->checkMovement(move);
+
+}
+
+void Network::checkMovement(int move){
     switch(move){
+        case -1:
+            this->onBackwardClic(true);
+            break;
         case 1:
-            this->write("O");
+            this->onForwardClic(true);
+            break;
+    }
+}
+
+void Network::checkRotation(int rotate){
+    switch(rotate){
+        case 1:
+            this->onLeftRotClic(true);
             break;
         case 2:
-            this->write("A");
+            this->onRightRotClic(true);
             break;
     }
 }

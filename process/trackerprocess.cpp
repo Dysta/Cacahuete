@@ -105,6 +105,25 @@ int TrackerProcess::checkMovement(cv::RotatedRect trackBox){
     return 0;
 }
 
+int TrackerProcess::checkMovementDepth(cv::RotatedRect trackBox, cv::Mat depthMap){
+    cv::Rect trackRect = trackBox.boundingRect();
+
+    if(trackRect.area() <= 1)
+        return 0;
+
+    for(int x = trackRect.x; x < trackRect.x + trackRect.width; x++){
+        for(int y = trackRect.y; y < trackRect.y + trackRect.height; y++){
+            if(depthMap.at<int>(x, y) != INFINITY && depthMap.at<int>(x, y) <= 30){
+                if(depthMap.at<int>(x, y) <= 8)
+                    return -1;
+                if(depthMap.at<int>(x, y) > 12)
+                    return 1;
+            }
+        }
+    }
+
+}
+
 void TrackerProcess::updatePicture() {
     if(_useTracking && !(this->_parent->getOriginalLeftPicture()->isNull())){
         std::cout << "Update de l'image" << std::endl;

@@ -14,6 +14,7 @@ public:
     void process();
     cv::Mat process(cv::Mat img);
     int checkMovement(cv::RotatedRect trackBox);
+    int checkMovementDepth(cv::RotatedRect trackBox, cv::Mat depthMap);
 
     void updatePicture();
     void setHsize(int hsize);
