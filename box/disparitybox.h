@@ -27,6 +27,10 @@ public:
     DisparityBox(const QString &title, QWidget* parent = nullptr);
     virtual ~DisparityBox();
 
+    /**
+     * @brief getProcess
+     * @return the current Disparity process
+     */
     DisparityProcess *getProcess() const;
 
 private slots:

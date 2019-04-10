@@ -19,11 +19,35 @@ class LaplacianProcess
 {
 public:
     LaplacianProcess(MainWindow* parent);
+    /**
+     * @brief setImage choose between left and right picture
+     * @param value 1 for right picture, 0 for left picture
+     */
     void setImage(int value);
+    /**
+     * @brief setActiveBlur
+     * @param state
+     */
     void setActiveBlur(bool state);
+    /**
+     * @brief setSizeH
+     * @param value
+     */
     void setSizeH(int value);
+    /**
+     * @brief setSizeL
+     * @param value
+     */
     void setSizeL(int value);
+    /**
+     * @brief setSigmaX
+     * @param value
+     */
     void setSigmaX(int value);
+    /**
+     * @brief setSigmaY
+     * @param value
+     */
     void setSigmaY(int value);
 
 private:

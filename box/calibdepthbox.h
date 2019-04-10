@@ -29,7 +29,14 @@ public:
     CalibDepthBox(const QString &title, DisparityProcess* dispProcess, QWidget* parent = nullptr);
     virtual ~CalibDepthBox();
 
+    /**
+     * @brief getProcess
+     * @return the calib process
+     */
     CalibDepthProcess *getProcess() const;
+    /**
+     * @brief _useRemap
+     */
     QCheckBox* _useRemap;
 
 private slots:

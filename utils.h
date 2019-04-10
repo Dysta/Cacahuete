@@ -16,12 +16,24 @@ namespace Convert {
 
 namespace CvMat {
 
+    /**
+     * @brief toQImage
+     * @param mat a cv::Mat to convert into a QImage
+     * @param copy bool to return a copy of the QImage
+     * @return a QImage
+     */
     QImage toQImage(cv::Mat *mat, bool copy);
 
 } // end namespace CvMat
 
 namespace qImage {
 
+    /**
+     * @brief toCvMat
+     * @param img a QIMage to cv::Mat
+     * @param copy bool to return a copy of the cv::Mat
+     * @return a cv::Mat
+     */
     cv::Mat toCvMat(QImage *img, bool copy);
 
 } // end namesapce QImage
