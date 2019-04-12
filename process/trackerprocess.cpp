@@ -112,10 +112,11 @@ int TrackerProcess::checkMovementDepth(cv::RotatedRect trackBox, cv::Mat depthMa
 
     for(int x = trackRect.x; x < trackRect.x + trackRect.width; x++){
         for(int y = trackRect.y; y < trackRect.y + trackRect.height; y++){
-            if(depthMap.at<int>(x, y) != INFINITY){
-                if(depthMap.at<int>(x, y) <= 8)
+            std::cout << depthMap.at<double>(x, y) << std::endl;
+            if(!cvIsInf(depthMap.at<double>(x, y))){
+                if(depthMap.at<double>(x, y) <= 0.2)
                     return -1;
-                if(depthMap.at<int>(x, y) > 12)
+                if(depthMap.at<double>(x, y) > 10.0)
                     return 1;
             }
         }

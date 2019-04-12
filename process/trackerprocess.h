@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/video/tracking.hpp>
+#include <opencv2/core/fast_math.hpp>
 
 class MainWindow;
 
